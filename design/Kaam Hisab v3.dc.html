@@ -1,0 +1,1150 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style data-omelette-injected>html,body{background:transparent}</style><script data-omelette-injected>(()=>{{const n=new URLSearchParams(location.search).get("theme");if(n==="light"||n==="dark"){document.documentElement.dataset.theme=n}}{if(new URLSearchParams(location.search).get("_omthumb")==="1"){const n=(f)=>{const g=f.focus;if(!g)return;f.focus=function(h){g.call(this,{...h,preventScroll:true})}};n(HTMLElement.prototype);n(SVGElement.prototype);if(typeof MathMLElement!=="undefined"){n(MathMLElement.prototype)}const d=(f)=>{f.removeAttribute("autofocus");f.inert=true;if(!(f instanceof HTMLElement))f.removeAttribute("tabindex")};const p=(f)=>{if(f.hasAttribute("autofocus"))d(f);for(const g of f.querySelectorAll("[autofocus]")){d(g)}};p(document.documentElement);new MutationObserver((f)=>{for(const g of f){for(const h of g.addedNodes){if(h.nodeType===1)p(h)}}}).observe(document,{childList:true,subtree:true})}}{const n=()=>{try{if(document.querySelector('meta[name="color-scheme"]'))return;const d=getComputedStyle(document.documentElement).getPropertyValue("color-scheme").trim();if(d&&d!=="normal")return;const p=(y)=>{if(!y)return null;const m=getComputedStyle(y).backgroundColor.match(/^rgba?\(\s*(\d+)[,\s]+(\d+)[,\s]+(\d+)(?:[,\s/]+([\d.]+%?))?\s*\)$/);if(!m)return null;const w=m[4]==null?1:parseFloat(m[4])/(m[4].endsWith("%")?100:1);if(w<0.99)return null;return[+m[1],+m[2],+m[3]]};const f=p(document.body)||p(document.documentElement);if(!f)return;const g=(y)=>{const m=y/255;return m<=0.04045?m/12.92:((m+0.055)/1.055)**2.4};const h=0.2126*g(f[0])+0.7152*g(f[1])+0.0722*g(f[2]);document.documentElement.style.setProperty("color-scheme",h<0.4?"dark":"light")}catch{}};if(document.readyState==="complete")n();else window.addEventListener("load",n)}var I=[];var B=false;var K=false;var C=()=>{};if(K===true){try{const n=setTimeout.bind(window);const d=1e4;const p=15;const f=1e4;const g=120000;const h=200;const y=(o)=>{try{let r;if(typeof o==="string")r=o;else if(o instanceof URL)r=o.href;else if(typeof Request!=="undefined"&&o instanceof Request)r=o.url;else return null;if(!r)return null;const l=document.baseURI;const i=new URL(r,l);if(i.protocol!=="http:"&&i.protocol!=="https:")return null;if(i.origin!==new URL(l).origin)return null;return i.origin+i.pathname}catch{return null}};const m=new Map;const w=(o)=>{let r=m.get(o);if(!r){if(m.size>=h){const l=m.keys().next().value;if(l!==undefined)m.delete(l)}r={fails:[],until:0,cooldown:f,hard:false};m.set(o,r)}return r};const R=(o)=>{const r=m.get(o);return r!==undefined&&r.until>Date.now()};const O=(o,r)=>{const l=Date.now();const i=w(o);if(r)i.hard=true;if(i.until>l)return;i.fails.push(l);while(i.fails.length>0&&i.fails[0]<=l-d)i.fails.shift();if(i.fails.length>=p){i.until=l+i.cooldown;if(i.hard)i.cooldown=Math.min(i.cooldown*2,g);i.fails.length=0;try{n(()=>{try{S(true)}catch{}},i.until-l+100)}catch{}console.warn("[omelette] asset circuit breaker: pausing requests to "+o+" for "+Math.round((i.until-l)/1000)+"s after "+p+" failures in "+d/1000+"s")}};const e=(o)=>{m.delete(o)};const t=100;const a=new WeakMap;const u=new Set;let s=null;const S=(o)=>{for(const r of Array.from(u)){try{const l=a.get(r);if(l===undefined){u.delete(r);continue}if(o){const i=y(l);if(i!==null&&R(i))continue}a.delete(r);u.delete(r);if(s!==null)s.call(r,l)}catch{}}};C=()=>{try{m.clear();S(false)}catch{}};document.addEventListener("visibilitychange",()=>{if(document.visibilityState==="visible")C()});const _=window.fetch;if(typeof _==="function"){const o=function(...r){let l=null;try{l=y(r[0])}catch{}if(l!==null&&R(l)){let c;try{if(r[1]&&r[1].signal!==undefined){c=r[1].signal||undefined}else if(typeof Request!=="undefined"&&r[0]instanceof Request){c=r[0].signal||undefined}}catch{c=undefined}return new Promise((k,b)=>{const E=()=>{try{return c.reason!==undefined?c.reason:new DOMException("The operation was aborted.","AbortError")}catch{return new DOMException("The operation was aborted.","AbortError")}};try{if(c&&c.aborted){b(E());return}}catch{}let T=false;const j=()=>{if(T)return;T=true;b(E())};try{if(c)c.addEventListener("abort",j,{once:true})}catch{}n(()=>{if(T)return;T=true;try{if(c)c.removeEventListener("abort",j)}catch{}let L;try{L=new Response(null,{status:429,statusText:"Too Many Requests",headers:{"Retry-After":"10"}})}catch{L={ok:false,status:429}}k(L)},250)})}const i=_.apply(window,r);if(l!==null){const c=l;i.then((k)=>{try{if(k.ok)e(c);else if(k.status===401||k.status===403||k.status===404||k.status===429){O(c,k.status!==404)}}catch{}},()=>{})}return i};window.fetch=o}const v=Object.getOwnPropertyDescriptor(HTMLImageElement.prototype,"src");if(v!==undefined&&v.set!==undefined&&v.get!==undefined){const o=v.set;s=o;Object.defineProperty(HTMLImageElement.prototype,"src",{configurable:true,enumerable:v.enumerable,get:v.get,set(r){const l=`${r}`;try{const i=y(l);if(i!==null&&R(i)){a.set(this,l);if(u.size<t)u.add(this);return}}catch{}try{a.delete(this);u.delete(this)}catch{}o.call(this,l)}})}try{const o=HTMLImageElement.prototype.setAttribute;HTMLImageElement.prototype.setAttribute=function(r,l){if(arguments.length<2){o.apply(this,arguments);return}if(typeof r==="string"&&r.toLowerCase()==="src"){const i=`${l}`;try{const c=y(i);if(c!==null&&R(c)){a.set(this,i);if(u.size<t)u.add(this);return}a.delete(this);u.delete(this)}catch{}o.call(this,r,i);return}o.call(this,r,l)}}catch{}window.addEventListener("error",(o)=>{try{const r=o.target;if(r instanceof HTMLImageElement){const l=y(r.currentSrc||r.src||"");if(l!==null)O(l,true)}}catch{}},true);window.addEventListener("load",(o)=>{try{const r=o.target;if(r instanceof HTMLImageElement){const l=y(r.currentSrc||r.src||"");if(l!==null)e(l);const i=a.get(r);if(i!==undefined){let c=false;try{c=new URL(i,document.baseURI).href===new URL(r.currentSrc||r.src||"",document.baseURI).href}catch{c=false}if(c){a.delete(r);u.delete(r)}}}}catch{}},true)}catch{}}var J=30000;var G=3000;document.addEventListener("DOMContentLoaded",()=>{const n=window.Babel;const d="om-src-id";if(n&&n.registerPlugin&&!(n.availablePlugins&&n.availablePlugins[d])){n.registerPlugin(d,({types:h})=>({visitor:{JSXOpeningElement(y,m){const w=y.node;if(w.name&&w.name.type==="JSXMemberExpression")return;for(let t=0;t<w.attributes.length;t++){const a=w.attributes[t];if(a.type==="JSXAttribute"&&a.name&&a.name.name==="data-om-id")return}const R=m.file&&m.file.opts&&m.file.opts.filename||"?";const O=w.loc&&w.loc.start;const e=`jsx:${R}:${w.start??0}:${O?O.line:0}:${O?O.column+1:0}`;w.attributes.push(h.jsxAttribute(h.jsxIdentifier("data-om-id"),h.stringLiteral(e)))}}}))}const p="om-text-extract";let f=false;if(B&&n&&n.registerPlugin&&!(n.availablePlugins&&n.availablePlugins[p])){const h=window.React;if(h&&h.useSyncExternalStore&&h.createElement){f=true;const y={};const m=new Set;let w=0;window.__omTextO=y;window.__omTextSet=(e)=>{for(const t in e){const a=e[t];if(a==null)delete y[t];else y[t]=a}w++;m.forEach((t)=>t())};const R=(e)=>{m.add(e);return()=>m.delete(e)};const O=()=>w;window.__OmT=function e(t){h.useSyncExternalStore(R,O,O);return h.createElement("span",{"data-om-text":t.i,className:"__om-t"},t.i in y?y[t.i]:t.children)};n.registerPlugin(p,({types:e})=>{const t={style:1,script:1,noscript:1,textarea:1,title:1,option:1,text:1,tspan:1,textPath:1};const a={placeholder:1,alt:1,title:1,label:1,"aria-label":1,"aria-description":1,"aria-placeholder":1};const u=(o,r)=>e.logicalExpression("??",e.memberExpression(e.logicalExpression("||",e.memberExpression(e.identifier("window"),e.identifier("__omTextO")),e.objectExpression([])),e.stringLiteral(o),true),r);const s=(o)=>o.file&&o.file.opts&&o.file.opts.filename||"?";const S=(o)=>o.file&&o.file.code||"";const _=(o,r)=>{const l=(c)=>c&&c.start!=null&&c.end!=null&&(c.type==="StringLiteral"||c.type==="TemplateLiteral"&&c.expressions.length===0)?[c.start,c.end]:null;const i=l(r);if(i)return i;if(r&&r.type==="Identifier"){const c=o.scope.getBinding(r.name);if(c&&c.constant&&c.path.node.type==="VariableDeclarator"){return l(c.path.node.init)}}return null};const v=(o,r,l)=>{const i=o.node;let c=false;const k=(E,T)=>{c=true;return e.jsxElement(e.jsxOpeningElement(e.jsxIdentifier("__OmT"),[e.jsxAttribute(e.jsxIdentifier("i"),e.stringLiteral(E))],false),e.jsxClosingElement(e.jsxIdentifier("__OmT")),[T],false)};const b=i.children.map((E)=>{if(E.type==="JSXText"){if(E.start==null||E.end==null)return E;const T=l.slice(E.start,E.end);const j=T.length-T.trimStart().length;const L=T.length-T.trimEnd().length;if(j+L>=T.length)return E;return k(`txt:${r}:${E.start+j}:${E.end-L}`,E)}if(E.type==="JSXExpressionContainer"){const T=_(o,E.expression);if(T)return k(`str:${r}:${T[0]}:${T[1]}`,E)}return E});if(c)i.children=b};return{visitor:{JSXOpeningElement(o,r){const l=o.node;const i=s(r);const c={};for(let k=0;k<l.attributes.length;k++){const b=l.attributes[k];if(b.type!=="JSXAttribute"||!b.name)continue;const E=b.name.name;if(!a[E])continue;if(!b.value||b.value.type!=="StringLiteral")continue;if(b.value.start==null||b.value.end==null)continue;const T=`txt:${i}:${b.value.start}:${b.value.end}`;c[E]=T;b.value=e.jsxExpressionContainer(u(T,e.stringLiteral(b.value.value)))}if(Object.keys(c).length){l.attributes.push(e.jsxAttribute(e.jsxIdentifier("data-om-text-attrs"),e.stringLiteral(JSON.stringify(c))))}},JSXElement(o,r){const l=o.node.openingElement;const i=l&&l.name&&l.name.name;if(i==="__OmT")return;if(typeof i==="string"&&t[i])return;v(o,s(r),S(r))},JSXFragment(o,r){v(o,s(r),S(r))}}}})}}const g=f?["transform-react-jsx-source",d,p]:["transform-react-jsx-source",d];document.querySelectorAll('script[type="text/babel"],script[type="text/jsx"]').forEach((h,y)=>{const m=h.getAttribute("data-plugins")||"";const w=g.filter((R)=>m.indexOf(R)<0);if(w.length){h.setAttribute("data-plugins",m?`${m},${w.join(",")}`:w.join(","))}if(!h.hasAttribute("data-filename")){h.setAttribute("data-filename",h.getAttribute("src")||`inline-${y}`)}})});var A=window.parent;var U="not editable here — open the project in the Claude Design editor to save";var W=()=>Promise.resolve({persisted:false,noHost:true,reason:U});var H=W;var M="data/storage.json";var z=()=>{try{const n=new URL(document.baseURI);const d=n.pathname.match(/\/projects\/([^/]+)\/serve\//);if(d)return d[1];return n.hostname.split(".")[0]||""}catch{return location.hostname.split(".")[0]||""}};var Z=()=>{try{const n=new URL(document.baseURI);const d=n.pathname.indexOf("/serve/");if(d>=0)return n.origin+n.pathname.slice(0,d+"/serve/".length)+M}catch{}return"./"+M};var x=null;var N=()=>{if(!x){x=fetch(Z(),{cache:"no-store"}).then((n)=>{if(n.ok)return n.text();return n.status===404?"":null}).catch(()=>null).then((n)=>{if(n===null){x=null;return null}const d=new Map;if(!n)return d;let p;try{p=JSON.parse(n)}catch{console.warn("[omelette.storage] "+M+" is not valid JSON; treating the store as unreadable so a save cannot overwrite the "+"hand-edited bytes. Fix the JSON (or delete the file) to re-enable persistence.");x=null;return null}if(p===null||typeof p!=="object"||Array.isArray(p)){console.warn("[omelette.storage] "+M+" doesn't hold a JSON object; treating the store as unreadable so a save cannot "+"overwrite the hand-edited bytes. Make the top level a JSON object to re-enable persistence.");x=null;return null}const f=p;if("data"in f){const g=f.data;if(g===null||typeof g!=="object"||Array.isArray(g)){console.warn("[omelette.storage] "+M+' has a "data" field that is not a JSON object; treating the store as unreadable so a '+'save cannot overwrite the hand-edited bytes. Make "data" a JSON object to re-enable persistence.');x=null;return null}const h=f._meta;const y=h!==null&&typeof h==="object"?h.project:undefined;if(typeof y==="string"&&y!==""&&y!==z())return d;for(const m of Object.keys(g))d.set(m,g[m]);return d}for(const g of Object.keys(f)){if(g!=="_meta")d.set(g,f[g])}return d})}return x};var F=(n)=>H(M,JSON.stringify({_meta:{project:z(),version:1},data:Object.fromEntries(n)},null,2));var D=Promise.resolve();var $=(n)=>{const d=D.then(n);D=d.then(()=>{return},()=>{return});return d};var V=/sk-(?:ant-)?[A-Za-z0-9_-]{16,}|AKIA[0-9A-Z]{16}|gh[pousr]_[A-Za-z0-9]{20,}|xox[a-z]-[A-Za-z0-9][A-Za-z0-9-]{9,}|AIza[0-9A-Za-z_-]{30,}|-----BEGIN [A-Z ]*PRIVATE KEY-----/;var Y=/password|passwd|secret|api[_-]?key|access[_-]?token|auth[_-]?token|credential/i;var Q=(n,d,p)=>{if(V.test(d)||Y.test(n)&&typeof p==="string"&&p.length>=8){console.warn('[omelette.storage] the value for "'+n+'" looks like a credential. The storage file is a plaintext project file — visible to '+"everyone with project access and copied when the project is duplicated. Do not store secrets here.")}};var q={persisted:false,reason:"could not load the existing store — not overwriting it"};var X={persisted:false,reason:"stored value changed since a failed read — re-read this key before saving"};var P=new Set;var ee={get:(n)=>{if(typeof n!=="string"){return Promise.reject(new TypeError("storage.get: key must be a string"))}return $(N).then((d)=>{if(d===null){P.add(n);return null}P.delete(n);if(!d.has(n))return null;const p=d.get(n);return p==null?null:JSON.parse(JSON.stringify(p))})},set:(n,d)=>{if(typeof n!=="string"){return Promise.reject(new TypeError("storage.set: key must be a string"))}let p;try{p=JSON.stringify(d)}catch(g){return Promise.reject(new TypeError("storage.set: value must be JSON-serializable ("+String(g)+")"))}if(p===undefined){return Promise.reject(new TypeError("storage.set: value must be JSON-serializable"))}Q(n,p,d);const f=JSON.parse(p);return $(()=>N().then((g)=>{if(g===null)return q;if(P.has(n)){if(g.has(n))return X;P.delete(n)}g.set(n,f);return F(g)}))},delete:(n)=>{if(typeof n!=="string"){return Promise.reject(new TypeError("storage.delete: key must be a string"))}return $(()=>N().then((d)=>{if(d===null)return q;if(P.has(n)){if(d.has(n))return X;P.delete(n)}d.delete(n);return F(d)}))},keys:()=>$(N).then((n)=>n===null?[]:Array.from(n.keys()))};window.omelette={writeFile:(n,d)=>H(n,d).then((p)=>{if(!p.persisted&&!p.noHost){throw new Error(p.reason||"write failed")}}),storage:ee};if(A&&A!==window){const n=(e,t)=>{try{A.postMessage({__omelette_log:true,type:e,data:t},"*")}catch{}};["log","warn","error"].forEach((e)=>{const t=console[e];console[e]=(...a)=>{const u=a.map((s)=>{try{return typeof s==="object"?JSON.stringify(s):String(s)}catch{try{return String(s)}catch{return"[unstringifiable]"}}}).join(" ");n(e,u);t.apply(console,a)}});window.addEventListener("error",(e)=>{const t=e.target;if(t&&t!==window&&t.tagName){const a=t.src||t.href||"";n("resource_error",`${t.tagName} failed to load: ${a}`)}else{n("error",`${e.message||"Unknown error"} at ${e.filename||"?"}:${e.lineno||0}:${e.colno||0}`)}},true);window.addEventListener("unhandledrejection",(e)=>{const t=e.reason;const a=t instanceof Error?`${t.message} ${t.stack}`:String(t);n("error",`Unhandled rejection: ${a}`)});window.addEventListener("click",(e)=>{if(e.defaultPrevented||e.button!==0)return;if(e.metaKey||e.ctrlKey||e.shiftKey||e.altKey)return;const t=e.composedPath?e.composedPath():[];const a=["button","input","select","textarea","summary","label"];let u=null;for(const v of t){if(!(v instanceof Element))continue;if(v.localName==="a"){if(!(v instanceof HTMLAnchorElement))return;u=v;break}if(a.indexOf(v.localName)!==-1)return}if(!u)return;if(u.isContentEditable)return;const s=u.closest("[contenteditable]");if(s&&s.getAttribute("contenteditable")!=="false")return;const S=(u.getAttribute("target")||"_self").toLowerCase();if(S!=="_self"&&S!=="_top"&&S!=="_parent")return;let _;try{_=new URL(u.href)}catch{return}if(_.protocol!=="http:"&&_.protocol!=="https:")return;if(location.origin==="null")return;if(_.origin===location.origin)return;e.preventDefault();window.open(_.href,"_blank","noopener,noreferrer")});const d=()=>{try{A.postMessage({type:"omelette:height",height:document.documentElement.scrollHeight},"*")}catch{}};if(window.ResizeObserver)new ResizeObserver(d).observe(document.documentElement);const p=()=>{d();if(!document.querySelector('script[type="text/babel"],script[type="text/jsx"]'))return;const e=()=>document.getElementById("root")||document.querySelector("body > div[id]");const t=e()?.firstElementChild??null;let a=0;const u=()=>{const s=e();if(s&&s.firstElementChild!==t||++a>30){d();return}setTimeout(u,100)};setTimeout(u,100)};if(document.readyState==="complete")p();else window.addEventListener("load",p);const f={};let g=0;const h=(e)=>new Promise((t,a)=>{if(!I.length){a(new Error("claude.complete: no parent origin"));return}const u=`c${++g}`;const s=()=>setTimeout(()=>{delete f[u];a(new Error(`claude.complete: no data for ${J/1000}s`))},J);const S=s();f[u]={resolve:t,reject:a,text:"",t:S,arm:s};try{for(const _ of I){A.postMessage({__om_api:true,id:u,body:e},_)}}catch(_){clearTimeout(S);delete f[u];a(_)}});const y=8;const m=async(e,t)=>{if(!Array.isArray(e.messages)){throw new Error("claude.complete: tools require a messages array")}const a=e.messages.slice();const u={...e,tools:e.tools.map((_)=>{if(_===null||typeof _!=="object")return _;const v={};for(const o of Object.keys(_)){if(typeof _[o]!=="function")v[o]=_[o]}return v})};const s=u.tool_choice;const S=s!=null&&(s.type==="any"||s.type==="tool")?{...u,tool_choice:s.disable_parallel_tool_use!==undefined?{type:"auto",disable_parallel_tool_use:s.disable_parallel_tool_use}:{type:"auto"}}:u;for(let _=0;_<y;_++){const v=await h({..._===0?u:S,messages:a});const o=v.message;const r=o&&Array.isArray(o.content)?o.content:null;const l=r?r.filter((c)=>c?.type==="tool_use"):[];if(o?.stop_reason!=="tool_use"||l.length===0){return v.text}const i=[];for(const c of l){const k=t.get(c.name);if(!k){i.push({type:"tool_result",tool_use_id:c.id,content:`no handler for tool "${c.name}"`,is_error:true});continue}try{const b=await k(c.input);const E=typeof b==="string"?b:O(b)??"";i.push({type:"tool_result",tool_use_id:c.id,content:E})}catch(b){i.push({type:"tool_result",tool_use_id:c.id,content:String(b?.message??b??"tool handler failed"),is_error:true})}}a.push({role:"assistant",content:r},{role:"user",content:i})}throw new Error(`claude.complete: exceeded ${y} tool turns`)};window.claude={complete(e){const t=e;if(t!==null&&typeof t==="object"&&Array.isArray(t.tools)&&t.tools.some((a)=>a!==null&&typeof a==="object"&&typeof a.run==="function")){const a=new Map;for(const u of t.tools){if(u!==null&&typeof u==="object"&&typeof u.run==="function"){a.set(String(u.name),u.run)}}return m(t,a)}return h(e).then((a)=>a.text)}};const w={};let R=0;H=(e,t)=>new Promise((a)=>{if(!I.length){a({persisted:false,noHost:true,reason:U});return}const u=`f${++R}`;const s=setTimeout(()=>{delete w[u];a({persisted:false,noHost:true,reason:U})},G);w[u]={settle:a,t:s};try{for(const S of I){A.postMessage({__om_file:true,id:u,op:"write",path:e,content:t},S)}}catch{clearTimeout(s);delete w[u];a({persisted:false,noHost:true,reason:U})}});const O=(e)=>{try{return JSON.stringify(e)}catch{return JSON.stringify(String(e))}};window.addEventListener("message",(e)=>{if(I.indexOf(e.origin)<0)return;if(e.source!==A)return;const t=e.data;if(!t)return;if(t.type==="omelette-preview-refresh"){if(typeof t.token!=="string"||!/^[0-9a-f.-]+(\.(rc|pr-[0-9]+))?(\.[0-9]+\.[0-9a-f]{16})?$/.test(t.token))return;const s=Math.max(1,Math.floor((t.expiresAt||0)-Date.now()/1000));document.cookie="__Host-omelette-preview="+t.token+"; Path=/; Secure; SameSite=None; Partitioned; Max-Age="+s;C();return}if(t.__om_file_r){const s=w[t.id];if(!s)return;clearTimeout(s.t);delete w[t.id];s.settle(t.ok?{persisted:true}:{persisted:false,reason:t.error||"write failed"});return}if(t.__om_api_r){const s=f[t.id];if(!s)return;if(t.error!=null){clearTimeout(s.t);delete f[t.id];s.reject(new Error(t.error));return}if(t.chunk!=null){clearTimeout(s.t);s.t=s.arm();s.text+=t.chunk;return}if(t.done){clearTimeout(s.t);delete f[t.id];s.resolve({text:t.text!=null?t.text:s.text,message:t.message});return}return}if(!t.__om_eval)return;const a=t;const u=(s)=>{e.source.postMessage({...s,__om_eval_r:1,id:a.id},e.origin)};try{const s=(0,eval)(a.code);if(s&&typeof s.then==="function"){s.then((S)=>u({ok:1,v:O(S)}),(S)=>u({ok:0,e:String(S)}))}else{u({ok:1,v:O(s)})}}catch(s){u({ok:0,e:String(s)})}})}})();
+</script>
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="_ds/nocturne-f4e74b3a-c2cd-4c3f-b070-d32216f0753f/styles.css">
+<script src="_ds/nocturne-f4e74b3a-c2cd-4c3f-b070-d32216f0753f/_ds_bundle.js"></script>
+<script src="https://unpkg.com/@phosphor-icons/web@2.1.1"></script>
+<style>
+body{margin:0;background:var(--color-bg);font-family:Inter,system-ui,sans-serif;font-size:17px;-webkit-font-smoothing:antialiased}
+a{color:var(--color-accent-300)}a:hover{color:var(--color-accent-200)}
+html,body{overflow-x:hidden}*{scrollbar-width:none}*::-webkit-scrollbar{display:none}
+button{font-family:inherit;-webkit-tap-highlight-color:transparent;transition:transform .32s cubic-bezier(.34,1.56,.64,1),background-color .25s ease,color .25s ease,box-shadow .25s ease,opacity .2s ease}
+button:active{transform:scale(.94)}
+@keyframes kh-pop{0%{transform:scale(.5)}60%{transform:scale(1.2)}100%{transform:scale(1)}}
+@keyframes kh-up{from{transform:translateY(100%)}to{transform:translateY(0)}}
+@keyframes kh-fade{from{opacity:0}to{opacity:1}}
+@keyframes kh-drop{from{transform:translate(-50%,-160%)}to{transform:translate(-50%,0)}}
+@keyframes kh-in{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+@keyframes kh-drift{0%{transform:translate(0,0) scale(1)}50%{transform:translate(-6%,4%) scale(1.12) rotate(4deg)}100%{transform:translate(0,0) scale(1)}}
+</style>
+</helmet>
+<div style="position:relative;min-height:100vh;display:flex;justify-content:center;background:var(--color-bg);color:var(--color-text);font-family:Inter,system-ui,sans-serif;letter-spacing:-0.01em;transition:background-color .4s ease,color .4s ease">
+<div aria-hidden="true" style="position:fixed;inset:-10%;z-index:0;pointer-events:none;background:radial-gradient(50% 38% at 85% 10%, var(--orb-1), transparent 70%),radial-gradient(46% 34% at 8% 38%, var(--orb-2), transparent 70%),radial-gradient(52% 38% at 92% 72%, var(--orb-3), transparent 70%),radial-gradient(40% 30% at 20% 95%, var(--orb-4), transparent 70%);animation:kh-drift 14s ease-in-out infinite"></div>
+
+
+<sc-if value="{{ isAuth }}" hint-placeholder-val="{{ false }}">
+<div style="position:fixed;inset:0;z-index:40;overflow-y:auto;background:var(--color-bg);display:flex;justify-content:center">
+<div aria-hidden="true" style="position:fixed;inset:-10%;z-index:0;pointer-events:none;background:radial-gradient(50% 38% at 85% 10%, var(--orb-1), transparent 70%),radial-gradient(46% 34% at 8% 38%, var(--orb-2), transparent 70%),radial-gradient(52% 38% at 92% 72%, var(--orb-3), transparent 70%),radial-gradient(40% 30% at 20% 95%, var(--orb-4), transparent 70%);animation:kh-drift 14s ease-in-out infinite"></div>
+<div style="position:relative;z-index:1;width:100%;max-width:440px;padding:64px 20px 32px;display:flex;flex-direction:column;gap:22px;align-self:flex-start;flex:none;box-sizing:border-box;animation:kh-in .45s cubic-bezier(.2,.8,.2,1)">
+<div style="display:flex;flex-direction:column;gap:14px">
+<div style="width:68px;height:68px;border-radius:20px;display:grid;place-items:center;background:var(--color-surface);background-image:linear-gradient(180deg, var(--glass-sheen), transparent 60%);backdrop-filter:blur(40px) saturate(2);-webkit-backdrop-filter:blur(40px) saturate(2);box-shadow:inset 0 1px 0 var(--glass-hi), inset 0 0 0 1px var(--glass-edge), var(--glass-drop);box-shadow:var(--shadow-md)"><i class="ph-fill ph-notebook" style="font-size:36px;color:var(--color-accent)"></i></div>
+<div><h1 style="font-size:34px;font-weight:500;letter-spacing:-0.025em;margin:0">{{ au.title }}</h1><div style="font-size:16px;color:var(--color-neutral-400);margin-top:4px;text-wrap:pretty">{{ au.sub }}</div></div>
+</div>
+<sc-if value="{{ au.isPhone }}">
+<div style="display:grid;grid-template-columns:1fr 1fr;padding:3px;gap:2px;border-radius:12px;background:var(--seg-track)">
+<sc-for list="{{ au.modes }}" as="c" hint-placeholder-count="2"><button onClick="{{ c.on }}" style="min-height:42px;border:none;border-radius:9px;cursor:pointer;font-size:15px;background:{{ c.bg }};color:{{ c.fg }};box-shadow:{{ c.sh }}">{{ c.label }}</button></sc-for>
+</div>
+<div style="background:var(--color-surface);background-image:linear-gradient(180deg, var(--glass-sheen), transparent 60%);backdrop-filter:blur(40px) saturate(2);-webkit-backdrop-filter:blur(40px) saturate(2);box-shadow:inset 0 1px 0 var(--glass-hi), inset 0 0 0 1px var(--glass-edge), var(--glass-drop);border-radius:16px;overflow:hidden">
+<sc-if value="{{ au.isSignup }}">
+<label for="a-name" style="display:flex;align-items:center;gap:12px;padding:0 16px;min-height:56px;border-bottom:1px solid var(--color-neutral-800)"><i class="ph ph-user" style="font-size:20px;color:var(--color-neutral-400)"></i><input id="a-name" placeholder="Your name" value="{{ au.f.name }}" onChange="{{ au.h.name }}" style="flex:1;min-width:0;border:none;background:transparent;color:var(--color-text);font:inherit;font-size:17px;outline:none;caret-color:var(--color-accent)"></label>
+<label for="a-biz" style="display:flex;align-items:center;gap:12px;padding:0 16px;min-height:56px;border-bottom:1px solid var(--color-neutral-800)"><i class="ph ph-storefront" style="font-size:20px;color:var(--color-neutral-400)"></i><input id="a-biz" placeholder="Business name (optional)" value="{{ au.f.biz }}" onChange="{{ au.h.biz }}" style="flex:1;min-width:0;border:none;background:transparent;color:var(--color-text);font:inherit;font-size:17px;outline:none;caret-color:var(--color-accent)"></label>
+</sc-if>
+<label for="a-mob" style="display:flex;align-items:center;gap:12px;padding:0 16px;min-height:56px"><i class="ph ph-phone" style="font-size:20px;color:var(--color-neutral-400)"></i><span style="color:var(--color-neutral-400);font-size:17px">+91</span><input id="a-mob" inputMode="numeric" placeholder="Mobile number" value="{{ au.f.mobile }}" onChange="{{ au.h.mobile }}" style="flex:1;min-width:0;border:none;background:transparent;color:var(--color-text);font:inherit;font-size:17px;outline:none;caret-color:var(--color-accent);letter-spacing:.03em"></label>
+</div>
+</sc-if>
+<sc-if value="{{ au.isOtp }}">
+<div style="background:var(--color-surface);background-image:linear-gradient(180deg, var(--glass-sheen), transparent 60%);backdrop-filter:blur(40px) saturate(2);-webkit-backdrop-filter:blur(40px) saturate(2);box-shadow:inset 0 1px 0 var(--glass-hi), inset 0 0 0 1px var(--glass-edge), var(--glass-drop);border-radius:16px;padding:20px 16px;display:flex;flex-direction:column;align-items:center;gap:14px">
+<div style="font-size:15px;color:var(--color-neutral-300);text-align:center">Enter the 4-digit code sent to<br><b style="font-weight:600;color:var(--color-text)">{{ au.mobileFmt }}</b></div>
+<input aria-label="4-digit code" inputMode="numeric" autoComplete="one-time-code" placeholder="••••" value="{{ au.f.otp }}" onChange="{{ au.h.otp }}" style="width:200px;text-align:center;border:none;border-radius:14px;background:var(--color-neutral-900);color:var(--color-text);font:inherit;font-size:34px;font-weight:500;letter-spacing:.5em;padding:10px 0 10px .5em;outline:none;caret-color:var(--color-accent)">
+<div style="display:flex;gap:18px"><button onClick="{{ au.change }}" style="border:none;background:transparent;color:var(--color-accent);font-size:15px;cursor:pointer;min-height:40px">Change number</button><button onClick="{{ au.resend }}" style="border:none;background:transparent;color:var(--color-accent);font-size:15px;cursor:pointer;min-height:40px">Resend code</button></div>
+</div>
+</sc-if>
+<sc-if value="{{ au.err }}"><div style="font-size:15px;color:var(--color-accent-300);display:flex;gap:8px;padding:0 4px"><i class="ph-fill ph-warning-circle" style="font-size:18px;flex:none;margin-top:1px"></i>{{ au.err }}</div></sc-if>
+<button class="btn btn-primary" onClick="{{ au.submit }}" style="min-height:56px;font-size:17px;width:100%;border-radius:14px;background:var(--color-accent-900)">{{ au.cta }}<i class="ph ph-arrow-right" style="font-size:19px"></i></button>
+<div style="font-size:14px;color:var(--color-neutral-400);text-align:center;text-wrap:pretty">{{ au.hint }}</div>
+<sc-if value="{{ au.showDemo }}"><button onClick="{{ au.demo }}" style="align-self:center;min-height:40px;padding:0 16px;border-radius:20px;border:none;cursor:pointer;font-size:14px;background:var(--color-surface);background-image:linear-gradient(180deg, var(--glass-sheen), transparent 60%);backdrop-filter:blur(40px) saturate(2);-webkit-backdrop-filter:blur(40px) saturate(2);box-shadow:inset 0 1px 0 var(--glass-hi), inset 0 0 0 1px var(--glass-edge), var(--glass-drop);color:var(--color-accent-300)">Use demo account · 98220 11458</button></sc-if>
+</div>
+</div>
+</sc-if>
+<sc-if value="{{ wide }}" hint-placeholder-val="{{ false }}">
+<aside style="z-index:1;width:260px;flex:none;position:sticky;top:0;height:100vh;display:flex;flex-direction:column;gap:2px;padding:24px 12px;background:var(--color-surface);background-image:linear-gradient(180deg, var(--glass-sheen), transparent 60%);backdrop-filter:blur(40px) saturate(2);-webkit-backdrop-filter:blur(40px) saturate(2);box-shadow:inset 0 1px 0 var(--glass-hi), inset 0 0 0 1px var(--glass-edge), var(--glass-drop);box-shadow:var(--shadow-sm)">
+<div style="display:flex;align-items:center;gap:12px;padding:0 10px 22px">
+<div style="width:40px;height:40px;border-radius:11px;background:var(--color-accent-800);display:grid;place-items:center;color:var(--color-accent-100)"><i class="ph-fill ph-notebook" style="font-size:22px"></i></div>
+<div style="font-size:19px;font-weight:500">Kaam Hisab</div>
+</div>
+<sc-for list="{{ sideNav }}" as="n" hint-placeholder-count="8">
+<button onClick="{{ n.on }}" style="display:flex;align-items:center;gap:12px;min-height:46px;padding:0 12px;border-radius:10px;border:none;cursor:pointer;font-size:16px;text-align:left;background:{{ n.bg }};color:{{ n.fg }}" style-hover="background:var(--color-neutral-800)"><i class="{{ n.icon }}" style="font-size:21px"></i>{{ n.label }}</button>
+</sc-for>
+<div style="margin-top:auto;padding:12px;font-size:13px;color:var(--color-neutral-400)">{{ me.biz }}</div>
+</aside>
+</sc-if>
+
+<div style="position:relative;z-index:1;flex:1;min-width:0;max-width:{{ colMax }};display:flex;flex-direction:column;min-height:100vh">
+
+<div style="position:sticky;top:0;z-index:5;background:color-mix(in srgb, var(--color-bg) 82%, transparent);backdrop-filter:saturate(1.6) blur(20px);-webkit-backdrop-filter:saturate(1.6) blur(20px);display:flex;align-items:center;gap:8px;min-height:52px;padding:6px 10px;box-shadow:{{ barShadow }}">
+<sc-if value="{{ canBack }}" hint-placeholder-val="{{ false }}"><button onClick="{{ back }}" style="display:flex;align-items:center;gap:2px;min-height:44px;padding:0 8px 0 2px;border:none;background:transparent;cursor:pointer;color:var(--color-accent);font-size:17px"><i class="ph ph-caret-left" style="font-size:24px"></i>{{ backLabel }}</button></sc-if>
+<div style="flex:1;min-width:0;text-align:center;font-size:17px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;opacity:{{ smallTitleOp }}">{{ title }}</div>
+<sc-if value="{{ headAction }}" hint-placeholder-val="{{ false }}"><button onClick="{{ headAction.on }}" aria-label="{{ headAction.label }}" style="display:flex;align-items:center;gap:6px;min-height:44px;padding:0 10px;border:none;background:transparent;cursor:pointer;color:var(--color-accent);font-size:17px"><i class="ph {{ headAction.icon }}" style="font-size:22px"></i>{{ headAction.label }}</button></sc-if>
+<button onClick="{{ toggleTheme }}" aria-label="Switch light or dark" style="width:44px;height:44px;border:none;background:transparent;cursor:pointer;color:var(--color-accent)"><i class="ph {{ themeIcon }}" style="font-size:23px"></i></button><sc-if value="{{ isHome }}" hint-placeholder-val="{{ true }}"><button onClick="{{ onBell }}" aria-label="Notifications" style="position:relative;width:44px;height:44px;border:none;background:transparent;cursor:pointer;color:var(--color-accent)"><i class="ph ph-bell" style="font-size:24px"></i><sc-if value="{{ home.hasUnmarked }}"><span style="position:absolute;top:9px;right:10px;width:9px;height:9px;border-radius:50%;background:var(--color-accent);box-shadow:0 0 0 2px var(--color-bg)"></span></sc-if></button></sc-if>
+</div>
+
+<main key="{{ screenKey }}" style="animation:kh-in .38s cubic-bezier(.2,.8,.2,1);flex:1;padding:0 16px 32px;display:flex;flex-direction:column;gap:20px">
+
+<div style="display:flex;flex-direction:column;gap:2px;padding-top:2px">
+<sc-if value="{{ isHome }}" hint-placeholder-val="{{ true }}"><div style="font-size:15px;color:var(--color-neutral-400)">{{ todayLong }}</div></sc-if>
+<h1 style="font-size:34px;font-weight:500;letter-spacing:-0.025em;margin:0;line-height:1.15">{{ bigTitle }}</h1>
+<sc-if value="{{ subtitle }}"><div style="font-size:15px;color:var(--color-neutral-400)">{{ subtitle }}</div></sc-if>
+</div>
+
+<!-- HOME -->
+<sc-if value="{{ isHome }}" hint-placeholder-val="{{ true }}">
+<div style="display:flex;gap:8px;overflow-x:auto;margin:-8px -16px 0;padding:0 16px">
+<sc-for list="{{ homeSiteChips }}" as="c" hint-placeholder-count="3">
+<button onClick="{{ c.on }}" style="flex:none;min-height:38px;padding:0 16px;border-radius:19px;font-size:15px;cursor:pointer;border:none;display:flex;align-items:center;gap:6px;background:{{ c.bg }};color:{{ c.fg }}"><i class="ph ph-map-pin" style="font-size:15px"></i>{{ c.label }}</button>
+</sc-for>
+</div>
+
+<div style="background:linear-gradient(160deg, color-mix(in srgb, var(--color-accent-700) 45%, transparent), var(--color-surface) 75%);backdrop-filter:blur(40px) saturate(2);-webkit-backdrop-filter:blur(40px) saturate(2);border-radius:20px;padding:20px;display:flex;flex-direction:column;gap:16px;box-shadow:0 0 0 1px var(--color-accent-800)">
+<div style="display:flex;align-items:center;gap:16px">
+<div style="width:76px;height:76px;flex:none;border-radius:50%;display:grid;place-items:center;background:conic-gradient(var(--color-accent) {{ home.pct }}, var(--color-neutral-800) 0)"><div style="width:62px;height:62px;border-radius:50%;background:var(--color-surface);background-image:linear-gradient(180deg, var(--glass-sheen), transparent 60%);backdrop-filter:blur(40px) saturate(2);-webkit-backdrop-filter:blur(40px) saturate(2);box-shadow:inset 0 1px 0 var(--glass-hi), inset 0 0 0 1px var(--glass-edge), var(--glass-drop);display:grid;place-items:center;font-size:18px;font-weight:500">{{ home.pctText }}</div></div>
+<div style="flex:1;min-width:0">
+<div style="font-size:14px;color:var(--color-accent-300)">Today's attendance</div>
+<div style="font-size:24px;font-weight:500;letter-spacing:-0.02em">{{ home.markedText }}</div>
+<div style="font-size:14px;color:var(--color-neutral-400)">{{ home.leftText }}</div>
+</div>
+</div>
+<div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px">
+<sc-for list="{{ home.counts }}" as="k" hint-placeholder-count="3">
+<div style="display:flex;flex-direction:column;gap:2px;padding:10px 12px;border-radius:12px;background:color-mix(in srgb, var(--color-bg) 60%, transparent)">
+<span style="font-size:22px;font-weight:500">{{ k.n }}</span>
+<span style="font-size:13px;color:var(--color-neutral-300);display:flex;align-items:center;gap:5px"><i class="ph-fill {{ k.icon }}" style="color:{{ k.dot }}"></i>{{ k.label }}</span>
+</div>
+</sc-for>
+</div>
+<sc-if value="{{ home.hasUnmarked }}">
+<div style="display:flex;align-items:center;gap:8px">
+<div style="display:flex">
+<sc-for list="{{ home.unmarked }}" as="u" hint-placeholder-count="4"><span style="width:32px;height:32px;margin-right:-8px;border-radius:50%;display:grid;place-items:center;font-size:11px;font-weight:600;box-shadow:0 0 0 2px var(--color-surface);background:{{ u.avBg }};color:{{ u.avFg }}">{{ u.ini }}</span></sc-for>
+</div>
+<span style="font-size:14px;color:var(--color-neutral-300);margin-left:12px">{{ home.unmarkedNames }}</span>
+</div>
+</sc-if>
+<button class="btn btn-primary" onClick="{{ goAttToday }}" style="min-height:54px;font-size:17px;width:100%;border-radius:14px;background:var(--color-accent-900)"><i class="ph-fill ph-calendar-check" style="font-size:21px"></i>{{ home.ctaLabel }}</button>
+</div>
+
+<div style="display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:4px">
+<sc-for list="{{ quick }}" as="q" hint-placeholder-count="5">
+<button onClick="{{ q.on }}" style="border:none;background:transparent;color:var(--color-text);cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:7px;padding:4px 0;font-size:12px;line-height:1.2;text-align:center" style-active="opacity:.6">
+<span style="width:58px;height:58px;border-radius:16px;display:grid;place-items:center;background:var(--color-surface);background-image:linear-gradient(180deg, var(--glass-sheen), transparent 60%);backdrop-filter:blur(40px) saturate(2);-webkit-backdrop-filter:blur(40px) saturate(2);box-shadow:inset 0 1px 0 var(--glass-hi), inset 0 0 0 1px var(--glass-edge), var(--glass-drop);box-shadow:var(--shadow-sm)"><i class="ph-fill {{ q.icon }}" style="font-size:27px;color:var(--color-accent)"></i></span>{{ q.label }}</button>
+</sc-for>
+</div>
+
+<div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px">
+<sc-for list="{{ home.cards }}" as="c" hint-placeholder-count="4">
+<button onClick="{{ c.on }}" style="grid-column:{{ c.span }};text-align:left;border:none;cursor:pointer;color:inherit;background:var(--color-surface);background-image:linear-gradient(180deg, var(--glass-sheen), transparent 60%);backdrop-filter:blur(40px) saturate(2);-webkit-backdrop-filter:blur(40px) saturate(2);box-shadow:inset 0 1px 0 var(--glass-hi), inset 0 0 0 1px var(--glass-edge), var(--glass-drop);border-radius:16px;padding:14px 16px;display:flex;flex-direction:column;gap:2px" style-active="opacity:.7">
+<span style="display:flex;align-items:center;gap:6px;font-size:14px;color:var(--color-neutral-400)"><i class="ph-fill {{ c.icon }}" style="font-size:17px;color:var(--color-accent)"></i>{{ c.label }}<i class="ph ph-caret-right" style="margin-left:auto;font-size:14px;color:var(--color-neutral-600)"></i></span>
+<span style="font-size:27px;font-weight:500;letter-spacing:-0.02em">{{ c.value }}</span>
+<span style="font-size:13px;color:var(--color-neutral-400)">{{ c.sub }}</span>
+</button>
+</sc-for>
+</div>
+
+<div style="display:flex;flex-direction:column;gap:8px">
+<div style="display:flex;align-items:baseline;padding:0 4px"><span style="flex:1;font-size:20px;font-weight:500">Last 7 days</span><span style="font-size:15px;color:var(--color-neutral-300)">{{ home.weekTotal }}</span></div>
+<div style="background:var(--color-surface);background-image:linear-gradient(180deg, var(--glass-sheen), transparent 60%);backdrop-filter:blur(40px) saturate(2);-webkit-backdrop-filter:blur(40px) saturate(2);box-shadow:inset 0 1px 0 var(--glass-hi), inset 0 0 0 1px var(--glass-edge), var(--glass-drop);border-radius:16px;padding:16px 14px 12px">
+<div style="display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:8px;align-items:end;height:120px">
+<sc-for list="{{ home.week }}" as="b" hint-placeholder-count="7">
+<div style="display:flex;flex-direction:column;align-items:center;gap:5px;height:100%;justify-content:flex-end">
+<span style="font-size:11px;color:var(--color-neutral-400)">{{ b.v }}</span>
+<div style="width:100%;max-width:28px;border-radius:7px;height:{{ b.h }};background:{{ b.bg }};min-height:4px"></div>
+<span style="font-size:12px;color:{{ b.fg }}">{{ b.d }}</span>
+</div>
+</sc-for>
+</div>
+</div>
+</div>
+
+<div style="display:flex;flex-direction:column;gap:8px">
+<div style="font-size:20px;font-weight:500;padding:0 4px">Recent activity</div>
+<div style="background:var(--color-surface);background-image:linear-gradient(180deg, var(--glass-sheen), transparent 60%);backdrop-filter:blur(40px) saturate(2);-webkit-backdrop-filter:blur(40px) saturate(2);box-shadow:inset 0 1px 0 var(--glass-hi), inset 0 0 0 1px var(--glass-edge), var(--glass-drop);border-radius:16px;overflow:hidden">
+<sc-for list="{{ activity }}" as="a" hint-placeholder-count="4">
+<div style="display:flex;align-items:center;gap:12px;padding:0 16px;min-height:54px">
+<span style="width:32px;height:32px;border-radius:9px;display:grid;place-items:center;background:var(--color-accent-900);flex:none"><i class="ph-fill {{ a.icon }}" style="font-size:17px;color:var(--color-accent-300)"></i></span>
+<div style="flex:1;font-size:15px;padding:14px 0;border-bottom:1px solid var(--color-neutral-800)">{{ a.text }}</div>
+<div style="font-size:13px;color:var(--color-neutral-400);white-space:nowrap">{{ a.t }}</div>
+</div>
+</sc-for>
+</div>
+</div>
+</sc-if>
+
+<!-- ATTENDANCE -->
+<sc-if value="{{ isAtt }}" hint-placeholder-val="{{ false }}">
+<div style="display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:4px;margin-top:-6px">
+<sc-for list="{{ att.days }}" as="d" hint-placeholder-count="7">
+<button onClick="{{ d.on }}" style="min-height:64px;border-radius:14px;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;border:none;background:{{ d.bg }};color:{{ d.fg }}">
+<span style="font-size:12px;opacity:.8">{{ d.dow }}</span><span style="font-size:20px;font-weight:500">{{ d.n }}</span><span style="width:5px;height:5px;border-radius:50%;background:{{ d.dot }}"></span>
+</button>
+</sc-for>
+</div>
+<div style="display:flex;align-items:center;gap:10px;margin-top:-8px">
+<label for="att-date" style="font-size:15px;color:var(--color-neutral-400);flex:1">Pick another date</label>
+<input id="att-date" class="input" type="date" min="2026-09-01" max="2026-10-22" value="{{ attDate }}" onChange="{{ onAttDateInput }}" style="min-height:40px;font-size:15px;max-width:170px;border-radius:10px;border:none;background:var(--color-surface)">
+</div>
+<div style="display:grid;grid-template-columns:repeat({{ att.siteCols }},minmax(0,1fr));padding:3px;gap:2px;border-radius:12px;background:var(--seg-track)">
+<sc-for list="{{ att.siteChips }}" as="c" hint-placeholder-count="3">
+<button onClick="{{ c.on }}" style="min-height:40px;border:none;border-radius:9px;cursor:pointer;font-size:14px;padding:0 6px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;background:{{ c.bg }};color:{{ c.fg }};box-shadow:{{ c.sh }}">{{ c.label }}</button>
+</sc-for>
+</div>
+<sc-if value="{{ att.isPast }}">
+<div style="display:flex;gap:12px;align-items:center;padding:14px 16px;border-radius:14px;background:var(--color-accent-900);font-size:15px;color:var(--color-accent-200)"><i class="ph-fill ph-clock-counter-clockwise" style="font-size:22px;flex:none"></i><span>You're editing a past date. Changes will ask for confirmation and update salary automatically.</span></div>
+</sc-if>
+<sc-if value="{{ att.isSunday }}">
+<div style="display:flex;gap:12px;align-items:center;padding:14px 16px;border-radius:14px;background:var(--color-surface);background-image:linear-gradient(180deg, var(--glass-sheen), transparent 60%);backdrop-filter:blur(40px) saturate(2);-webkit-backdrop-filter:blur(40px) saturate(2);box-shadow:inset 0 1px 0 var(--glass-hi), inset 0 0 0 1px var(--glass-edge), var(--glass-drop);font-size:15px;color:var(--color-neutral-300)"><i class="ph-fill ph-moon" style="font-size:22px"></i>Sunday is the weekly off. Mark Present only if work happened.</div>
+</sc-if>
+
+<div style="background:var(--color-surface);background-image:linear-gradient(180deg, var(--glass-sheen), transparent 60%);backdrop-filter:blur(40px) saturate(2);-webkit-backdrop-filter:blur(40px) saturate(2);box-shadow:inset 0 1px 0 var(--glass-hi), inset 0 0 0 1px var(--glass-edge), var(--glass-drop);border-radius:16px;padding:16px;display:flex;flex-direction:column;gap:12px">
+<div style="display:flex;align-items:center;gap:10px">
+<div style="flex:1"><div style="font-size:22px;font-weight:500;letter-spacing:-0.02em">{{ att.markedN }} of {{ att.totalN }} marked</div><div style="font-size:14px;color:var(--color-neutral-400)">{{ att.leftText }} · Cost {{ att.cost }}</div></div>
+<sc-if value="{{ att.canMarkAll }}"><button class="btn btn-primary" onClick="{{ att.markAll }}" style="min-height:44px;font-size:15px;border-radius:12px"><i class="ph ph-checks" style="font-size:18px"></i>All Present</button></sc-if>
+</div>
+<div style="height:6px;border-radius:3px;background:var(--color-neutral-800);overflow:hidden"><div style="height:100%;border-radius:3px;width:{{ att.pct }};background:var(--color-accent)"></div></div>
+<div style="display:flex;gap:16px;flex-wrap:wrap;font-size:14px;color:var(--color-neutral-300)">
+<sc-for list="{{ att.counts }}" as="k" hint-placeholder-count="4"><span style="display:flex;align-items:center;gap:5px"><i class="ph-fill {{ k.icon }}" style="color:{{ k.dot }}"></i>{{ k.label }} {{ k.n }}</span></sc-for>
+</div>
+</div>
+
+<div style="display:flex;flex-direction:column;gap:10px">
+<sc-for list="{{ att.rows }}" as="r" hint-placeholder-count="5">
+<div style="background:var(--color-surface);background-image:linear-gradient(180deg, var(--glass-sheen), transparent 60%);backdrop-filter:blur(40px) saturate(2);-webkit-backdrop-filter:blur(40px) saturate(2);box-shadow:inset 0 1px 0 var(--glass-hi), inset 0 0 0 1px var(--glass-edge), var(--glass-drop);border-radius:16px;padding:14px;display:flex;flex-direction:column;gap:12px;box-shadow:{{ r.shadow }}">
+<div style="display:flex;align-items:center;gap:12px">
+<div style="width:44px;height:44px;border-radius:50%;display:grid;place-items:center;font-size:15px;font-weight:600;flex:none;background:{{ r.w.avBg }};color:{{ r.w.avFg }}">{{ r.w.ini }}</div>
+<div style="flex:1;min-width:0">
+<div style="font-size:17px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ r.w.name }}<span style="font-size:13px;color:var(--color-neutral-400);font-weight:400"> {{ r.w.dup }}</span></div>
+<div style="font-size:14px;color:var(--color-neutral-400);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ r.meta }}</div>
+</div>
+<sc-if value="{{ r.changed }}"><span style="flex:none;font-size:12px;padding:4px 9px;border-radius:10px;background:var(--color-accent-800);color:var(--color-accent-100)">Unsaved</span></sc-if>
+</div>
+<sc-if value="{{ r.note }}"><div style="font-size:14px;color:var(--color-accent-300);display:flex;gap:6px;align-items:center"><i class="ph-fill ph-info"></i>{{ r.note }}</div></sc-if>
+<div style="display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:3px;padding:3px;border-radius:13px;background:var(--seg-track)">
+<sc-for list="{{ r.btns }}" as="b" hint-placeholder-count="4">
+<button onClick="{{ b.on }}" aria-pressed="{{ b.sel }}" style="min-height:52px;border-radius:10px;border:none;background:{{ b.bg }};color:{{ b.fg }};box-shadow:{{ b.sh }};cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;padding:2px">
+<i class="{{ b.ic }}" style="font-size:19px;animation:{{ b.anim }}"></i><span style="font-size:13px;font-weight:500">{{ b.label }}</span>
+</button>
+</sc-for>
+</div>
+</div>
+</sc-for>
+</div>
+<sc-if value="{{ att.empty }}">
+<div style="padding:40px 16px;text-align:center;display:flex;flex-direction:column;align-items:center;gap:8px">
+<i class="ph ph-users-three" style="font-size:44px;color:var(--color-neutral-600)"></i>
+<div style="font-size:18px;font-weight:500">No workers at this site</div>
+<div style="font-size:15px;color:var(--color-neutral-400)">Change a worker's default site, or choose All sites.</div>
+</div>
+</sc-if>
+</sc-if>
+
+<!-- HISTORY -->
+<sc-if value="{{ isHistory }}" hint-placeholder-val="{{ false }}">
+<div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));padding:3px;gap:2px;border-radius:12px;background:var(--seg-track);margin-top:-8px">
+<sc-for list="{{ hv.views }}" as="c" hint-placeholder-count="3"><button onClick="{{ c.on }}" style="min-height:40px;border:none;border-radius:9px;cursor:pointer;font-size:15px;background:{{ c.bg }};color:{{ c.fg }};box-shadow:{{ c.sh }}">{{ c.label }}</button></sc-for>
+</div>
+<div style="display:flex;gap:8px;overflow-x:auto;margin:-6px -16px 0;padding:2px 16px">
+<sc-for list="{{ hv.wchips }}" as="c" hint-placeholder-count="5"><button onClick="{{ c.on }}" style="flex:none;min-height:36px;padding:0 14px;border-radius:18px;font-size:14px;cursor:pointer;border:none;white-space:nowrap;background:{{ c.bg }};color:{{ c.fg }}">{{ c.label }}</button></sc-for>
+</div>
+<div style="display:flex;align-items:center;gap:10px">
+<button onClick="{{ hv.prev }}" aria-label="Previous" style="width:44px;height:44px;flex:none;border-radius:50%;border:none;cursor:pointer;display:grid;place-items:center;color:var(--color-accent);opacity:{{ hv.prevOp }};background:var(--color-surface);background-image:linear-gradient(180deg, var(--glass-sheen), transparent 60%);backdrop-filter:blur(40px) saturate(2);-webkit-backdrop-filter:blur(40px) saturate(2);box-shadow:inset 0 1px 0 var(--glass-hi), inset 0 0 0 1px var(--glass-edge), var(--glass-drop);"><i class="ph ph-caret-left" style="font-size:20px"></i></button>
+<div style="flex:1;text-align:center;min-width:0"><div style="font-size:19px;font-weight:500">{{ hv.label }}</div><div style="font-size:13px;color:var(--color-neutral-400)">{{ hv.sub }}</div></div>
+<button onClick="{{ hv.next }}" aria-label="Next" style="width:44px;height:44px;flex:none;border-radius:50%;border:none;cursor:pointer;display:grid;place-items:center;color:var(--color-accent);opacity:{{ hv.nextOp }};background:var(--color-surface);background-image:linear-gradient(180deg, var(--glass-sheen), transparent 60%);backdrop-filter:blur(40px) saturate(2);-webkit-backdrop-filter:blur(40px) saturate(2);box-shadow:inset 0 1px 0 var(--glass-hi), inset 0 0 0 1px var(--glass-edge), var(--glass-drop);"><i class="ph ph-caret-right" style="font-size:20px"></i></button>
+</div>
+<div style="display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px">
+<sc-for list="{{ hv.stats }}" as="k" hint-placeholder-count="4"><div style="background:var(--color-surface);background-image:linear-gradient(180deg, var(--glass-sheen), transparent 60%);backdrop-filter:blur(40px) saturate(2);-webkit-backdrop-filter:blur(40px) saturate(2);box-shadow:inset 0 1px 0 var(--glass-hi), inset 0 0 0 1px var(--glass-edge), var(--glass-drop);border-radius:14px;padding:10px 12px;display:flex;flex-direction:column;gap:2px;min-width:0"><span style="font-size:19px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ k.n }}</span><span style="font-size:12px;color:var(--color-neutral-400)">{{ k.label }}</span></div></sc-for>
+</div>
+<sc-if value="{{ hv.isDay }}">
+<div style="background:var(--color-surface);background-image:linear-gradient(180deg, var(--glass-sheen), transparent 60%);backdrop-filter:blur(40px) saturate(2);-webkit-backdrop-filter:blur(40px) saturate(2);box-shadow:inset 0 1px 0 var(--glass-hi), inset 0 0 0 1px var(--glass-edge), var(--glass-drop);border-radius:16px;overflow:hidden">
+<sc-for list="{{ hv.dayRows }}" as="r" hint-placeholder-count="6">
+<button onClick="{{ r.open }}" style="width:100%;text-align:left;border:none;cursor:pointer;color:inherit;background:transparent;padding:0 0 0 16px;display:flex;gap:12px;align-items:center">
+<div style="width:42px;height:42px;border-radius:50%;display:grid;place-items:center;font-size:14px;font-weight:600;flex:none;background:{{ r.w.avBg }};color:{{ r.w.avFg }}">{{ r.w.ini }}</div>
+<div style="flex:1;min-width:0;display:flex;align-items:center;gap:10px;padding:11px 14px 11px 0;border-bottom:1px solid var(--color-neutral-800)">
+<div style="flex:1;min-width:0"><div style="font-size:16px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ r.w.name }}<span style="font-size:13px;color:var(--color-neutral-400);font-weight:400"> {{ r.w.dup }}</span></div><div style="font-size:13px;color:var(--color-neutral-400)">{{ r.meta }}</div></div>
+<div style="flex:none;display:flex;flex-direction:column;align-items:flex-end;gap:4px"><span style="display:inline-flex;align-items:center;gap:5px;padding:4px 10px;border-radius:12px;font-size:13px;font-weight:500;background:{{ r.bg }};color:{{ r.fg }};border:{{ r.border }}"><i class="ph-fill {{ r.icon }}"></i>{{ r.label }}</span><span style="font-size:13px;color:var(--color-neutral-400)">{{ r.amt }}</span></div>
+</div>
+</button>
+</sc-for>
+<sc-if value="{{ hv.dayEmpty }}"><div style="padding:16px;font-size:15px;color:var(--color-neutral-400)">No workers on this day.</div></sc-if>
+</div>
+<button class="btn btn-primary" onClick="{{ hv.editDay }}" style="min-height:52px;font-size:16px;width:100%;border-radius:14px;background:var(--color-accent-900)"><i class="ph ph-pencil-simple"></i>{{ hv.dayEditLabel }}</button>
+</sc-if>
+<sc-if value="{{ hv.isWeek }}">
+<div style="background:var(--color-surface);background-image:linear-gradient(180deg, var(--glass-sheen), transparent 60%);backdrop-filter:blur(40px) saturate(2);-webkit-backdrop-filter:blur(40px) saturate(2);box-shadow:inset 0 1px 0 var(--glass-hi), inset 0 0 0 1px var(--glass-edge), var(--glass-drop);border-radius:16px;padding:12px 10px;display:flex;flex-direction:column;overflow-x:auto">
+<div style="display:grid;grid-template-columns:minmax(64px,1fr) repeat(7,30px) 34px;gap:3px;align-items:center;padding-bottom:6px;border-bottom:1px solid var(--color-neutral-800)">
+<span style="font-size:12px;color:var(--color-neutral-400);padding-left:4px">Worker</span>
+<sc-for list="{{ hv.weekHead }}" as="c" hint-placeholder-count="7"><button onClick="{{ c.on }}" style="border:none;background:transparent;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:1px;padding:2px 0;color:{{ c.fg }}"><span style="font-size:11px">{{ c.d }}</span><span style="font-size:14px;font-weight:500">{{ c.n }}</span></button></sc-for>
+<span style="font-size:11px;color:var(--color-neutral-400);text-align:right">Days</span>
+</div>
+<sc-for list="{{ hv.weekRows }}" as="r" hint-placeholder-count="6">
+<div style="display:grid;grid-template-columns:minmax(64px,1fr) repeat(7,30px) 34px;gap:3px;align-items:center;padding:6px 0;border-bottom:1px solid var(--color-neutral-800)">
+<div style="display:flex;align-items:center;gap:8px;min-width:0;padding-left:4px"><span style="width:28px;height:28px;flex:none;border-radius:50%;display:grid;place-items:center;font-size:11px;font-weight:600;background:{{ r.w.avBg }};color:{{ r.w.avFg }}">{{ r.w.ini }}</span><span style="font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ r.short }}</span></div>
+<sc-for list="{{ r.cells }}" as="c"><button onClick="{{ c.on }}" aria-label="{{ c.aria }}" style="width:28px;height:28px;justify-self:center;border-radius:50%;border:{{ c.border }};background:{{ c.bg }};color:{{ c.fg }};opacity:{{ c.op }};cursor:pointer;font-size:13px;font-weight:600;padding:0">{{ c.lbl }}</button></sc-for>
+<span style="font-size:14px;font-weight:500;text-align:right">{{ r.paid }}</span>
+</div>
+</sc-for>
+<div style="display:flex;gap:12px;flex-wrap:wrap;padding:10px 4px 0;font-size:12px;color:var(--color-neutral-400)"><sc-for list="{{ legend }}" as="k"><span style="display:flex;align-items:center;gap:5px"><i class="ph-fill {{ k.icon }}" style="color:{{ k.dot }}"></i>{{ k.label }}</span></sc-for><span>· Days = paid days</span></div>
+</div>
+</sc-if>
+<sc-if value="{{ hv.isMonth }}">
+<div style="background:var(--color-surface);background-image:linear-gradient(180deg, var(--glass-sheen), transparent 60%);backdrop-filter:blur(40px) saturate(2);-webkit-backdrop-filter:blur(40px) saturate(2);box-shadow:inset 0 1px 0 var(--glass-hi), inset 0 0 0 1px var(--glass-edge), var(--glass-drop);border-radius:16px;padding:14px">
+<div style="display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:5px;text-align:center;font-size:12px;color:var(--color-neutral-400);margin-bottom:8px"><span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span><span>Sat</span><span>Sun</span></div>
+<div style="display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:5px">
+<sc-for list="{{ hv.cal }}" as="c" hint-placeholder-count="31"><button onClick="{{ c.on }}" aria-label="{{ c.aria }}" style="aspect-ratio:1;min-height:42px;border-radius:12px;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;padding:0;background:{{ c.bg }};color:{{ c.fg }};border:{{ c.border }};opacity:{{ c.op }}"><span style="font-size:15px;font-weight:500;line-height:1">{{ c.n }}</span><span style="font-size:10px;line-height:1">{{ c.lbl }}</span></button></sc-for>
+</div>
+<div style="display:flex;gap:12px;flex-wrap:wrap;margin-top:12px;font-size:12px;color:var(--color-neutral-400)"><sc-for list="{{ hv.monthLegend }}" as="k"><span style="display:flex;align-items:center;gap:6px"><span style="width:12px;height:12px;border-radius:4px;background:{{ k.bg }};border:{{ k.border }}"></span>{{ k.label }}</span></sc-for><span>· Tap a day for details</span></div>
+</div>
+</sc-if>
+</sc-if>
+
+<!-- WORKERS -->
+<sc-if value="{{ isWorkers }}" hint-placeholder-val="{{ false }}">
+<div style="position:relative;margin-top:-8px">
+<i class="ph ph-magnifying-glass" style="position:absolute;left:12px;top:50%;transform:translateY(-50%);font-size:18px;color:var(--color-neutral-400)"></i>
+<input class="input" placeholder="Search name or mobile" value="{{ wq }}" onChange="{{ onWq }}" style="min-height:44px;font-size:17px;padding-left:38px;border:none;border-radius:12px;background:var(--color-surface)">
+</div>
+<div style="display:grid;grid-template-columns:repeat(4,minmax(0,1fr));padding:3px;gap:2px;border-radius:12px;background:var(--seg-track)">
+<sc-for list="{{ wd.chips }}" as="c" hint-placeholder-count="4">
+<button onClick="{{ c.on }}" style="min-height:40px;border:none;border-radius:9px;cursor:pointer;font-size:14px;background:{{ c.bg }};color:{{ c.fg }};box-shadow:{{ c.sh }}">{{ c.label }}</button>
+</sc-for>
+</div>
+<div style="background:var(--color-surface);background-image:linear-gradient(180deg, var(--glass-sheen), transparent 60%);backdrop-filter:blur(40px) saturate(2);-webkit-backdrop-filter:blur(40px) saturate(2);box-shadow:inset 0 1px 0 var(--glass-hi), inset 0 0 0 1px var(--glass-edge), var(--glass-drop);border-radius:16px;overflow:hidden">
+<sc-for list="{{ wd.list }}" as="w" hint-placeholder-count="6">
+<button onClick="{{ w.open }}" style="width:100%;text-align:left;border:none;cursor:pointer;color:inherit;background:transparent;padding:0 0 0 16px;display:flex;gap:14px;align-items:center;opacity:{{ w.op }}" style-hover="background:var(--color-neutral-900)">
+<div style="width:46px;height:46px;border-radius:50%;display:grid;place-items:center;font-size:16px;font-weight:600;flex:none;background:{{ w.avBg }};color:{{ w.avFg }}">{{ w.ini }}</div>
+<div style="flex:1;min-width:0;display:flex;align-items:center;gap:10px;padding:12px 14px 12px 0;border-bottom:1px solid var(--color-neutral-800)">
+<div style="flex:1;min-width:0;display:flex;flex-direction:column;gap:2px">
+<div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap"><span style="font-size:17px;font-weight:500">{{ w.name }}</span><sc-if value="{{ w.isNew }}"><span style="font-size:11px;padding:2px 8px;border-radius:8px;background:var(--color-accent-800);color:var(--color-accent-100)">New</span></sc-if></div>
+<div style="font-size:14px;color:var(--color-neutral-400)">{{ w.cat }} · {{ w.wage }} · {{ w.mobileFmt }}</div>
+<div style="font-size:13px;color:var(--color-neutral-500);display:flex;align-items:center;gap:4px"><i class="ph ph-map-pin"></i>{{ w.site }}</div>
+</div>
+<span style="flex:none;display:flex;align-items:center;gap:4px;font-size:13px;color:var(--color-neutral-300)"><i class="ph-fill {{ w.st.icon }}" style="color:{{ w.st.dot }};font-size:15px"></i>{{ w.st.label }}</span>
+<i class="ph ph-caret-right" style="color:var(--color-neutral-600)"></i>
+</div>
+</button>
+</sc-for>
+<sc-if value="{{ wd.empty }}">
+<div style="padding:36px 16px;text-align:center;display:flex;flex-direction:column;align-items:center;gap:10px">
+<i class="ph ph-magnifying-glass" style="font-size:40px;color:var(--color-neutral-600)"></i>
+<div style="font-size:17px;font-weight:500">No worker found for "{{ wq }}"</div>
+<button class="btn btn-primary" onClick="{{ openAddWorker }}" style="min-height:46px;border-radius:12px"><i class="ph ph-user-plus"></i>Add new worker</button>
+</div>
+</sc-if>
+</div>
+<button class="btn btn-primary" onClick="{{ openAddWorker }}" style="min-height:54px;font-size:17px;width:100%;border-radius:14px;background:var(--color-accent-900)"><i class="ph ph-user-plus" style="font-size:20px"></i>Add Worker</button>
+</sc-if>
+
+<!-- WORKER FORM -->
+<sc-if value="{{ isForm }}" hint-placeholder-val="{{ false }}">
+<div style="display:flex;flex-direction:column;gap:6px">
+<div style="font-size:13px;letter-spacing:.04em;text-transform:uppercase;color:var(--color-neutral-400);padding:0 16px">Details</div>
+<div style="background:var(--color-surface);background-image:linear-gradient(180deg, var(--glass-sheen), transparent 60%);backdrop-filter:blur(40px) saturate(2);-webkit-backdrop-filter:blur(40px) saturate(2);box-shadow:inset 0 1px 0 var(--glass-hi), inset 0 0 0 1px var(--glass-edge), var(--glass-drop);border-radius:16px;overflow:hidden">
+<label for="f-name" style="display:flex;align-items:center;gap:12px;padding:0 16px;min-height:56px;border-bottom:1px solid var(--color-neutral-800)"><span style="width:84px;flex:none;font-size:16px">Full name</span><input id="f-name" placeholder="e.g. Ramesh Kumar Yadav" value="{{ form.name }}" onChange="{{ fh.name }}" style="flex:1;min-width:0;border:none;background:transparent;color:var(--color-text);font:inherit;font-size:17px;outline:none;caret-color:var(--color-accent)"></label>
+<label for="f-mob" style="display:flex;align-items:center;gap:12px;padding:0 16px;min-height:56px"><span style="width:84px;flex:none;font-size:16px">Mobile</span><span style="color:var(--color-neutral-400)">+91</span><input id="f-mob" inputMode="numeric" placeholder="10 digits" value="{{ form.mobile }}" onChange="{{ fh.mobile }}" style="flex:1;min-width:0;border:none;background:transparent;color:var(--color-text);font:inherit;font-size:17px;outline:none;letter-spacing:.03em;caret-color:var(--color-accent)"></label>
+</div>
+<sc-if value="{{ ferr.name }}"><div style="font-size:14px;color:var(--color-accent-300);padding:0 16px"><i class="ph-fill ph-warning-circle"></i> {{ ferr.name }}</div></sc-if>
+<sc-if value="{{ ferr.mobile }}"><div style="font-size:14px;color:var(--color-accent-300);padding:0 16px"><i class="ph-fill ph-warning-circle"></i> {{ ferr.mobile }}</div></sc-if>
+<sc-if value="{{ fv.dupWarn }}"><div style="font-size:14px;color:var(--color-neutral-300);padding:0 16px;display:flex;gap:6px"><i class="ph-fill ph-info" style="flex:none;margin-top:3px"></i>{{ fv.dupWarn }}</div></sc-if>
+</div>
+
+<div style="display:flex;flex-direction:column;gap:6px">
+<div style="font-size:13px;letter-spacing:.04em;text-transform:uppercase;color:var(--color-neutral-400);padding:0 16px">Type of work</div>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+<sc-for list="{{ fv.cats }}" as="c" hint-placeholder-count="2">
+<button onClick="{{ c.on }}" style="min-height:76px;border-radius:16px;cursor:pointer;display:flex;flex-direction:column;align-items:flex-start;justify-content:center;gap:2px;padding:12px 14px;border:none;background:{{ c.bg }};color:{{ c.fg }};box-shadow:{{ c.sh }}"><span style="font-size:17px;font-weight:500;display:flex;gap:8px;align-items:center"><i class="{{ c.ic }}" style="font-size:20px"></i>{{ c.label }}</span><span style="font-size:13px;opacity:.8">{{ c.hi }}</span></button>
+</sc-for>
+</div>
+</div>
+
+<div style="display:flex;flex-direction:column;gap:6px">
+<div style="font-size:13px;letter-spacing:.04em;text-transform:uppercase;color:var(--color-neutral-400);padding:0 16px">Daily wage (full day)</div>
+<div style="background:var(--color-surface);background-image:linear-gradient(180deg, var(--glass-sheen), transparent 60%);backdrop-filter:blur(40px) saturate(2);-webkit-backdrop-filter:blur(40px) saturate(2);box-shadow:inset 0 1px 0 var(--glass-hi), inset 0 0 0 1px var(--glass-edge), var(--glass-drop);border-radius:16px;padding:14px 16px;display:flex;flex-direction:column;gap:10px">
+<label for="f-wage" style="display:flex;align-items:center;gap:6px"><span style="font-size:30px;color:var(--color-neutral-400)">₹</span><input id="f-wage" inputMode="numeric" value="{{ form.wage }}" onChange="{{ fh.wage }}" style="flex:1;min-width:0;border:none;background:transparent;color:var(--color-text);font:inherit;font-size:34px;font-weight:500;outline:none;caret-color:var(--color-accent)"><span style="font-size:15px;color:var(--color-neutral-400)">per day</span></label>
+<div style="display:flex;gap:6px;flex-wrap:wrap"><sc-for list="{{ fv.wageChips }}" as="c" hint-placeholder-count="4"><button onClick="{{ c.on }}" style="min-height:36px;padding:0 14px;border-radius:18px;border:none;cursor:pointer;font-size:15px;background:var(--color-neutral-800);color:var(--color-text)">{{ c.label }}</button></sc-for></div>
+<div style="font-size:14px;color:var(--color-neutral-400)">{{ fv.halfText }}</div>
+</div>
+<sc-if value="{{ ferr.wage }}"><div style="font-size:14px;color:var(--color-accent-300);padding:0 16px"><i class="ph-fill ph-warning-circle"></i> {{ ferr.wage }}</div></sc-if>
+</div>
+
+<sc-if value="{{ fv.wageChanged }}">
+<div style="padding:14px 16px;border-radius:16px;background:var(--color-accent-900);display:flex;flex-direction:column;gap:10px">
+<div style="font-size:15px;color:var(--color-accent-200);display:flex;gap:8px"><i class="ph-fill ph-info" style="font-size:18px;flex:none;margin-top:2px"></i><span>{{ fv.wageMsg }}</span></div>
+<label for="f-eff" style="display:flex;align-items:center;gap:10px"><span style="flex:1;font-size:15px">New rate applies from</span><input id="f-eff" class="input" type="date" min="{{ form.joined }}" max="2026-10-22" value="{{ form.eff }}" onChange="{{ fh.eff }}" style="min-height:40px;max-width:170px;border:none;border-radius:10px"></label>
+</div>
+</sc-if>
+
+<div style="display:flex;flex-direction:column;gap:6px">
+<div style="font-size:13px;letter-spacing:.04em;text-transform:uppercase;color:var(--color-neutral-400);padding:0 16px">Work info</div>
+<div style="background:var(--color-surface);background-image:linear-gradient(180deg, var(--glass-sheen), transparent 60%);backdrop-filter:blur(40px) saturate(2);-webkit-backdrop-filter:blur(40px) saturate(2);box-shadow:inset 0 1px 0 var(--glass-hi), inset 0 0 0 1px var(--glass-edge), var(--glass-drop);border-radius:16px;overflow:hidden">
+<label for="f-join" style="display:flex;align-items:center;gap:12px;padding:0 16px;min-height:56px;border-bottom:1px solid var(--color-neutral-800)"><span style="flex:1;font-size:16px">Joining date</span><input id="f-join" type="date" max="2026-10-22" value="{{ form.joined }}" onChange="{{ fh.joined }}" style="border:none;background:var(--color-neutral-800);border-radius:8px;padding:6px 10px;color:var(--color-text);font:inherit;font-size:15px"></label>
+<label for="f-site" style="display:flex;align-items:center;gap:12px;padding:0 16px;min-height:56px;border-bottom:1px solid var(--color-neutral-800)"><span style="flex:1;font-size:16px">Default site</span><select id="f-site" key="{{ fv.selKey }}" value="{{ form.site }}" onChange="{{ fh.site }}" style="border:none;background:transparent;color:var(--color-neutral-300);font:inherit;font-size:16px;text-align:right;max-width:60%;outline:none"><sc-for list="{{ fv.siteOpts }}" as="o"><option value="{{ o.id }}" selected="{{ o.sel }}">{{ o.name }}</option></sc-for></select></label>
+<label for="f-notes" style="display:flex;align-items:flex-start;gap:12px;padding:14px 16px"><span style="width:84px;flex:none;font-size:16px">Notes</span><textarea id="f-notes" placeholder="Optional — village, special skills" value="{{ form.notes }}" onChange="{{ fh.notes }}" style="flex:1;min-width:0;min-height:60px;border:none;background:transparent;color:var(--color-text);font:inherit;font-size:16px;outline:none;resize:vertical"></textarea></label>
+</div>
+<sc-if value="{{ fv.midMonth }}"><div style="font-size:14px;color:var(--color-neutral-400);padding:0 16px">Joining mid-month — salary is counted from the joining date only.</div></sc-if>
+</div>
+
+<sc-if value="{{ fv.isEdit }}">
+<div style="display:flex;flex-direction:column;gap:6px">
+<div style="background:var(--color-surface);background-image:linear-gradient(180deg, var(--glass-sheen), transparent 60%);backdrop-filter:blur(40px) saturate(2);-webkit-backdrop-filter:blur(40px) saturate(2);box-shadow:inset 0 1px 0 var(--glass-hi), inset 0 0 0 1px var(--glass-edge), var(--glass-drop);border-radius:16px;display:flex;align-items:center;gap:12px;padding:0 16px;min-height:60px">
+<div style="flex:1"><div style="font-size:16px">Active worker</div><div style="font-size:13px;color:var(--color-neutral-400)">{{ fv.act.label }}</div></div>
+<button role="switch" aria-checked="{{ fv.act.on }}" aria-label="Active worker" onClick="{{ fv.act.toggle }}" style="width:51px;height:31px;flex:none;border-radius:16px;cursor:pointer;position:relative;border:none;background:{{ fv.act.bg }}"><span style="position:absolute;top:2px;left:{{ fv.act.x }};width:27px;height:27px;border-radius:50%;background:var(--knob);box-shadow:0 2px 6px rgba(0,0,0,.3);transition:left .3s cubic-bezier(.34,1.56,.64,1)"></span></button>
+</div>
+<div style="font-size:13px;color:var(--color-neutral-400);padding:0 16px">Turning off hides them from attendance. All past attendance and payments are kept.</div>
+</div>
+</sc-if>
+<button class="btn btn-primary" onClick="{{ saveWorker }}" style="min-height:56px;font-size:17px;width:100%;border-radius:14px;background:var(--color-accent-900)"><i class="ph ph-check" style="font-size:20px"></i>{{ fv.saveLabel }}</button>
+</sc-if>
+
+<!-- PROFILE -->
+<sc-if value="{{ isProfile }}" hint-placeholder-val="{{ false }}">
+<div style="display:flex;flex-direction:column;align-items:center;gap:8px;text-align:center;margin-top:-8px">
+<div style="width:88px;height:88px;border-radius:50%;display:grid;place-items:center;font-size:32px;font-weight:500;background:{{ pf.w.avBg }};color:{{ pf.w.avFg }}">{{ pf.w.ini }}</div>
+<div style="display:flex;gap:6px;align-items:center;flex-wrap:wrap;justify-content:center"><span style="font-size:15px;color:var(--color-neutral-300)">{{ pf.w.cat }} · {{ pf.w.wage }}</span><sc-if value="{{ pf.w.inactive }}"><span style="font-size:12px;padding:2px 8px;border-radius:8px;background:var(--color-neutral-800);color:var(--color-neutral-200)">Inactive</span></sc-if></div>
+</div>
+<div style="display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px">
+<sc-for list="{{ pf.actions }}" as="q" hint-placeholder-count="4">
+<button onClick="{{ q.on }}" style="min-height:66px;border-radius:14px;border:none;background:var(--color-surface);background-image:linear-gradient(180deg, var(--glass-sheen), transparent 60%);backdrop-filter:blur(40px) saturate(2);-webkit-backdrop-filter:blur(40px) saturate(2);box-shadow:inset 0 1px 0 var(--glass-hi), inset 0 0 0 1px var(--glass-edge), var(--glass-drop);color:var(--color-accent);cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;font-size:13px" style-active="opacity:.6"><i class="ph-fill {{ q.icon }}" style="font-size:22px"></i>{{ q.label }}</button>
+</sc-for>
+</div>
+<div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));padding:3px;gap:2px;border-radius:12px;background:var(--seg-track)">
+<sc-for list="{{ pf.tabs }}" as="t" hint-placeholder-count="3">
+<button onClick="{{ t.on }}" style="min-height:40px;border:none;border-radius:9px;cursor:pointer;font-size:14px;background:{{ t.bg }};color:{{ t.fg }};box-shadow:{{ t.sh }}">{{ t.label }}</button>
+</sc-for>
+</div>
+
+<sc-if value="{{ pf.tOverview }}">
+<div style="background:var(--color-surface);background-image:linear-gradient(180deg, var(--glass-sheen), transparent 60%);backdrop-filter:blur(40px) saturate(2);-webkit-backdrop-filter:blur(40px) saturate(2);box-shadow:inset 0 1px 0 var(--glass-hi), inset 0 0 0 1px var(--glass-edge), var(--glass-drop);border-radius:16px;overflow:hidden">
+<sc-for list="{{ pf.details }}" as="d" hint-placeholder-count="6">
+<div style="display:flex;gap:12px;padding:0 16px;align-items:center">
+<i class="ph-fill {{ d.icon }}" style="font-size:19px;color:var(--color-accent)"></i>
+<div style="flex:1;min-width:0;padding:12px 0;border-bottom:1px solid var(--color-neutral-800)"><div style="font-size:13px;color:var(--color-neutral-400)">{{ d.k }}</div><div style="font-size:16px">{{ d.v }}</div><sc-if value="{{ d.sub }}"><div style="font-size:13px;color:var(--color-neutral-400);margin-top:2px">{{ d.sub }}</div></sc-if></div>
+</div>
+</sc-for>
+</div>
+</sc-if>
+
+<sc-if value="{{ pf.tAtt }}">
+<div style="display:grid;grid-template-columns:1fr 1fr;padding:3px;gap:2px;border-radius:12px;background:var(--seg-track)">
+<sc-for list="{{ pf.monthChips }}" as="c" hint-placeholder-count="2"><button onClick="{{ c.on }}" style="min-height:38px;border:none;border-radius:9px;cursor:pointer;font-size:14px;background:{{ c.bg }};color:{{ c.fg }};box-shadow:{{ c.sh }}">{{ c.label }}</button></sc-for>
+</div>
+<div style="display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px">
+<sc-for list="{{ pf.mcounts }}" as="k" hint-placeholder-count="4">
+<div style="background:var(--color-surface);background-image:linear-gradient(180deg, var(--glass-sheen), transparent 60%);backdrop-filter:blur(40px) saturate(2);-webkit-backdrop-filter:blur(40px) saturate(2);box-shadow:inset 0 1px 0 var(--glass-hi), inset 0 0 0 1px var(--glass-edge), var(--glass-drop);border-radius:14px;padding:10px 12px;display:flex;flex-direction:column;gap:2px"><span style="font-size:24px;font-weight:500">{{ k.n }}</span><span style="font-size:13px;color:var(--color-neutral-400)">{{ k.label }}</span></div>
+</sc-for>
+</div>
+<div style="background:var(--color-surface);background-image:linear-gradient(180deg, var(--glass-sheen), transparent 60%);backdrop-filter:blur(40px) saturate(2);-webkit-backdrop-filter:blur(40px) saturate(2);box-shadow:inset 0 1px 0 var(--glass-hi), inset 0 0 0 1px var(--glass-edge), var(--glass-drop);border-radius:16px;padding:14px">
+<div style="display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:4px;text-align:center;font-size:12px;color:var(--color-neutral-400);margin-bottom:8px"><span>M</span><span>T</span><span>W</span><span>T</span><span>F</span><span>S</span><span>S</span></div>
+<div style="display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:5px">
+<sc-for list="{{ pf.cal }}" as="c" hint-placeholder-count="31">
+<button onClick="{{ c.on }}" aria-label="{{ c.aria }}" style="aspect-ratio:1;min-height:40px;border-radius:50%;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:0;background:{{ c.bg }};color:{{ c.fg }};border:{{ c.border }};opacity:{{ c.op }}"><span style="font-size:14px;font-weight:500;line-height:1">{{ c.n }}</span><span style="font-size:9px;line-height:1.2">{{ c.lbl }}</span></button>
+</sc-for>
+</div>
+<div style="display:flex;gap:12px;flex-wrap:wrap;margin-top:12px;font-size:13px;color:var(--color-neutral-400)">
+<sc-for list="{{ legend }}" as="k"><span style="display:flex;align-items:center;gap:5px"><i class="ph-fill {{ k.icon }}" style="color:{{ k.dot }}"></i>{{ k.label }}</span></sc-for>
+<span>· Tap a day to edit</span>
+</div>
+</div>
+<div style="display:flex;flex-direction:column;gap:6px">
+<div style="font-size:13px;letter-spacing:.04em;text-transform:uppercase;color:var(--color-neutral-400);padding:0 16px">{{ pf.monthLabel }} earnings</div>
+<div style="background:var(--color-surface);background-image:linear-gradient(180deg, var(--glass-sheen), transparent 60%);backdrop-filter:blur(40px) saturate(2);-webkit-backdrop-filter:blur(40px) saturate(2);box-shadow:inset 0 1px 0 var(--glass-hi), inset 0 0 0 1px var(--glass-edge), var(--glass-drop);border-radius:16px;padding:4px 16px">
+<sc-for list="{{ pf.formula }}" as="f" hint-placeholder-count="2"><div style="display:flex;font-size:16px;padding:11px 0;border-bottom:1px solid var(--color-neutral-800)"><span style="flex:1;color:var(--color-neutral-300)">{{ f.k }}</span><span>{{ f.v }}</span></div></sc-for>
+<div style="display:flex;font-size:19px;font-weight:500;padding:12px 0"><span style="flex:1">Total earned</span><span>{{ pf.monthEarned }}</span></div>
+</div>
+</div>
+</sc-if>
+
+<sc-if value="{{ pf.tHisab }}">
+<div style="background:linear-gradient(160deg, color-mix(in srgb, var(--color-accent-700) 45%, transparent), var(--color-surface) 75%);backdrop-filter:blur(40px) saturate(2);-webkit-backdrop-filter:blur(40px) saturate(2);border-radius:20px;padding:20px;display:flex;flex-direction:column;gap:4px;box-shadow:0 0 0 1px var(--color-accent-800)">
+<div style="font-size:15px;color:var(--color-accent-300)">{{ pf.balLabel }}</div>
+<div style="font-size:40px;font-weight:500;letter-spacing:-0.03em">{{ pf.bal }}</div>
+<div style="font-size:15px;color:var(--color-neutral-300)">{{ pf.balNote }}</div>
+</div>
+<div style="background:var(--color-surface);background-image:linear-gradient(180deg, var(--glass-sheen), transparent 60%);backdrop-filter:blur(40px) saturate(2);-webkit-backdrop-filter:blur(40px) saturate(2);box-shadow:inset 0 1px 0 var(--glass-hi), inset 0 0 0 1px var(--glass-edge), var(--glass-drop);border-radius:16px;padding:4px 16px">
+<sc-for list="{{ pf.sum }}" as="f" hint-placeholder-count="5"><div style="display:flex;padding:11px 0;font-size:16px;border-bottom:1px solid var(--color-neutral-800)"><span style="flex:1;color:var(--color-neutral-300)">{{ f.k }}</span><span style="font-weight:{{ f.wt }}">{{ f.v }}</span></div></sc-for>
+</div>
+<div style="display:flex;flex-direction:column;gap:6px">
+<div style="font-size:13px;letter-spacing:.04em;text-transform:uppercase;color:var(--color-neutral-400);padding:0 16px">Recent transactions</div>
+<div style="background:var(--color-surface);background-image:linear-gradient(180deg, var(--glass-sheen), transparent 60%);backdrop-filter:blur(40px) saturate(2);-webkit-backdrop-filter:blur(40px) saturate(2);box-shadow:inset 0 1px 0 var(--glass-hi), inset 0 0 0 1px var(--glass-edge), var(--glass-drop);border-radius:16px;overflow:hidden">
+<sc-for list="{{ pf.recent }}" as="t" hint-placeholder-count="3">
+<div style="display:flex;align-items:center;gap:12px;padding:0 16px"><span style="width:34px;height:34px;border-radius:10px;display:grid;place-items:center;background:var(--color-accent-900);flex:none"><i class="ph-fill {{ t.icon }}" style="font-size:18px;color:var(--color-accent-300)"></i></span><div style="flex:1;min-width:0;display:flex;align-items:center;gap:8px;padding:11px 0;border-bottom:1px solid var(--color-neutral-800)"><div style="flex:1;min-width:0"><div style="font-size:16px">{{ t.title }}</div><div style="font-size:13px;color:var(--color-neutral-400)">{{ t.sub }}</div></div><div style="font-size:16px;font-weight:500">{{ t.amt }}</div></div></div>
+</sc-for>
+<sc-if value="{{ pf.noTx }}"><div style="font-size:15px;color:var(--color-neutral-400);padding:16px">No payments or advances yet.</div></sc-if>
+</div>
+</div>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+<button class="btn btn-primary" onClick="{{ pf.pay }}" style="min-height:52px;font-size:16px;border-radius:14px;background:var(--color-accent-900)"><i class="ph ph-hand-coins"></i>Pay</button>
+<button class="btn btn-secondary" onClick="{{ pf.adv }}" style="min-height:52px;font-size:16px;border-radius:14px"><i class="ph ph-arrow-circle-up-right"></i>Give Advance</button>
+</div>
+<button class="btn btn-secondary" onClick="{{ pf.ledger }}" style="min-height:52px;font-size:16px;width:100%;border-radius:14px"><i class="ph ph-receipt"></i>View Full Ledger</button>
+</sc-if>
+</sc-if>
+
+<!-- PERIOD PICKER (salary, ledger, reports) -->
+<sc-if value="{{ showPeriod }}" hint-placeholder-val="{{ false }}">
+<div style="display:flex;flex-direction:column;gap:10px;margin-top:-8px">
+<div style="display:grid;grid-template-columns:repeat(4,minmax(0,1fr));padding:3px;gap:2px;border-radius:12px;background:var(--seg-track)">
+<sc-for list="{{ periodChips }}" as="c" hint-placeholder-count="4"><button onClick="{{ c.on }}" style="min-height:40px;border:none;border-radius:9px;cursor:pointer;font-size:14px;background:{{ c.bg }};color:{{ c.fg }};box-shadow:{{ c.sh }}">{{ c.label }}</button></sc-for>
+</div>
+<sc-if value="{{ isCustom }}">
+<div style="background:var(--color-surface);background-image:linear-gradient(180deg, var(--glass-sheen), transparent 60%);backdrop-filter:blur(40px) saturate(2);-webkit-backdrop-filter:blur(40px) saturate(2);box-shadow:inset 0 1px 0 var(--glass-hi), inset 0 0 0 1px var(--glass-edge), var(--glass-drop);border-radius:14px;overflow:hidden">
+<label for="c-from" style="display:flex;align-items:center;padding:0 16px;min-height:52px;border-bottom:1px solid var(--color-neutral-800)"><span style="flex:1">From</span><input id="c-from" type="date" min="2026-09-01" max="2026-10-22" value="{{ cFrom }}" onChange="{{ onCFrom }}" style="border:none;background:var(--color-neutral-800);border-radius:8px;padding:6px 10px;color:var(--color-text);font:inherit;font-size:15px"></label>
+<label for="c-to" style="display:flex;align-items:center;padding:0 16px;min-height:52px"><span style="flex:1">To</span><input id="c-to" type="date" min="2026-09-01" max="2026-10-22" value="{{ cTo }}" onChange="{{ onCTo }}" style="border:none;background:var(--color-neutral-800);border-radius:8px;padding:6px 10px;color:var(--color-text);font:inherit;font-size:15px"></label>
+</div>
+</sc-if>
+</div>
+</sc-if>
+
+<!-- SALARY -->
+<sc-if value="{{ isHisab }}" hint-placeholder-val="{{ false }}">
+<div style="background:linear-gradient(160deg, color-mix(in srgb, var(--color-accent-700) 45%, transparent), var(--color-surface) 75%);backdrop-filter:blur(40px) saturate(2);-webkit-backdrop-filter:blur(40px) saturate(2);border-radius:20px;padding:20px;display:flex;flex-direction:column;gap:2px;box-shadow:0 0 0 1px var(--color-accent-800)">
+<div style="font-size:15px;color:var(--color-accent-300)">{{ hs.closeLabel }}</div>
+<div style="font-size:40px;font-weight:500;letter-spacing:-0.03em">{{ hs.close }}</div>
+<div style="display:flex;flex-direction:column;margin-top:12px">
+<sc-for list="{{ hs.lines }}" as="f" hint-placeholder-count="5"><div style="display:flex;padding:8px 0;font-size:15px;border-top:1px solid color-mix(in srgb, var(--color-text) 8%, transparent)"><span style="flex:1;color:var(--color-neutral-300)">{{ f.k }}</span><span>{{ f.v }}</span></div></sc-for>
+</div>
+</div>
+<div style="display:flex;gap:12px;padding:0 4px;font-size:14px;color:var(--color-neutral-400)"><i class="ph-fill ph-info" style="font-size:18px;flex:none;color:var(--color-accent)"></i><span>An advance is subtracted from the balance on the day it's given — it is never deducted again. A minus balance means the worker still owes the advance.</span></div>
+<div style="display:flex;flex-direction:column;gap:6px">
+<div style="font-size:13px;letter-spacing:.04em;text-transform:uppercase;color:var(--color-neutral-400);padding:0 16px">By worker</div>
+<div style="background:var(--color-surface);background-image:linear-gradient(180deg, var(--glass-sheen), transparent 60%);backdrop-filter:blur(40px) saturate(2);-webkit-backdrop-filter:blur(40px) saturate(2);box-shadow:inset 0 1px 0 var(--glass-hi), inset 0 0 0 1px var(--glass-edge), var(--glass-drop);border-radius:16px;overflow:hidden">
+<sc-for list="{{ hs.rows }}" as="r" hint-placeholder-count="6">
+<button onClick="{{ r.open }}" style="width:100%;text-align:left;border:none;cursor:pointer;color:inherit;background:transparent;padding:0 0 0 16px;display:flex;gap:12px;align-items:center" style-hover="background:var(--color-neutral-900)">
+<div style="width:42px;height:42px;border-radius:50%;display:grid;place-items:center;font-size:14px;font-weight:600;flex:none;background:{{ r.w.avBg }};color:{{ r.w.avFg }}">{{ r.w.ini }}</div>
+<div style="flex:1;min-width:0;display:flex;align-items:center;gap:8px;padding:12px 12px 12px 0;border-bottom:1px solid var(--color-neutral-800)">
+<div style="flex:1;min-width:0"><div style="font-size:16px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ r.w.name }}<span style="font-size:13px;color:var(--color-neutral-400);font-weight:400"> {{ r.w.dup }}</span></div><div style="font-size:13px;color:var(--color-neutral-400)">{{ r.sub }}</div></div>
+<div style="text-align:right;flex:none"><div style="font-size:17px;font-weight:500">{{ r.bal }}</div><div style="font-size:12px;color:{{ r.lfg }}">{{ r.lbl }}</div></div>
+<i class="ph ph-caret-right" style="color:var(--color-neutral-600)"></i>
+</div>
+</button>
+</sc-for>
+</div>
+</div>
+</sc-if>
+
+<!-- LEDGER -->
+<sc-if value="{{ isLedger }}" hint-placeholder-val="{{ false }}">
+<div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px">
+<sc-for list="{{ lg.stats }}" as="k" hint-placeholder-count="3"><div style="background:var(--color-surface);background-image:linear-gradient(180deg, var(--glass-sheen), transparent 60%);backdrop-filter:blur(40px) saturate(2);-webkit-backdrop-filter:blur(40px) saturate(2);box-shadow:inset 0 1px 0 var(--glass-hi), inset 0 0 0 1px var(--glass-edge), var(--glass-drop);border-radius:14px;padding:10px 12px;display:flex;flex-direction:column;gap:2px"><span style="font-size:21px;font-weight:500">{{ k.n }}</span><span style="font-size:13px;color:var(--color-neutral-400)">{{ k.label }}</span></div></sc-for>
+</div>
+<div style="background:var(--color-surface);background-image:linear-gradient(180deg, var(--glass-sheen), transparent 60%);backdrop-filter:blur(40px) saturate(2);-webkit-backdrop-filter:blur(40px) saturate(2);box-shadow:inset 0 1px 0 var(--glass-hi), inset 0 0 0 1px var(--glass-edge), var(--glass-drop);border-radius:16px;overflow:hidden">
+<div style="display:flex;align-items:center;gap:12px;padding:12px 16px;border-bottom:1px solid var(--color-neutral-800)"><span style="width:52px;font-size:13px;color:var(--color-neutral-400)">{{ lg.openDate }}</span><span style="flex:1;font-size:15px">Opening balance</span><span style="font-size:16px;font-weight:500">{{ lg.open }}</span></div>
+<sc-for list="{{ lg.rows }}" as="r" hint-placeholder-count="6">
+<div style="display:flex;gap:12px;padding:12px 16px;border-bottom:1px solid var(--color-neutral-800);align-items:flex-start">
+<span style="width:52px;flex:none;font-size:13px;color:var(--color-neutral-400);padding-top:3px">{{ r.d }}</span>
+<span style="flex:1;min-width:0;display:flex;flex-direction:column;gap:3px"><span style="display:flex;gap:6px;align-items:center;flex-wrap:wrap"><i class="ph-fill {{ r.icon }}" style="color:{{ r.ifg }}"></i><span style="font-size:15px">{{ r.desc }}</span></span><span style="font-size:13px;color:var(--color-neutral-400)">{{ r.sub }}</span></span>
+<span style="text-align:right;display:flex;flex-direction:column;gap:2px;flex:none"><span style="font-size:16px;font-weight:500;color:{{ r.afg }}">{{ r.amt }}</span><span style="font-size:12px;color:var(--color-neutral-400)">{{ r.bal }}</span></span>
+</div>
+</sc-for>
+<sc-if value="{{ lg.empty }}"><div style="padding:16px;font-size:15px;color:var(--color-neutral-400)">No entries in this period.</div></sc-if>
+<div style="display:flex;align-items:center;padding:14px 16px;background:var(--color-neutral-900)"><span style="flex:1;font-size:16px;font-weight:500">{{ lg.closeLabel }}</span><span style="font-size:20px;font-weight:500">{{ lg.close }}</span></div>
+</div>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+<button class="btn btn-primary" onClick="{{ lg.pay }}" style="min-height:52px;font-size:16px;border-radius:14px;background:var(--color-accent-900)"><i class="ph ph-hand-coins"></i>Pay</button>
+<button class="btn btn-secondary" onClick="{{ lg.adv }}" style="min-height:52px;font-size:16px;border-radius:14px"><i class="ph ph-arrow-circle-up-right"></i>Give Advance</button>
+<button class="btn btn-secondary" onClick="{{ lg.extra }}" style="min-height:52px;font-size:16px;border-radius:14px"><i class="ph ph-plus-circle"></i>Extra Earning</button>
+<button class="btn btn-secondary" onClick="{{ lg.att }}" style="min-height:52px;font-size:16px;border-radius:14px"><i class="ph ph-calendar-blank"></i>Attendance</button>
+</div>
+</sc-if>
+
+<!-- TX FORM -->
+<sc-if value="{{ isTx }}" hint-placeholder-val="{{ false }}">
+<div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));padding:3px;gap:2px;border-radius:12px;background:var(--seg-track);margin-top:-8px">
+<sc-for list="{{ tv.types }}" as="t" hint-placeholder-count="3"><button onClick="{{ t.on }}" style="min-height:40px;border:none;border-radius:9px;cursor:pointer;font-size:14px;background:{{ t.bg }};color:{{ t.fg }};box-shadow:{{ t.sh }}">{{ t.label }}</button></sc-for>
+</div>
+<div style="display:flex;flex-direction:column;gap:6px">
+<div style="background:var(--color-surface);background-image:linear-gradient(180deg, var(--glass-sheen), transparent 60%);backdrop-filter:blur(40px) saturate(2);-webkit-backdrop-filter:blur(40px) saturate(2);box-shadow:inset 0 1px 0 var(--glass-hi), inset 0 0 0 1px var(--glass-edge), var(--glass-drop);border-radius:16px;overflow:hidden">
+<label for="t-w" style="display:flex;align-items:center;gap:12px;padding:0 16px;min-height:56px;border-bottom:1px solid var(--color-neutral-800)"><span style="flex:none;font-size:16px">Worker</span><select id="t-w" key="{{ tv.selKey }}" value="{{ tx.wid }}" onChange="{{ th.wid }}" style="flex:1;min-width:0;border:none;background:transparent;color:var(--color-neutral-300);font:inherit;font-size:16px;text-align:right;outline:none"><option value="">Choose…</option><sc-for list="{{ tv.wOpts }}" as="o"><option value="{{ o.id }}" selected="{{ o.sel }}">{{ o.name }}</option></sc-for></select></label>
+<div style="display:flex;align-items:center;gap:12px;padding:0 16px;min-height:52px"><span style="flex:1;font-size:16px;color:var(--color-neutral-400)">Current balance</span><span style="font-size:17px;font-weight:500">{{ tv.bal }}</span><span style="font-size:13px;color:var(--color-neutral-400)">{{ tv.balLbl }}</span></div>
+</div>
+<sc-if value="{{ txErr.wid }}"><div style="font-size:14px;color:var(--color-accent-300);padding:0 16px"><i class="ph-fill ph-warning-circle"></i> {{ txErr.wid }}</div></sc-if>
+</div>
+<div style="display:flex;flex-direction:column;gap:6px">
+<div style="background:var(--color-surface);background-image:linear-gradient(180deg, var(--glass-sheen), transparent 60%);backdrop-filter:blur(40px) saturate(2);-webkit-backdrop-filter:blur(40px) saturate(2);box-shadow:inset 0 1px 0 var(--glass-hi), inset 0 0 0 1px var(--glass-edge), var(--glass-drop);border-radius:16px;padding:18px 16px;display:flex;flex-direction:column;align-items:center;gap:10px">
+<label for="t-amt" style="display:flex;align-items:center;justify-content:center;gap:4px;width:100%"><span style="font-size:40px;color:var(--color-neutral-400)">₹</span><input id="t-amt" inputMode="numeric" placeholder="0" value="{{ tx.amount }}" onChange="{{ th.amount }}" style="width:100%;max-width:240px;border:none;background:transparent;color:var(--color-text);font:inherit;font-size:48px;font-weight:500;letter-spacing:-0.03em;outline:none;text-align:center;caret-color:var(--color-accent)"></label>
+<div style="font-size:14px;color:var(--color-neutral-400)">{{ tv.amtWords }}</div>
+<div style="display:flex;gap:6px;flex-wrap:wrap;justify-content:center"><sc-for list="{{ tv.chips }}" as="c" hint-placeholder-count="4"><button onClick="{{ c.on }}" style="min-height:38px;padding:0 14px;border-radius:19px;border:none;cursor:pointer;font-size:15px;background:var(--color-neutral-800);color:var(--color-text)">{{ c.label }}</button></sc-for></div>
+</div>
+<sc-if value="{{ txErr.amount }}"><div style="font-size:14px;color:var(--color-accent-300);padding:0 16px"><i class="ph-fill ph-warning-circle"></i> {{ txErr.amount }}</div></sc-if>
+<sc-if value="{{ tv.warn }}"><div style="font-size:14px;color:var(--color-accent-200);display:flex;gap:8px;padding:12px 14px;border-radius:14px;background:var(--color-accent-900)"><i class="ph-fill ph-warning" style="flex:none;font-size:17px"></i>{{ tv.warn }}</div></sc-if>
+</div>
+<sc-if value="{{ tv.showMethod }}">
+<div style="display:flex;flex-direction:column;gap:6px">
+<div style="font-size:13px;letter-spacing:.04em;text-transform:uppercase;color:var(--color-neutral-400);padding:0 16px">Paid by</div>
+<div style="display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px">
+<sc-for list="{{ tv.methods }}" as="m" hint-placeholder-count="4"><button onClick="{{ m.on }}" style="min-height:66px;border-radius:14px;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;font-size:13px;border:none;background:{{ m.bg }};color:{{ m.fg }};box-shadow:{{ m.sh }}"><i class="ph-fill {{ m.icon }}" style="font-size:22px"></i>{{ m.label }}</button></sc-for>
+</div>
+</div>
+</sc-if>
+<div style="display:flex;flex-direction:column;gap:6px">
+<div style="background:var(--color-surface);background-image:linear-gradient(180deg, var(--glass-sheen), transparent 60%);backdrop-filter:blur(40px) saturate(2);-webkit-backdrop-filter:blur(40px) saturate(2);box-shadow:inset 0 1px 0 var(--glass-hi), inset 0 0 0 1px var(--glass-edge), var(--glass-drop);border-radius:16px;overflow:hidden">
+<label for="t-date" style="display:flex;align-items:center;gap:12px;padding:0 16px;min-height:56px;border-bottom:1px solid var(--color-neutral-800)"><span style="flex:1;font-size:16px">Date</span><input id="t-date" type="date" min="2026-09-01" max="2026-10-22" value="{{ tx.date }}" onChange="{{ th.date }}" style="border:none;background:var(--color-neutral-800);border-radius:8px;padding:6px 10px;color:var(--color-text);font:inherit;font-size:15px"></label>
+<label for="t-note" style="display:flex;align-items:center;gap:12px;padding:0 16px;min-height:56px"><span style="flex:none;font-size:16px">Note</span><input id="t-note" placeholder="{{ tv.notePh }}" value="{{ tx.note }}" onChange="{{ th.note }}" style="flex:1;min-width:0;border:none;background:transparent;color:var(--color-text);font:inherit;font-size:16px;outline:none;text-align:right"></label>
+</div>
+<sc-if value="{{ txErr.date }}"><div style="font-size:14px;color:var(--color-accent-300);padding:0 16px"><i class="ph-fill ph-warning-circle"></i> {{ txErr.date }}</div></sc-if>
+</div>
+<sc-if value="{{ tv.hasPreview }}">
+<div style="display:flex;align-items:center;padding:0 4px;font-size:16px"><span style="flex:1;color:var(--color-neutral-300)">Balance after saving</span><b style="font-weight:600;font-size:18px">{{ tv.newBal }}</b></div>
+</sc-if>
+<button class="btn btn-primary" onClick="{{ submitTx }}" style="min-height:56px;font-size:17px;width:100%;border-radius:14px;background:var(--color-accent-900)"><i class="ph ph-check" style="font-size:20px"></i>{{ tv.cta }}</button>
+</sc-if>
+
+<!-- SITES -->
+<sc-if value="{{ isSites }}" hint-placeholder-val="{{ false }}">
+<sc-for list="{{ sv.list }}" as="s" hint-placeholder-count="3">
+<div style="background:var(--color-surface);background-image:linear-gradient(180deg, var(--glass-sheen), transparent 60%);backdrop-filter:blur(40px) saturate(2);-webkit-backdrop-filter:blur(40px) saturate(2);box-shadow:inset 0 1px 0 var(--glass-hi), inset 0 0 0 1px var(--glass-edge), var(--glass-drop);border-radius:18px;padding:16px;display:flex;flex-direction:column;gap:12px;opacity:{{ s.op }}">
+<div style="display:flex;gap:12px;align-items:flex-start">
+<div style="width:44px;height:44px;border-radius:12px;background:var(--color-accent-900);display:grid;place-items:center;color:var(--color-accent-300);flex:none"><i class="ph-fill ph-buildings" style="font-size:23px"></i></div>
+<div style="flex:1;min-width:0"><div style="font-size:18px;font-weight:500">{{ s.name }}</div><div style="font-size:14px;color:var(--color-neutral-400)">{{ s.meta }}</div></div>
+<span style="font-size:12px;padding:3px 9px;border-radius:9px;background:{{ s.tagBg }};color:{{ s.tagFg }}">{{ s.status }}</span>
+</div>
+<div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px">
+<sc-for list="{{ s.stats }}" as="k" hint-placeholder-count="3"><div style="padding:10px;border-radius:12px;background:var(--color-bg)"><div style="font-size:18px;font-weight:500">{{ k.n }}</div><div style="font-size:12px;color:var(--color-neutral-400)">{{ k.label }}</div></div></sc-for>
+</div>
+<sc-if value="{{ s.names }}"><div style="font-size:14px;color:var(--color-neutral-300)">{{ s.names }}</div></sc-if>
+<div style="display:flex;gap:8px;flex-wrap:wrap">
+<sc-if value="{{ s.active }}"><button class="btn btn-primary" onClick="{{ s.att }}" style="min-height:44px;border-radius:12px"><i class="ph ph-calendar-check"></i>Attendance</button></sc-if>
+<button class="btn btn-secondary" onClick="{{ s.toggle }}" style="min-height:44px;border-radius:12px">{{ s.toggleLabel }}</button>
+</div>
+</div>
+</sc-for>
+<button class="btn btn-primary" onClick="{{ openSiteForm }}" style="min-height:54px;font-size:17px;width:100%;border-radius:14px;background:var(--color-accent-900)"><i class="ph ph-plus" style="font-size:18px"></i>Add Site</button>
+</sc-if>
+
+<!-- REPORTS -->
+<sc-if value="{{ isReports }}" hint-placeholder-val="{{ false }}">
+<div style="background:var(--color-surface);background-image:linear-gradient(180deg, var(--glass-sheen), transparent 60%);backdrop-filter:blur(40px) saturate(2);-webkit-backdrop-filter:blur(40px) saturate(2);box-shadow:inset 0 1px 0 var(--glass-hi), inset 0 0 0 1px var(--glass-edge), var(--glass-drop);border-radius:16px;overflow:hidden">
+<sc-for list="{{ rv.list }}" as="r" hint-placeholder-count="6">
+<button onClick="{{ r.on }}" style="width:100%;text-align:left;border:none;cursor:pointer;color:inherit;background:transparent;padding:0 0 0 16px;display:flex;gap:14px;align-items:center" style-hover="background:var(--color-neutral-900)">
+<span style="width:36px;height:36px;border-radius:10px;display:grid;place-items:center;background:var(--color-accent-900);flex:none"><i class="ph-fill {{ r.icon }}" style="font-size:19px;color:var(--color-accent-300)"></i></span>
+<div style="flex:1;min-width:0;display:flex;align-items:center;gap:8px;padding:13px 14px 13px 0;border-bottom:1px solid var(--color-neutral-800)"><div style="flex:1"><div style="font-size:16px">{{ r.title }}</div><div style="font-size:13px;color:var(--color-neutral-400)">{{ r.sub }}</div></div><i class="ph ph-caret-right" style="color:var(--color-neutral-600)"></i></div>
+</button>
+</sc-for>
+</div>
+</sc-if>
+
+<sc-if value="{{ isReport }}" hint-placeholder-val="{{ false }}">
+<sc-if value="{{ rp.usesDate }}">
+<div style="background:var(--color-surface);background-image:linear-gradient(180deg, var(--glass-sheen), transparent 60%);backdrop-filter:blur(40px) saturate(2);-webkit-backdrop-filter:blur(40px) saturate(2);box-shadow:inset 0 1px 0 var(--glass-hi), inset 0 0 0 1px var(--glass-edge), var(--glass-drop);border-radius:14px;margin-top:-8px"><label for="r-date" style="display:flex;align-items:center;padding:0 16px;min-height:52px"><span style="flex:1">Date</span><input id="r-date" type="date" min="2026-09-01" max="2026-10-22" value="{{ rDate }}" onChange="{{ onRDate }}" style="border:none;background:var(--color-neutral-800);border-radius:8px;padding:6px 10px;color:var(--color-text);font:inherit;font-size:15px"></label></div>
+</sc-if>
+<div style="background:var(--color-surface);background-image:linear-gradient(180deg, var(--glass-sheen), transparent 60%);backdrop-filter:blur(40px) saturate(2);-webkit-backdrop-filter:blur(40px) saturate(2);box-shadow:inset 0 1px 0 var(--glass-hi), inset 0 0 0 1px var(--glass-edge), var(--glass-drop);border-radius:16px;padding:10px;overflow-x:auto">
+<table class="table" style="font-size:14px;min-width:100%">
+<thead><tr><sc-for list="{{ rp.cols }}" as="c"><th style="text-align:{{ c.al }};white-space:nowrap">{{ c.v }}</th></sc-for></tr></thead>
+<tbody><sc-for list="{{ rp.rows }}" as="r" hint-placeholder-count="6"><tr><sc-for list="{{ r }}" as="c"><td style="text-align:{{ c.al }};white-space:nowrap">{{ c.v }}</td></sc-for></tr></sc-for></tbody>
+</table>
+<sc-if value="{{ rp.empty }}"><div style="padding:16px 6px;font-size:15px;color:var(--color-neutral-400)">Nothing to show for this period.</div></sc-if>
+<sc-if value="{{ rp.total }}"><div style="display:flex;padding:12px 8px 4px;font-size:17px;font-weight:500"><span style="flex:1">{{ rp.total.k }}</span><span>{{ rp.total.v }}</span></div></sc-if>
+</div>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+<button class="btn btn-primary" onClick="{{ rp.csv }}" style="min-height:52px;font-size:16px;border-radius:14px;background:var(--color-accent-900)"><i class="ph ph-download-simple"></i>Download CSV</button>
+<button class="btn btn-secondary" onClick="{{ rp.share }}" style="min-height:52px;font-size:16px;border-radius:14px"><i class="ph ph-share-network"></i>Share PDF</button>
+</div>
+</sc-if>
+
+<!-- MORE -->
+<sc-if value="{{ isMore }}" hint-placeholder-val="{{ false }}">
+<div style="display:flex;gap:14px;align-items:center;padding:16px;border-radius:18px;background:var(--color-surface)">
+<div style="width:56px;height:56px;border-radius:50%;background:var(--color-accent-800);display:grid;place-items:center;color:var(--color-accent-100);font-size:20px;font-weight:500">{{ me.ini }}</div>
+<div style="flex:1"><div style="font-size:18px;font-weight:500">{{ me.biz }}</div><div style="font-size:14px;color:var(--color-neutral-400)">{{ me.line }}</div></div>
+</div>
+<sc-for list="{{ moreList }}" as="g" hint-placeholder-count="3">
+<div style="background:var(--color-surface);background-image:linear-gradient(180deg, var(--glass-sheen), transparent 60%);backdrop-filter:blur(40px) saturate(2);-webkit-backdrop-filter:blur(40px) saturate(2);box-shadow:inset 0 1px 0 var(--glass-hi), inset 0 0 0 1px var(--glass-edge), var(--glass-drop);border-radius:16px;overflow:hidden">
+<sc-for list="{{ g.items }}" as="i"><button onClick="{{ i.on }}" style="width:100%;text-align:left;border:none;cursor:pointer;color:inherit;background:transparent;padding:0 0 0 16px;display:flex;align-items:center;gap:14px;font-size:16px" style-hover="background:var(--color-neutral-900)"><span style="width:32px;height:32px;border-radius:9px;display:grid;place-items:center;flex:none;background:{{ i.bg }}"><i class="ph-fill {{ i.icon }}" style="font-size:18px;color:{{ i.fg }}"></i></span><span style="flex:1;display:flex;align-items:center;gap:8px;min-height:54px;padding-right:14px;border-bottom:1px solid var(--color-neutral-800)"><span style="flex:1">{{ i.label }}</span><span style="font-size:15px;color:var(--color-neutral-400)">{{ i.val }}</span><i class="ph ph-caret-right" style="color:var(--color-neutral-600)"></i></span></button></sc-for>
+</div>
+</sc-for>
+</sc-if>
+
+<!-- SETTINGS -->
+<sc-if value="{{ isSettings }}" hint-placeholder-val="{{ false }}">
+<div style="display:flex;flex-direction:column;gap:6px">
+<div style="font-size:13px;letter-spacing:.04em;text-transform:uppercase;color:var(--color-neutral-400);padding:0 16px">Wage calculation</div>
+<div style="background:var(--color-surface);background-image:linear-gradient(180deg, var(--glass-sheen), transparent 60%);backdrop-filter:blur(40px) saturate(2);-webkit-backdrop-filter:blur(40px) saturate(2);box-shadow:inset 0 1px 0 var(--glass-hi), inset 0 0 0 1px var(--glass-edge), var(--glass-drop);border-radius:16px;padding:0 16px">
+<sc-for list="{{ setv.rules }}" as="f"><div style="display:flex;min-height:50px;align-items:center;font-size:16px;border-bottom:1px solid var(--color-neutral-800)"><span style="flex:1">{{ f.k }}</span><span style="color:var(--color-neutral-400)">{{ f.v }}</span></div></sc-for>
+</div>
+<div style="font-size:13px;color:var(--color-neutral-400);padding:0 16px">Each attendance entry saves that day's wage, so changing a wage never changes old salary.</div>
+</div>
+<div style="display:flex;flex-direction:column;gap:6px">
+<div style="font-size:13px;letter-spacing:.04em;text-transform:uppercase;color:var(--color-neutral-400);padding:0 16px">Attendance</div>
+<div style="background:var(--color-surface);background-image:linear-gradient(180deg, var(--glass-sheen), transparent 60%);backdrop-filter:blur(40px) saturate(2);-webkit-backdrop-filter:blur(40px) saturate(2);box-shadow:inset 0 1px 0 var(--glass-hi), inset 0 0 0 1px var(--glass-edge), var(--glass-drop);border-radius:16px;padding:0 16px">
+<sc-for list="{{ setv.toggles }}" as="t"><div style="display:flex;align-items:center;gap:12px;min-height:60px;border-bottom:1px solid var(--color-neutral-800)"><div style="flex:1"><div style="font-size:16px">{{ t.label }}</div><div style="font-size:13px;color:var(--color-neutral-400)">{{ t.sub }}</div></div><button role="switch" aria-checked="{{ t.on }}" aria-label="{{ t.label }}" onClick="{{ t.toggle }}" style="width:51px;height:31px;flex:none;border-radius:16px;cursor:pointer;position:relative;border:none;background:{{ t.bg }}"><span style="position:absolute;top:2px;left:{{ t.x }};width:27px;height:27px;border-radius:50%;background:var(--knob);box-shadow:0 2px 6px rgba(0,0,0,.3);transition:left .3s cubic-bezier(.34,1.56,.64,1)"></span></button></div></sc-for>
+</div>
+</div>
+<div style="display:flex;flex-direction:column;gap:6px">
+<div style="font-size:13px;letter-spacing:.04em;text-transform:uppercase;color:var(--color-neutral-400);padding:0 16px">Appearance</div>
+<div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));padding:3px;gap:2px;border-radius:12px;background:var(--seg-track)">
+<sc-for list="{{ setv.themes }}" as="c"><button onClick="{{ c.on }}" style="min-height:40px;border:none;border-radius:9px;cursor:pointer;font-size:15px;background:{{ c.bg }};color:{{ c.fg }};box-shadow:{{ c.sh }}">{{ c.label }}</button></sc-for>
+</div>
+</div>
+<div style="display:flex;flex-direction:column;gap:6px">
+<div style="font-size:13px;letter-spacing:.04em;text-transform:uppercase;color:var(--color-neutral-400);padding:0 16px">Language</div>
+<div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));padding:3px;gap:2px;border-radius:12px;background:var(--seg-track)">
+<sc-for list="{{ setv.langs }}" as="c"><button onClick="{{ c.on }}" style="min-height:40px;border:none;border-radius:9px;cursor:pointer;font-size:15px;background:{{ c.bg }};color:{{ c.fg }};box-shadow:{{ c.sh }}">{{ c.label }}</button></sc-for>
+</div>
+</div>
+<div style="display:flex;flex-direction:column;gap:6px">
+<div style="font-size:13px;letter-spacing:.04em;text-transform:uppercase;color:var(--color-neutral-400);padding:0 16px">Business profile</div>
+<div style="background:var(--color-surface);background-image:linear-gradient(180deg, var(--glass-sheen), transparent 60%);backdrop-filter:blur(40px) saturate(2);-webkit-backdrop-filter:blur(40px) saturate(2);box-shadow:inset 0 1px 0 var(--glass-hi), inset 0 0 0 1px var(--glass-edge), var(--glass-drop);border-radius:16px;padding:0 16px">
+<sc-for list="{{ setv.biz }}" as="f"><div style="display:flex;min-height:50px;align-items:center;font-size:16px;border-bottom:1px solid var(--color-neutral-800)"><span style="flex:1">{{ f.k }}</span><span style="color:var(--color-neutral-400)">{{ f.v }}</span></div></sc-for>
+</div>
+</div>
+<div style="display:flex;flex-direction:column;gap:6px">
+<div style="font-size:13px;letter-spacing:.04em;text-transform:uppercase;color:var(--color-neutral-400);padding:0 16px">Backup</div>
+<div style="background:var(--color-surface);background-image:linear-gradient(180deg, var(--glass-sheen), transparent 60%);backdrop-filter:blur(40px) saturate(2);-webkit-backdrop-filter:blur(40px) saturate(2);box-shadow:inset 0 1px 0 var(--glass-hi), inset 0 0 0 1px var(--glass-edge), var(--glass-drop);border-radius:16px;padding:16px;display:flex;flex-direction:column;gap:12px">
+<div style="font-size:15px;color:var(--color-neutral-300)">Last backup: 20 Oct 2026, 9:15 pm · Google Drive</div>
+<button class="btn btn-primary" onClick="{{ backupAll }}" style="min-height:50px;font-size:16px;border-radius:12px"><i class="ph ph-cloud-arrow-up"></i>Back up &amp; export now</button>
+</div>
+</div>
+<button onClick="{{ logout }}" style="min-height:54px;font-size:17px;width:100%;border-radius:14px;border:none;background:var(--color-surface);background-image:linear-gradient(180deg, var(--glass-sheen), transparent 60%);backdrop-filter:blur(40px) saturate(2);-webkit-backdrop-filter:blur(40px) saturate(2);box-shadow:inset 0 1px 0 var(--glass-hi), inset 0 0 0 1px var(--glass-edge), var(--glass-drop);color:var(--color-accent-300);cursor:pointer">Log out</button>
+</sc-if>
+
+</main>
+
+<div style="position:sticky;bottom:0;z-index:6">
+<sc-if value="{{ att.showSave }}" hint-placeholder-val="{{ false }}">
+<div style="padding:0 12px 10px">
+<div style="display:flex;align-items:center;gap:10px;padding:10px 10px 10px 16px;border-radius:18px;background:var(--color-surface);background-image:linear-gradient(180deg, var(--glass-sheen), transparent 60%);backdrop-filter:blur(40px) saturate(2);-webkit-backdrop-filter:blur(40px) saturate(2);box-shadow:inset 0 1px 0 var(--glass-hi), inset 0 0 0 1px var(--glass-edge), var(--glass-drop);box-shadow:var(--shadow-lg)">
+<div style="flex:1;min-width:0"><div style="font-size:16px;font-weight:500">{{ att.draftN }} unsaved changes</div><div style="font-size:13px;color:var(--color-neutral-400);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ att.dateLabel }}</div></div>
+<button onClick="{{ att.discard }}" style="min-height:46px;padding:0 12px;border:none;background:transparent;color:var(--color-neutral-300);cursor:pointer;font-size:16px">Cancel</button>
+<button class="btn btn-primary" onClick="{{ att.save }}" style="min-height:46px;font-size:17px;padding:0 22px;border-radius:12px;background:var(--color-accent-800);color:var(--color-accent-100)">Save</button>
+</div>
+</div>
+</sc-if>
+<sc-if value="{{ narrow }}" hint-placeholder-val="{{ true }}">
+<div style="padding:0 18px 16px;pointer-events:none">
+<nav style="pointer-events:auto;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));align-items:center;height:64px;padding:0 8px;border-radius:32px;background:var(--color-surface);background-image:linear-gradient(180deg, var(--glass-sheen), transparent 60%);backdrop-filter:blur(40px) saturate(2);-webkit-backdrop-filter:blur(40px) saturate(2);box-shadow:inset 0 1px 0 var(--glass-hi), inset 0 0 0 1px var(--glass-edge), 0 12px 36px rgba(0,0,0,.28)">
+<sc-for list="{{ bottomNav }}" as="n" hint-placeholder-count="5">
+<button onClick="{{ n.on }}" aria-current="{{ n.cur }}" aria-label="{{ n.label }}" style="height:52px;border:none;background:transparent;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;color:{{ n.fg }}">
+<span style="width:50px;height:36px;border-radius:18px;display:grid;place-items:center;background:{{ n.pill }};transition:background-color .3s ease"><i class="{{ n.icon }}" style="font-size:26px;animation:{{ n.anim }}"></i></span>
+<span style="width:4px;height:4px;border-radius:50%;background:{{ n.dot }}"></span>
+</button>
+</sc-for>
+</nav>
+</div>
+</sc-if>
+</div>
+</div>
+
+<sc-if value="{{ dialog }}" hint-placeholder-val="{{ false }}">
+<div onClick="{{ closeDialog }}" style="position:fixed;inset:0;z-index:50;display:flex;justify-content:center;align-items:{{ sheetAlign }};padding:{{ sheetPad }};background:var(--scrim);backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);animation:kh-fade .25s ease">
+<div role="dialog" aria-modal="true" onClick="{{ stop }}" style="animation:kh-up .45s cubic-bezier(.2,.9,.25,1);width:100%;max-width:460px;display:flex;flex-direction:column;gap:14px;padding:10px 20px 24px;border-radius:{{ sheetRadius }};background:var(--color-surface);background-image:linear-gradient(180deg, var(--glass-sheen), transparent 60%);backdrop-filter:blur(40px) saturate(2);-webkit-backdrop-filter:blur(40px) saturate(2);box-shadow:inset 0 1px 0 var(--glass-hi), inset 0 0 0 1px var(--glass-edge), var(--glass-drop);box-shadow:var(--shadow-lg)">
+<div style="width:40px;height:5px;border-radius:3px;background:var(--color-neutral-700);align-self:center"></div>
+<div style="display:flex;flex-direction:column;align-items:center;gap:8px;text-align:center;padding-top:4px">
+<span style="width:52px;height:52px;border-radius:50%;display:grid;place-items:center;background:var(--color-accent-900)"><i class="ph-fill {{ dialog.icon }}" style="color:var(--color-accent-300);font-size:26px"></i></span>
+<div style="font-size:20px;font-weight:500">{{ dialog.title }}</div>
+<div style="font-size:16px;line-height:1.45;color:var(--color-neutral-300)">{{ dialog.body }}</div>
+</div>
+<sc-if value="{{ dialog.lines }}"><div style="display:flex;flex-direction:column;border-radius:14px;background:var(--color-bg);padding:2px 14px"><sc-for list="{{ dialog.lines }}" as="f"><div style="display:flex;padding:10px 0;font-size:16px;border-bottom:1px solid var(--color-neutral-800)"><span style="flex:1;color:var(--color-neutral-400)">{{ f.k }}</span><span style="font-weight:500">{{ f.v }}</span></div></sc-for></div></sc-if>
+<div style="display:flex;flex-direction:column;gap:8px">
+<button onClick="{{ okDialog }}" style="min-height:54px;border-radius:14px;border:1px solid var(--color-accent);background:var(--color-accent-800);color:var(--color-accent-100);font-size:17px;font-weight:500;cursor:pointer">{{ dialog.ok }}</button>
+<button onClick="{{ closeDialog }}" style="min-height:50px;border-radius:14px;border:none;background:transparent;color:var(--color-accent-300);font-size:17px;cursor:pointer">{{ dialog.cancel }}</button>
+</div>
+</div>
+</div>
+</sc-if>
+
+<sc-if value="{{ siteForm }}" hint-placeholder-val="{{ false }}">
+<div style="position:fixed;inset:0;z-index:50;display:flex;justify-content:center;align-items:{{ sheetAlign }};padding:{{ sheetPad }};background:var(--scrim);backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);animation:kh-fade .25s ease">
+<div role="dialog" aria-modal="true" style="animation:kh-up .45s cubic-bezier(.2,.9,.25,1);width:100%;max-width:460px;display:flex;flex-direction:column;gap:14px;padding:10px 16px 24px;border-radius:{{ sheetRadius }};background:var(--color-bg);box-shadow:var(--shadow-lg)">
+<div style="width:40px;height:5px;border-radius:3px;background:var(--color-neutral-700);align-self:center"></div>
+<div style="display:flex;align-items:center"><button onClick="{{ closeSiteForm }}" style="border:none;background:transparent;color:var(--color-accent);font-size:17px;cursor:pointer;min-height:44px">Cancel</button><div style="flex:1;text-align:center;font-size:17px;font-weight:500">New Site</div><button onClick="{{ saveSite }}" style="border:none;background:transparent;color:var(--color-accent);font-size:17px;font-weight:500;cursor:pointer;min-height:44px">Add</button></div>
+<div style="background:var(--color-surface);background-image:linear-gradient(180deg, var(--glass-sheen), transparent 60%);backdrop-filter:blur(40px) saturate(2);-webkit-backdrop-filter:blur(40px) saturate(2);box-shadow:inset 0 1px 0 var(--glass-hi), inset 0 0 0 1px var(--glass-edge), var(--glass-drop);border-radius:14px;overflow:hidden">
+<input aria-label="Site name" placeholder="Site name (required)" value="{{ siteForm.name }}" onChange="{{ sh.name }}" style="width:100%;min-height:52px;padding:0 16px;border:none;border-bottom:1px solid var(--color-neutral-800);background:transparent;color:var(--color-text);font:inherit;font-size:17px;outline:none">
+<input aria-label="Client name" placeholder="Client name (optional)" value="{{ siteForm.client }}" onChange="{{ sh.client }}" style="width:100%;min-height:52px;padding:0 16px;border:none;border-bottom:1px solid var(--color-neutral-800);background:transparent;color:var(--color-text);font:inherit;font-size:17px;outline:none">
+<input aria-label="Address" placeholder="Address (optional)" value="{{ siteForm.address }}" onChange="{{ sh.address }}" style="width:100%;min-height:52px;padding:0 16px;border:none;border-bottom:1px solid var(--color-neutral-800);background:transparent;color:var(--color-text);font:inherit;font-size:17px;outline:none">
+<label style="display:flex;align-items:center;padding:0 16px;min-height:52px"><span style="flex:1;font-size:17px">Start date</span><input type="date" value="{{ siteForm.start }}" onChange="{{ sh.start }}" style="border:none;background:var(--color-neutral-800);border-radius:8px;padding:6px 10px;color:var(--color-text);font:inherit;font-size:15px"></label>
+</div>
+<sc-if value="{{ siteErr }}"><div style="font-size:14px;color:var(--color-accent-300);padding:0 8px">{{ siteErr }}</div></sc-if>
+</div>
+</div>
+</sc-if>
+
+<sc-if value="{{ toast }}" hint-placeholder-val="{{ false }}">
+<div role="status" style="animation:kh-drop .55s cubic-bezier(.34,1.4,.64,1);position:fixed;left:50%;transform:translateX(-50%);top:14px;z-index:60;width:min(440px,calc(100% - 24px));display:flex;align-items:center;gap:12px;padding:12px 14px;border-radius:18px;background:color-mix(in srgb, var(--color-surface) 92%, transparent);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);box-shadow:var(--shadow-lg)">
+<i class="ph-fill {{ toast.icon }}" style="font-size:24px;color:{{ toast.fg }}"></i>
+<div style="flex:1;font-size:15px">{{ toast.text }}</div>
+<sc-if value="{{ toast.action }}"><button onClick="{{ toast.action.on }}" style="min-height:40px;padding:0 14px;border-radius:10px;border:none;background:var(--color-accent-800);color:var(--color-accent-100);font-size:15px;cursor:pointer">{{ toast.action.label }}</button></sc-if>
+</div>
+</sc-if>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;theme&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;light&quot;,&quot;dark&quot;,&quot;auto&quot;],&quot;default&quot;:&quot;light&quot;,&quot;tsType&quot;:&quot;'light'|'dark'|'auto'&quot;,&quot;section&quot;:&quot;Appearance&quot;},&quot;startLoggedIn&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:false,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Prototype&quot;},&quot;layout&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;auto&quot;,&quot;phone&quot;,&quot;desktop&quot;],&quot;default&quot;:&quot;auto&quot;,&quot;tsType&quot;:&quot;'auto'|'phone'|'desktop'&quot;,&quot;section&quot;:&quot;Prototype&quot;},&quot;simulateFailure&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:false,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Prototype&quot;}}">
+const TODAY='2026-10-22', START='2026-09-01';
+const s2d=s=>new Date(s+'T00:00:00Z');
+const d2s=d=>d.toISOString().slice(0,10);
+const addDays=(s,n)=>{const d=s2d(s);d.setUTCDate(d.getUTCDate()+n);return d2s(d)};
+const dow=s=>s2d(s).getUTCDay();
+const MON=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+const DAY=['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+const DSH=['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+const fd=s=>{const d=s2d(s);return d.getUTCDate()+' '+MON[d.getUTCMonth()]};
+const fdy=s=>fd(s)+' '+s2d(s).getUTCFullYear();
+const inr=n=>(n<0?'−':'')+'₹'+Math.round(Math.abs(n)).toLocaleString('en-IN');
+const ini=n=>n.trim().split(/\s+/).slice(0,2).map(x=>x[0]||'').join('').toUpperCase();
+const mobFmt=m=>m.length===10?m.slice(0,5)+' '+m.slice(5):m;
+const CAT={karigar:'Mason',majdoor:'Labourer'};
+const ST={
+ P:{short:'P',label:'Present',ic:'check-circle',bg:'var(--color-accent-700)',fg:'var(--color-accent-100)',dot:'var(--color-accent-400)'},
+ H:{short:'½',label:'Half Day',ic:'circle-half',bg:'var(--color-accent-900)',fg:'var(--color-accent-200)',dot:'var(--color-accent-600)'},
+ A:{short:'A',label:'Absent',ic:'x-circle',bg:'var(--color-neutral-700)',fg:'var(--color-neutral-100)',dot:'var(--color-neutral-400)'},
+ O:{short:'O',label:'Off',ic:'moon',bg:'var(--color-neutral-800)',fg:'var(--color-neutral-300)',dot:'var(--color-neutral-600)'},
+ N:{short:'',label:'Not marked',ic:'circle-dashed',bg:'transparent',fg:'var(--color-neutral-400)',dot:'var(--color-neutral-600)'}
+};
+const seg=on=>on?{bg:'var(--seg-on)',fg:'var(--color-text)',sh:'0 2px 8px rgba(0,0,0,.35)'}:{bg:'transparent',fg:'var(--color-neutral-400)',sh:'none'};
+const pill=on=>on?{bg:'var(--color-accent-800)',fg:'var(--color-accent-100)'}:{bg:'var(--color-surface)',fg:'var(--color-neutral-300)'};
+const sw=on=>({on,bg:on?'var(--color-accent-500)':'var(--color-neutral-700)',x:on?'22px':'2px'});
+function rateOn(w,d){let r=w.wh[0].rate;w.wh.forEach(x=>{if(x.from<=d)r=x.rate});return r}
+function pay(s,rate){return s==='P'?rate:s==='H'?rate*0.5:0}
+function stats(att,wid,from,to){const o={full:0,half:0,abs:0,off:0,earned:0,groups:{}};if(to>TODAY)to=TODAY;for(let d=from;d<=to;d=addDays(d,1)){const r=att[d]&&att[d][wid];if(!r)continue;if(r.s==='P')o.full++;else if(r.s==='H')o.half++;else if(r.s==='A')o.abs++;else o.off++;o.earned+=pay(r.s,r.rate);if(r.s==='P'||r.s==='H'){const g=o.groups[r.rate]||(o.groups[r.rate]={f:0,h:0});if(r.s==='P')g.f++;else g.h++;}}return o}
+function txSum(tx,wid,type,from,to){return tx.filter(t=>t.wid===wid&&t.type===type&&t.date>=from&&t.date<=to).reduce((a,t)=>a+t.amount,0)}
+function balance(att,tx,wid,upto){upto=upto||TODAY;if(upto<START)return 0;return stats(att,wid,START,upto).earned+txSum(tx,wid,'extra',START,upto)-txSum(tx,wid,'payment',START,upto)-txSum(tx,wid,'advance',START,upto)}
+function seedData(){
+ const sites=[
+  {id:'s1',name:'Sharma Residency',area:'Baner, Pune',client:'Rajesh Sharma',address:'Plot 14, Baner Road',start:'2026-08-18',status:'active'},
+  {id:'s2',name:'Patil Bungalow',area:'Kothrud, Pune',client:'Dr. Sunita Patil',address:'Lane 7, Karve Nagar',start:'2026-09-01',status:'active'},
+  {id:'s3',name:'Om Sai Complex',area:'Wakad, Pune',client:'Om Sai Builders',address:'Survey No. 112, Wakad',start:'2026-04-02',status:'completed'}];
+ const W0=[
+  ['w1','Ramesh Kumar Yadav','9822041736','karigar',[['2022-03-01',950]],'s1','2022-03-01','Head mason. Skilled in Italian marble.'],
+  ['w2','Suresh Patil','9765318204','karigar',[['2023-06-12',900]],'s1','2023-06-12',''],
+  ['w3','Mohammed Irfan Shaikh','8806127459','karigar',[['2021-11-08',1000]],'s2','2021-11-08','Wall cladding specialist'],
+  ['w4','Anil Gaikwad','9049271635','karigar',[['2024-01-15',850],['2026-10-01',900]],'s2','2024-01-15',''],
+  ['w5','Raju Pawar','7387450921','majdoor',[['2024-05-02',600]],'s1','2024-05-02',''],
+  ['w6','Santosh Jadhav','9158836027','majdoor',[['2023-09-20',650]],'s2','2023-09-20',''],
+  ['w7','Vikas Kumar','8459102378','majdoor',[['2025-02-10',600]],'s1','2025-02-10','From Gaya, Bihar'],
+  ['w8','Vikas Kamble','9370615842','majdoor',[['2025-07-01',620]],'s2','2025-07-01','Lives in Kothrud'],
+  ['w9','Ganesh More','7620983415','majdoor',[['2026-10-12',600]],'s1','2026-10-12','New — joined 12 Oct'],
+  ['w10','Babu Lal Verma','9921347608','majdoor',[['2023-02-01',580]],'s1','2023-02-01','Went back to his village']];
+ const workers=W0.map(([id,name,mobile,cat,wh,site,joined,notes])=>({id,name,mobile,cat,wh:wh.map(([from,rate])=>({from,rate})),site,joined,notes,active:id!=='w10',left:id==='w10'?'2026-09-30':null}));
+ let sd=11;const rnd=()=>{sd=(sd*16807)%2147483647;return sd/2147483647};
+ const att={};
+ for(let d=START;d<TODAY;d=addDays(d,1)){att[d]={};workers.forEach(w=>{if(d<w.joined||(w.left&&d>w.left))return;let st;if(dow(d)===0)st='O';else{const r=rnd();st=r<0.8?'P':r<0.9?'H':'A'}if(w.id==='w7'&&d>='2026-10-13'&&d<='2026-10-17')st='A';att[d][w.id]={s:st,site:w.site,rate:rateOn(w,d)}})}
+ att[TODAY]={};[['w1','P'],['w2','P'],['w5','H']].forEach(([id,st])=>{const w=workers.find(x=>x.id===id);att[TODAY][id]={s:st,site:w.site,rate:rateOn(w,TODAY)}});
+ const tx=[];let n=1;const add=(wid,date,type,amount,method,note)=>tx.push({id:'t'+(n++),wid,date,type,amount,method,note});
+ add('w6','2026-09-03','advance',3000,'Cash','For house rent');
+ add('w1','2026-09-12','advance',1000,'UPI','For medicines');
+ add('w10','2026-09-20','advance',2000,'Cash','Travel to village');
+ workers.forEach(w=>{if(w.joined>'2026-09-30')return;const b=balance(att,tx,w.id,'2026-09-30');const fin=w.id==='w10';const amt=fin?b:Math.floor(b/500)*500;if(amt>0)add(w.id,fin?'2026-10-01':'2026-10-03','payment',amt,w.cat==='karigar'?'UPI':'Cash',fin?'Final settlement — fully paid':'September wages')});
+ add('w1','2026-10-10','advance',2000,'Cash',"Daughter's school fees");
+ add('w1','2026-10-11','extra',500,'','Sunday overtime — Sharma Residency');
+ add('w5','2026-10-14','advance',1500,'Cash','');
+ add('w3','2026-10-15','payment',5000,'UPI','Part payment — rest before Diwali');
+ add('w2','2026-10-17','payment',1000,'Cash','Weekly expenses');
+ add('w4','2026-10-17','payment',4000,'Bank Transfer','UTR 629104837215');
+ add('w8','2026-10-18','advance',500,'Cash','Gas cylinder');
+ add('w9','2026-10-19','advance',1000,'Cash','Room rent');
+ const activity=[
+  {t:'8:45 am',text:'Raju Pawar marked Half Day',icon:'ph-circle-half'},
+  {t:'8:43 am',text:'Suresh Patil marked Present',icon:'ph-check-circle'},
+  {t:'8:42 am',text:'Ramesh Kumar Yadav marked Present',icon:'ph-check-circle'},
+  {t:'Yesterday',text:'Attendance saved for 21 Oct',icon:'ph-calendar-check'}];
+ return {sites,workers,att,tx,activity};
+}
+const TITLES={history:'History',home:'Home',att:'Attendance',workers:'Workers',form:'',profile:'Worker',hisab:'Salary',ledger:'Ledger',tx:'',sites:'Sites',reports:'Reports',report:'',more:'More',settings:'Settings'};
+const REPORTS=[
+ {k:'daily',icon:'ph-calendar-check',title:'Daily attendance',sub:'One day — who came and the cost'},
+ {k:'monthly',icon:'ph-calendar-blank',title:'Monthly attendance',sub:'Present, half, absent days per worker'},
+ {k:'salary',icon:'ph-money',title:'Salary by worker',sub:'Earned, advances and payments'},
+ {k:'outstanding',icon:'ph-wallet',title:'Outstanding payments',sub:'How much is still to be paid'},
+ {k:'advance',icon:'ph-arrow-circle-up-right',title:'Advance balance',sub:'Advances given and recovered'},
+ {k:'site',icon:'ph-buildings',title:'Labour cost by site',sub:'Wages spent at each site'}];
+
+const ACC_D={'--color-accent':'#9184d9','--color-accent-100':'#f5f4ff','--color-accent-200':'#e7e5fe','--color-accent-300':'#d2cefd','--color-accent-400':'#b5abfc','--color-accent-500':'#968ae0','--color-accent-600':'#796cbf','--color-accent-700':'#5d5294','--color-accent-800':'#423a6a','--color-accent-900':'#2b2741'};
+const THEMES={
+ dark:Object.assign({'--color-bg':'#000000','--color-surface':'rgba(44,44,52,.38)','--glass-sheen':'rgba(255,255,255,.07)','--glass-hi':'rgba(255,255,255,.16)','--glass-edge':'rgba(255,255,255,.09)','--glass-drop':'0 10px 30px rgba(0,0,0,.35)','--orb-4':'rgba(30,170,160,.38)','--color-text':'#f2f2f7','--color-divider':'rgba(255,255,255,.1)','--color-neutral-100':'#f2f2f7','--color-neutral-200':'#e2e2e8','--color-neutral-300':'#c7c7cf','--color-neutral-400':'#9b9ba5','--color-neutral-500':'#7c7c86','--color-neutral-600':'#5c5c64','--color-neutral-700':'#3e3e44','--color-neutral-800':'rgba(255,255,255,.09)','--color-neutral-900':'rgba(255,255,255,.05)','--seg-track':'rgba(118,118,128,.24)','--seg-on':'rgba(99,99,106,.92)','--knob':'#ffffff','--scrim':'rgba(0,0,0,.55)','--orb-1':'rgba(130,105,255,.75)','--orb-2':'rgba(30,120,255,.55)','--orb-3':'rgba(200,80,230,.55)','--shadow-sm':'0 1px 2px rgba(0,0,0,.5)','--shadow-md':'0 6px 20px rgba(0,0,0,.5)','--shadow-lg':'0 18px 50px rgba(0,0,0,.6)'},ACC_D),
+ light:{'--color-bg':'#f2f2f7','--color-surface':'rgba(255,255,255,.42)','--glass-sheen':'rgba(255,255,255,.55)','--glass-hi':'rgba(255,255,255,.95)','--glass-edge':'rgba(255,255,255,.55)','--glass-drop':'0 10px 30px rgba(70,60,140,.12)','--orb-4':'rgba(90,220,200,.45)','--color-text':'#16171d','--color-divider':'rgba(60,60,67,.14)','--color-neutral-100':'#16171d','--color-neutral-200':'#2a2c35','--color-neutral-300':'#474a56','--color-neutral-400':'#6b6e7b','--color-neutral-500':'#8a8d99','--color-neutral-600':'#aeb0ba','--color-neutral-700':'#d4d5dc','--color-neutral-800':'rgba(60,60,67,.12)','--color-neutral-900':'rgba(60,60,67,.06)','--color-accent':'#6656c9','--color-accent-100':'#241c5c','--color-accent-200':'#33297f','--color-accent-300':'#4a3eaa','--color-accent-400':'#5d50c2','--color-accent-500':'#7466d6','--color-accent-600':'#9a8fe6','--color-accent-700':'#c9c2f6','--color-accent-800':'#e0dbfb','--color-accent-900':'#eeebfd','--seg-track':'rgba(118,118,128,.12)','--seg-on':'#ffffff','--knob':'#ffffff','--scrim':'rgba(0,0,0,.3)','--orb-1':'rgba(140,120,255,.65)','--orb-2':'rgba(70,170,255,.55)','--orb-3':'rgba(255,130,190,.5)','--shadow-sm':'0 1px 3px rgba(20,20,40,.08)','--shadow-md':'0 6px 20px rgba(20,20,40,.08)','--shadow-lg':'0 18px 50px rgba(20,20,40,.16)'}};
+const MONF=['January','February','March','April','May','June','July','August','September','October','November','December'];
+class Component extends DCLogic {
+ state=Object.assign(seedData(),{screen:'home',stack:[],vw:window.innerWidth,scrolled:false,activeSite:'all',attDate:TODAY,attSite:'all',draft:{},pastAck:{},failedOnce:false,wq:'',wcat:'all',form:null,ferr:{},wid:null,profTab:'overview',profMonth:'2026-10',period:'oct',cFrom:'2026-10-01',cTo:TODAY,txf:null,txErr:{},report:'daily',rDate:TODAY,dialog:null,toast:null,lang:'English',sundayOff:true,pastConfirm:true,newIds:{},siteForm:null,siteErr:'',user:(this.props.startLoggedIn??false)?{name:'Rajendra Shinde',biz:'Shree Ganesh Tiles Contractor',mobile:'9822011458',city:'Pune'}:null,accounts:[{name:'Rajendra Shinde',biz:'Shree Ganesh Tiles Contractor',mobile:'9822011458',city:'Pune'}],auth:{mode:'login',step:'phone',name:'',biz:'',mobile:'',otp:'',err:''},theme:this.props.theme??'light',hView:'month',hDate:TODAY,hWorker:'all'});
+ componentDidMount(){this.applyTheme();this._mq=window.matchMedia?window.matchMedia('(prefers-color-scheme: dark)'):null;this._mqf=()=>{if(this.state.theme==='auto'){this.applyTheme();this.forceUpdate()}};if(this._mq&&this._mq.addEventListener)this._mq.addEventListener('change',this._mqf);this._r=()=>this.setState({vw:window.innerWidth});this._s=()=>{const sc=window.scrollY>40;if(sc!==this.state.scrolled)this.setState({scrolled:sc})};window.addEventListener('resize',this._r);window.addEventListener('scroll',this._s,{passive:true})}
+ componentDidUpdate(pp,ps){if(ps.theme!==this.state.theme)this.applyTheme();if(pp.theme!==this.props.theme&&this.props.theme)this.setState({theme:this.props.theme})}
+ mode(){const t=this.state.theme;if(t==='auto')return this._mq&&this._mq.matches?'dark':'light';return t==='dark'?'dark':'light'}
+ applyTheme(){this._lastMode=this.mode();const m=this._lastMode,T=THEMES[m],r=document.documentElement;Object.entries(T).forEach(([k,v])=>r.style.setProperty(k,v));r.style.colorScheme=m;document.body.style.background=T['--color-bg']}
+ componentWillUnmount(){if(this._mq&&this._mq.removeEventListener)this._mq.removeEventListener('change',this._mqf);window.removeEventListener('resize',this._r);window.removeEventListener('scroll',this._s);clearTimeout(this._t)}
+ top(){try{window.scrollTo(0,0)}catch(e){}}
+ W(id){return this.state.workers.find(w=>w.id===id)}
+ siteName(id){const s=this.state.sites.find(x=>x.id===id);return s?s.name:'No site'}
+ guard(fn){const n=Object.keys(this.state.draft).length;if(this.state.screen==='att'&&n){this.ask({icon:'ph-warning',title:'Attendance not saved',body:`You have ${n} unsaved change${n>1?'s':''}. Leave without saving?`,ok:'Discard changes',cancel:'Keep editing',onOk:()=>this.setState({draft:{}},fn)})}else fn()}
+ go(screen,patch){this.guard(()=>{this.setState(s=>({stack:[...s.stack,s.screen],screen,...(patch||{})}));this.top()})}
+ tab(screen,patch){this.guard(()=>{this.setState({screen,stack:[],...(patch||{})});this.top()})}
+ back=()=>this.guard(()=>{this.setState(s=>{const st=[...s.stack];const p=st.pop()||'home';return{stack:st,screen:p}});this.top()})
+ ask(d){this.setState({dialog:Object.assign({icon:'ph-question',cancel:'Cancel',ok:'Yes'},d)})}
+ toast(text,kind,action){const id=Date.now()+Math.random();this.setState({toast:{text,kind:kind||'ok',action,id}});clearTimeout(this._t);this._t=setTimeout(()=>{if(this.state.toast&&this.state.toast.id===id)this.setState({toast:null})},action?7000:3200)}
+ log(text,icon){const d=new Date();let h=d.getHours(),m=d.getMinutes();const ap=h>=12?'pm':'am';h=h%12||12;const t=`${h}:${String(m).padStart(2,'0')} ${ap}`;this.setState(s=>({activity:[{t,text,icon},...s.activity].slice(0,5)}))}
+ wv(w){const s=this.state;const rate=rateOn(w,TODAY);const first=w.name.split(' ')[0].toLowerCase();const dup=s.workers.some(x=>x.id!==w.id&&x.name.split(' ')[0].toLowerCase()===first);return{id:w.id,name:w.name,ini:ini(w.name),cat:CAT[w.cat],wage:inr(rate)+'/day',rate,mobileFmt:mobFmt(w.mobile),site:w.site?this.siteName(w.site):'No default site',avBg:w.cat==='karigar'?'var(--color-accent-800)':'var(--color-neutral-700)',avFg:w.cat==='karigar'?'var(--color-accent-100)':'var(--color-neutral-100)',dup:dup?'··'+w.mobile.slice(-4):'',inactive:!w.active,open:()=>this.go('profile',{wid:w.id,profTab:'overview'})}}
+ perRange(){const s=this.state;if(s.period==='sep')return['2026-09-01','2026-09-30'];if(s.period==='all')return[START,TODAY];if(s.period==='custom'){let a=s.cFrom<START?START:s.cFrom,b=s.cTo>TODAY?TODAY:s.cTo;if(b<a)b=a;return[a,b]}return['2026-10-01',TODAY]}
+ ledger(wid,a,b){const s=this.state;const open=balance(s.att,s.tx,wid,addDays(a,-1));const rows=[];let cs=a;while(cs<=b&&cs<=TODAY){let ce=cs;while(dow(ce)!==0&&ce<b&&ce<TODAY)ce=addDays(ce,1);const st=stats(s.att,wid,cs,ce);if(st.full+st.half>0){const rs=Object.keys(st.groups);rows.push({date:ce,ord:0,type:'wage',desc:`Wages ${fd(cs)}–${fd(ce)}`,sub:`${st.full} full, ${st.half} half day`+(rs.length===1?` @ ${inr(+rs[0])}`:' · rate changed'),amt:st.earned})}cs=addDays(ce,1)}
+  s.tx.filter(t=>t.wid===wid&&t.date>=a&&t.date<=b).forEach(t=>rows.push({date:t.date,ord:1,type:t.type,desc:t.type==='payment'?'Payment':t.type==='advance'?'Advance given':'Extra earning',sub:[t.method,t.note].filter(Boolean).join(' · '),amt:t.type==='extra'?t.amount:-t.amount}));
+  rows.sort((x,y)=>x.date<y.date?-1:x.date>y.date?1:x.ord-y.ord);let run=open;rows.forEach(r=>{run+=r.amt;r.bal=run});return{open,rows,close:run}}
+
+ setAttDate(d){if(!d||d>TODAY||d<START)return;if(d===this.state.attDate)return;this.guard(()=>this.setState({attDate:d,draft:{}}))}
+ mark(wid,st){const s=this.state,w=this.W(wid),d=s.attDate,saved=(s.att[d]||{})[wid];const site=s.attSite!=='all'?s.attSite:(saved?saved.site:(w.site||'s1'));
+  const apply=()=>this.setState(x=>{const dr={...x.draft};if(saved&&saved.s===st&&saved.site===site)delete dr[wid];else dr[wid]={s:st,site};return{draft:dr,pastAck:d<TODAY?{...x.pastAck,[d]:true}:x.pastAck}});
+  const cur=s.draft[wid]?s.draft[wid].s:saved&&saved.s;if(cur===st&&!(saved&&saved.site!==site))return;
+  if(saved&&saved.site!==site){this.ask({icon:'ph-map-pin',title:'Marked at another site',body:`${w.name} is already marked at ${this.siteName(saved.site)} on ${fd(d)}. A worker can have only one entry per day. Move it to ${this.siteName(site)}?`,ok:'Move here',onOk:apply});return}
+  if(d<TODAY&&saved&&s.pastConfirm&&!s.pastAck[d]){this.ask({icon:'ph-clock-counter-clockwise',title:'Change past attendance?',body:`${w.name} on ${fdy(d)}: "${ST[saved.s].label}" → "${ST[st].label}". Salary will update too. We won't ask again for this date.`,ok:'Yes, change it',onOk:apply});return}
+  apply()}
+ attRows(){const s=this.state,d=s.attDate,day=s.att[d]||{};let list=s.workers.filter(w=>(w.active||day[w.id])&&w.joined<=d&&!(w.left&&d>w.left));if(s.attSite!=='all')list=list.filter(w=>w.site===s.attSite||(day[w.id]&&day[w.id].site===s.attSite));return list}
+ markAll=()=>{const s=this.state,day=s.att[s.attDate]||{};const un=this.attRows().filter(w=>!day[w.id]&&!s.draft[w.id]);if(!un.length)return;this.ask({icon:'ph-checks',title:'Mark everyone Present?',body:`${un.length} unmarked worker${un.length>1?'s':''} will be marked Present (full day) for ${fd(s.attDate)}. Already-marked workers won't change. You can still adjust anyone before saving.`,ok:`Mark ${un.length} Present`,onOk:()=>this.setState(x=>{const dr={...x.draft};un.forEach(w=>{dr[w.id]={s:'P',site:x.attSite!=='all'?x.attSite:(w.site||'s1')}});return{draft:dr}})})}
+ saveAtt=()=>{const s=this.state;const n=Object.keys(s.draft).length;if(!n)return;
+  if((this.props.simulateFailure??false)&&!s.failedOnce){this.setState({failedOnce:true});this.toast("Couldn't save — check your internet. Your changes are kept on this phone.",'err',{label:'Retry',on:()=>{this.setState({toast:null});this.saveAtt()}});return}
+  const d=s.attDate;this.setState(x=>{const day={...(x.att[d]||{})};Object.entries(x.draft).forEach(([wid,v])=>{const w=x.workers.find(z=>z.id===wid);day[wid]={s:v.s,site:v.site,rate:rateOn(w,d)}});return{att:{...x.att,[d]:day},draft:{},failedOnce:false}});
+  this.log(`Attendance saved for ${n} worker${n>1?'s':''} · ${fd(d)}`,'ph-calendar-check');this.toast(`Saved attendance for ${n} worker${n>1?'s':''} · ${fdy(d)}`)}
+
+ openForm(w){this.go('form',{ferr:{},form:w?{id:w.id,name:w.name,mobile:w.mobile,cat:w.cat,wage:String(rateOn(w,TODAY)),joined:w.joined,site:w.site||'',notes:w.notes||'',active:w.active,eff:TODAY,origWage:rateOn(w,TODAY)}:{id:null,name:'',mobile:'',cat:'majdoor',wage:'600',joined:TODAY,site:this.state.activeSite!=='all'?this.state.activeSite:'s1',notes:'',active:true,eff:TODAY}})}
+ setF(k,v){this.setState(s=>({form:{...s.form,[k]:v},ferr:{...s.ferr,[k]:null}}))}
+ saveWorker=()=>{const s=this.state,f=s.form,e={};const wage=parseInt(f.wage,10);
+  if(f.name.trim().length<2)e.name='Please enter a name (at least 2 letters)';
+  if(!/^[6-9]\d{9}$/.test(f.mobile))e.mobile='Enter a valid 10-digit mobile number (starts with 6–9)';
+  else if(s.workers.some(w=>w.id!==f.id&&w.mobile===f.mobile))e.mobile='This number already belongs to another worker';
+  if(!(wage>=100&&wage<=5000))e.wage='Daily wage must be between ₹100 and ₹5,000';
+  if(Object.keys(e).length){this.setState({ferr:e});this.toast('Please fix the highlighted fields','err');return}
+  if(!f.id){const id='w'+Date.now();const w={id,name:f.name.trim(),mobile:f.mobile,cat:f.cat,wh:[{from:f.joined,rate:wage}],site:f.site,joined:f.joined,notes:f.notes,active:true,left:null};
+   this.setState(x=>({workers:[...x.workers,w],newIds:{...x.newIds,[id]:true},screen:'workers',stack:[],wq:'',wcat:'all'}));this.log(`Added ${w.name}`,'ph-user-plus');this.toast(`${w.name} added · ${inr(wage)}/day`);this.top();return}
+  const doSave=()=>{this.setState(x=>{let att=x.att;const workers=x.workers.map(w=>{if(w.id!==f.id)return w;let wh=w.wh;if(wage!==f.origWage){const eff=f.eff<f.joined?f.joined:f.eff;wh=[...w.wh.filter(h=>h.from<eff),{from:eff,rate:wage}];att={...att};Object.keys(att).forEach(d=>{if(d>=eff&&att[d][w.id]){att[d]={...att[d],[w.id]:{...att[d][w.id],rate:wage}}}})}
+    return{...w,name:f.name.trim(),mobile:f.mobile,cat:f.cat,wh,site:f.site,joined:f.joined,notes:f.notes,active:f.active,left:f.active?null:(w.left||TODAY)}});const st=[...x.stack];const p=st.pop()||'workers';return{workers,att,screen:p,stack:st}});this.toast('Worker details updated');this.top()};
+  if(wage!==f.origWage){this.ask({icon:'ph-currency-inr',title:'Change daily wage?',body:`${f.name}: ${inr(f.origWage)} → ${inr(wage)} per day, from ${fdy(f.eff)}. Attendance before that date keeps the old rate.`,ok:'Save new wage',onOk:doSave})}else doSave()}
+
+ openTx(type,wid){this.go('tx',{txErr:{},txf:{type,wid:wid||'',amount:'',date:TODAY,method:'Cash',note:''}})}
+ setT(k,v){this.setState(s=>({txf:{...s.txf,[k]:v},txErr:{...s.txErr,[k]:null}}))}
+ submitTx=()=>{const s=this.state,t=s.txf,e={};const a=parseInt(t.amount,10);const w=t.wid&&this.W(t.wid);
+  if(!w)e.wid='Please choose a worker';if(!(a>0))e.amount='Enter an amount';else if(a>200000)e.amount='Amount cannot be more than ₹2,00,000';
+  if(!t.date||t.date>TODAY)e.date='Choose today or an earlier date';else if(w&&t.date<w.joined)e.date=`This worker joined on ${fd(w.joined)} — pick a later date`;
+  if(Object.keys(e).length){this.setState({txErr:e});return}
+  const bal=balance(s.att,s.tx,w.id);const nb=t.type==='extra'?bal+a:bal-a;const tl=t.type==='payment'?'Payment':t.type==='advance'?'Advance':'Extra earning';
+  this.ask({icon:t.type==='extra'?'ph-plus-circle':'ph-hand-coins',title:`Confirm ${tl.toLowerCase()}`,body:t.type==='extra'?`Add ${inr(a)} to ${w.name}'s account.`:`Paying ${inr(a)} to ${w.name} by ${t.method}.`,lines:[{k:'Date',v:fdy(t.date)},{k:'Current balance',v:inr(bal)},{k:tl,v:(t.type==='extra'?'+ ':'− ')+inr(a)},{k:'New balance',v:inr(nb)}],ok:'Confirm & Save',onOk:()=>{
+   this.setState(x=>({tx:x.tx.concat([{id:'t'+Date.now(),wid:w.id,date:t.date,type:t.type,amount:a,method:t.type==='extra'?'':t.method,note:t.note.trim()}]),screen:'ledger',wid:w.id,period:t.date<'2026-10-01'?'all':x.period==='sep'?'oct':x.period}));
+   this.log(`${tl} ${inr(a)} · ${w.name.split(' ').slice(0,2).join(' ')}`,t.type==='payment'?'ph-hand-coins':t.type==='advance'?'ph-arrow-circle-up-right':'ph-plus-circle');this.toast(`${tl} of ${inr(a)} saved · new balance ${inr(nb)}`);this.top()}})}
+
+ csv(name,rows){try{const c=rows.map(r=>r.map(v=>`"${String(v).replace(/"/g,'""')}"`).join(',')).join('\n');const b=new Blob(['\ufeff'+c],{type:'text/csv'});const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download=name+'.csv';document.body.appendChild(a);a.click();a.remove();this.toast(name+'.csv downloaded')}catch(e){this.toast("Couldn't download the file",'err')}}
+
+ report(k){const s=this.state;const[a,b]=this.perRange();const R=(v,r)=>({v:String(v),al:r?'right':'left'});const out={cols:[],rows:[],total:null,usesPeriod:true,usesDate:false};
+  if(k==='daily'){out.usesPeriod=false;out.usesDate=true;const day=s.att[s.rDate]||{};let tot=0;out.cols=[R('Worker'),R('Site'),R('Status'),R('Rate',1),R('Earned',1)];
+   s.workers.filter(w=>w.joined<=s.rDate&&(!w.left||s.rDate<=w.left)).forEach(w=>{const r=day[w.id];const amt=r?pay(r.s,r.rate):0;tot+=amt;out.rows.push([R(w.name),R(r?this.siteName(r.site):'—'),R(r?ST[r.s].label:'Not marked'),R(inr(r?r.rate:rateOn(w,s.rDate)),1),R(inr(amt),1)])});out.total={k:`Total cost · ${fdy(s.rDate)}`,v:inr(tot)};out.title='Daily attendance'}
+  if(k==='monthly'){out.cols=[R('Worker'),R('Present',1),R('Half',1),R('Absent',1),R('Off',1),R('Paid days',1)];s.workers.forEach(w=>{const st=stats(s.att,w.id,a,b);if(st.full+st.half+st.abs+st.off===0)return;out.rows.push([R(w.name),R(st.full,1),R(st.half,1),R(st.abs,1),R(st.off,1),R(st.full+st.half/2,1)])});out.title='Monthly attendance'}
+  if(k==='salary'){let T=0;out.cols=[R('Worker'),R('Paid days',1),R('Earned',1),R('Extra',1),R('Advance',1),R('Paid',1)];s.workers.forEach(w=>{const st=stats(s.att,w.id,a,b);const ex=txSum(s.tx,w.id,'extra',a,b),ad=txSum(s.tx,w.id,'advance',a,b),pd=txSum(s.tx,w.id,'payment',a,b);if(!st.earned&&!ad&&!pd)return;T+=st.earned+ex;out.rows.push([R(w.name),R(st.full+st.half/2,1),R(inr(st.earned),1),R(inr(ex),1),R(inr(ad),1),R(inr(pd),1)])});out.total={k:'Total earned (incl. extra)',v:inr(T)};out.title='Salary by worker'}
+  if(k==='outstanding'){out.usesPeriod=false;let T=0;out.cols=[R('Worker'),R('Type'),R('Last paid'),R('To pay',1)];s.workers.map(w=>({w,b:balance(s.att,s.tx,w.id)})).filter(x=>x.b>0).sort((x,y)=>y.b-x.b).forEach(({w,b:bb})=>{T+=bb;const lp=s.tx.filter(t=>t.wid===w.id&&t.type==='payment').sort((x,y)=>x.date<y.date?1:-1)[0];out.rows.push([R(w.name),R(CAT[w.cat]),R(lp?fd(lp.date):'—'),R(inr(bb),1)])});out.total={k:'Total to pay (as of today)',v:inr(T)};out.title='Outstanding payments'}
+  if(k==='advance'){let T=0;out.cols=[R('Worker'),R('Advance given',1),R('Balance today',1),R('Status')];s.workers.forEach(w=>{const ad=txSum(s.tx,w.id,'advance',a,b);if(!ad)return;const bb=balance(s.att,s.tx,w.id);const due=bb<0?-bb:0;T+=due;out.rows.push([R(w.name),R(inr(ad),1),R(inr(bb),1),R(due?`${inr(due)} to recover`:'Recovered from wages')])});out.total={k:'Still to recover',v:inr(T)};out.title='Advance balance'}
+  if(k==='site'){let T=0;out.cols=[R('Site'),R('Workers',1),R('Man-days',1),R('Labour cost',1)];s.sites.forEach(si=>{const ws=new Set();let md=0,c=0;for(let d=a;d<=b&&d<=TODAY;d=addDays(d,1)){const day=s.att[d]||{};Object.entries(day).forEach(([wid,r])=>{if(r.site!==si.id)return;if(r.s==='P'||r.s==='H'){ws.add(wid);md+=r.s==='P'?1:0.5;c+=pay(r.s,r.rate)}})}T+=c;out.rows.push([R(si.name),R(ws.size,1),R(md,1),R(inr(c),1)])});out.total={k:'Total labour cost',v:inr(T)};out.title='Labour cost by site'}
+  out.empty=!out.rows.length;return out}
+
+ renderVals(){
+  const s=this.state;const layout=this.props.layout??'auto';const wide=layout==='desktop'||(layout==='auto'&&s.vw>=900);
+  const sc=s.screen;const td=s.att[TODAY]||{};
+  const navItems=[{k:'home',label:'Home',icon:'house'},{k:'att',label:'Attendance',icon:'calendar-check'},{k:'workers',label:'Workers',icon:'users-three'},{k:'hisab',label:'Salary',icon:'wallet'},{k:'more',label:'More',icon:'dots-three-circle'}];
+  const tabOf={history:'att',home:'home',att:'att',workers:'workers',form:'workers',profile:'workers',hisab:'hisab',ledger:'hisab',tx:'hisab',more:'more',sites:'more',reports:'more',report:'more',settings:'more'};
+  const curTab=wide&&['history','sites','reports','report','settings'].includes(sc)?(sc==='report'?'reports':sc):tabOf[sc];
+  const bottomNav=navItems.map(n=>{const on=tabOf[sc]===n.k;return{label:n.label,icon:(on?'ph-fill ph-':'ph ph-')+n.icon,fg:on?'var(--color-accent)':'var(--color-neutral-400)',pill:on?'var(--color-accent-900)':'transparent',dot:on?'var(--color-accent)':'transparent',anim:on?'kh-pop .42s cubic-bezier(.34,1.56,.64,1)':'none',cur:on?'page':undefined,on:()=>this.tab(n.k,n.k==='att'?{attDate:TODAY}:null)}});
+  const sideNav=navItems.filter(n=>n.k!=='more').concat([{k:'history',label:'History',icon:'clock-counter-clockwise'},{k:'sites',label:'Sites',icon:'buildings'},{k:'reports',label:'Reports',icon:'chart-bar'},{k:'settings',label:'Settings',icon:'gear'}]).map(n=>{const on=curTab===n.k;return{label:n.label,icon:(on?'ph-fill ph-':'ph ph-')+n.icon,bg:on?'var(--color-accent-900)':'transparent',fg:on?'var(--color-accent-200)':'var(--color-neutral-300)',on:()=>this.tab(n.k)}});
+  const legend=['P','H','A','O'].map(k=>({label:ST[k].label,icon:'ph-'+ST[k].ic,dot:ST[k].dot}));
+
+  const hw=s.workers.filter(w=>w.active&&(s.activeSite==='all'||w.site===s.activeSite));
+  let P=0,H=0,A=0,cost=0;hw.forEach(w=>{const r=td[w.id];if(!r)return;if(r.s==='P')P++;else if(r.s==='H')H++;else if(r.s==='A')A++;cost+=pay(r.s,r.rate)});
+  const unm=hw.filter(w=>!td[w.id]);const markedN=hw.length-unm.length;
+  const allW=s.workers.filter(w=>s.activeSite==='all'||w.site===s.activeSite);let out=0,outN=0;allW.forEach(w=>{const b=balance(s.att,s.tx,w.id);if(b>0){out+=b;outN++}});
+  const goAtt=()=>this.tab('att',{attDate:TODAY,attSite:s.activeSite});
+  const week=[];let wt=0;for(let i=6;i>=0;i--){const d=addDays(TODAY,-i);const day=s.att[d]||{};let c=0;Object.values(day).forEach(r=>{if(s.activeSite!=='all'&&r.site!==s.activeSite)return;c+=pay(r.s,r.rate)});wt+=c;week.push({d:i===0?'Today':DSH[dow(d)],c})}
+  const wmax=Math.max(...week.map(x=>x.c),1);
+  const um=unm.map(w=>w.name.split(' ')[0]);
+  const home={cards:[
+   {label:'Workers',icon:'ph-users-three',value:hw.length,sub:`${hw.filter(w=>w.cat==='karigar').length} masons · ${hw.filter(w=>w.cat==='majdoor').length} labourers`,span:'span 1',on:()=>this.tab('workers')},
+   {label:"Today's cost",icon:'ph-currency-inr',value:inr(cost),sub:'For marked workers',span:'span 1',on:goAtt},
+   {label:'Salary to pay',icon:'ph-wallet',value:inr(out),sub:`Owed to ${outN} workers`,span:'span 2',on:()=>this.tab('hisab')}],
+   markedText:`${markedN} of ${hw.length} marked`,leftText:unm.length?`${unm.length} still to mark`:'Everyone is marked',pctText:hw.length?Math.round(markedN/hw.length*100)+'%':'0%',pct:(hw.length?markedN/hw.length*100:0)+'%',
+   counts:[{label:'Present',n:P,icon:'ph-check-circle',dot:ST.P.dot},{label:'Half Day',n:H,icon:'ph-circle-half',dot:ST.H.dot},{label:'Absent',n:A,icon:'ph-x-circle',dot:ST.A.dot}],
+   hasUnmarked:unm.length>0,unmarked:unm.slice(0,5).map(w=>this.wv(w)),unmarkedNames:um.slice(0,3).join(', ')+(um.length>3?` +${um.length-3} more`:''),ctaLabel:unm.length?'Mark Attendance':'View Attendance',
+   week:week.map(x=>({d:x.d,v:x.c?(x.c>=1000?(x.c/1000).toFixed(1)+'k':x.c):'',h:Math.round(x.c/wmax*80)+'px',bg:x.d==='Today'?'var(--color-accent)':'var(--color-accent-800)',fg:x.d==='Today'?'var(--color-accent)':'var(--color-neutral-400)'})),weekTotal:inr(wt)};
+  const activeSites=s.sites.filter(x=>x.status==='active');
+  const homeSiteChips=[{id:'all',name:'All sites'}].concat(activeSites).map(x=>({label:x.name,...pill(s.activeSite===x.id),on:()=>this.setState({activeSite:x.id})}));
+  const quick=[{label:'Add Worker',icon:'ph-user-plus',on:()=>this.openForm()},{label:'Attendance',icon:'ph-calendar-check',on:goAtt},{label:'Pay',icon:'ph-hand-coins',on:()=>this.openTx('payment')},{label:'Advance',icon:'ph-arrow-circle-up-right',on:()=>this.openTx('advance')},{label:'Salary',icon:'ph-wallet',on:()=>this.tab('hisab')}];
+
+  const ad=s.attDate,aday=s.att[ad]||{};const rowsW=this.attRows();let aP=0,aH=0,aA=0,aO=0,aC=0,aM=0;
+  const rows=rowsW.map(w=>{const v=this.wv(w);const saved=aday[w.id];const dr=s.draft[w.id];const cur=dr?dr.s:(saved&&saved.s);const rate=rateOn(w,ad);
+   if(cur){aM++;if(cur==='P')aP++;else if(cur==='H')aH++;else if(cur==='A')aA++;else aO++;aC+=pay(cur,saved&&!dr?saved.rate:rate)}
+   const curSite=dr?dr.site:saved?saved.site:w.site;
+   const note=saved&&s.attSite!=='all'&&saved.site!==s.attSite&&!dr?`Marked at ${this.siteName(saved.site)} on this day`:(w.joined===ad?'Joined today':'');
+   return{w:v,meta:[v.cat,inr(rate)+'/day',s.attSite==='all'?this.siteName(curSite):''].filter(Boolean).join(' · '),changed:!!dr,note,shadow:dr?'0 0 0 1.5px var(--color-accent-600)':'none',
+    btns:['P','H','A','O'].map(k=>{const m=ST[k],sel=cur===k;return{label:m.label,sel:sel?'true':'false',ic:(sel?'ph-fill ph-':'ph ph-')+m.ic,bg:sel?m.bg:'transparent',fg:sel?m.fg:'var(--color-neutral-400)',sh:sel?'0 2px 8px rgba(0,0,0,.3)':'none',anim:sel?'kh-pop .42s cubic-bezier(.34,1.56,.64,1)':'none',on:()=>this.mark(w.id,k)}})}});
+  const draftN=Object.keys(s.draft).length;
+  const days=[];for(let i=6;i>=0;i--){const d=addDays(TODAY,-i);const on=d===ad;const day=s.att[d]||{};const tot=s.workers.filter(w=>w.active&&w.joined<=d).length;const mk=s.workers.filter(w=>w.active&&day[w.id]).length;days.push({dow:i===0?'Today':DSH[dow(d)],n:s2d(d).getUTCDate(),bg:on?'var(--color-accent-800)':'var(--color-surface)',fg:on?'var(--color-accent-100)':'var(--color-text)',dot:mk>=tot?'var(--color-accent-400)':mk>0?'var(--color-neutral-500)':'transparent',on:()=>this.setAttDate(d)})}
+  const siteOpts=[{id:'all',name:'All sites'}].concat(activeSites);
+  const att={days,siteCols:siteOpts.length,siteChips:siteOpts.map(x=>({label:x.name,...seg(s.attSite===x.id),on:()=>this.setState({attSite:x.id})})),
+   isPast:ad<TODAY,isSunday:dow(ad)===0&&s.sundayOff,dateLabel:(ad===TODAY?'Today, ':DAY[dow(ad)]+', ')+fdy(ad)+(s.attSite==='all'?' · All sites':' · '+this.siteName(s.attSite)),
+   markedN:aM,totalN:rows.length,leftText:rows.length-aM?`${rows.length-aM} left`:'All done',pct:(rows.length?aM/rows.length*100:0)+'%',canMarkAll:rows.length-aM>0,markAll:this.markAll,
+   counts:[{label:'Present',n:aP,icon:'ph-check-circle',dot:ST.P.dot},{label:'Half',n:aH,icon:'ph-circle-half',dot:ST.H.dot},{label:'Absent',n:aA,icon:'ph-x-circle',dot:ST.A.dot},{label:'Off',n:aO,icon:'ph-moon',dot:ST.O.dot}],cost:inr(aC),rows,empty:!rows.length,
+   showSave:sc==='att'&&draftN>0,draftN,save:this.saveAtt,discard:()=>this.setState({draft:{}})};
+
+  const q=s.wq.trim().toLowerCase();
+  const wl=s.workers.filter(w=>{if(s.wcat==='inactive')return!w.active;if(!w.active)return false;if(s.wcat!=='all'&&w.cat!==s.wcat)return false;return true}).filter(w=>!q||w.name.toLowerCase().includes(q)||w.mobile.includes(q.replace(/\s/g,'')))
+   .sort((x,y)=>(s.newIds[y.id]?1:0)-(s.newIds[x.id]?1:0)||x.name.localeCompare(y.name));
+  const wd={chips:[['all','All'],['karigar','Masons'],['majdoor','Labourers'],['inactive','Left']].map(([k,l])=>({label:l,...seg(s.wcat===k),on:()=>this.setState({wcat:k})})),
+   list:wl.map(w=>{const v=this.wv(w);const r=td[w.id];return{...v,isNew:!!s.newIds[w.id],op:w.active?1:0.65,st:w.active?(r?{...ST[r.s],icon:'ph-'+ST[r.s].ic}:{...ST.N,icon:'ph-circle-dashed'}):{label:'Left '+(w.left?fd(w.left):''),icon:'ph-sign-out',dot:'var(--color-neutral-500)'}}}),empty:!wl.length&&!!q};
+
+  const f=s.form||{name:'',mobile:'',cat:'majdoor',wage:'',joined:TODAY,site:'',notes:'',active:true,eff:TODAY};const fw=parseInt(f.wage,10)||0;
+  const fh={};['name','notes','joined','site','eff'].forEach(k=>fh[k]=e=>this.setF(k,e.target.value));fh.mobile=e=>this.setF('mobile',e.target.value.replace(/\D/g,'').slice(-10));fh.wage=e=>this.setF('wage',e.target.value.replace(/\D/g,'').slice(0,5));
+  const dupW=f.name.trim().length>2&&s.workers.find(w=>w.id!==f.id&&w.name.toLowerCase()===f.name.trim().toLowerCase());
+  const effAffected=f.id&&fw!==f.origWage?Object.keys(s.att).filter(d=>d>=f.eff&&s.att[d][f.id]).length:0;
+  const fv={isEdit:!!f.id,saveLabel:f.id?'Save Changes':'Save Worker',selKey:'site-'+(f.site||'none'),
+   cats:[['karigar','Mason','Karigar · tile fitter'],['majdoor','Labourer','Majdoor · helper']].map(([k,l,h])=>{const on=f.cat===k;return{label:l,hi:h,ic:on?'ph-fill ph-check-circle':'ph ph-circle',bg:on?'var(--color-accent-900)':'var(--color-surface)',fg:on?'var(--color-accent-100)':'var(--color-neutral-300)',sh:on?'0 0 0 1.5px var(--color-accent)':'none',on:()=>this.setF('cat',k)}}),
+   wageChips:(f.cat==='karigar'?[850,900,950,1000]:[550,600,650,700]).map(n=>({label:inr(n),on:()=>this.setF('wage',String(n))})),
+   halfText:fw?`Half day = ${inr(fw/2)} · 26 full days = ${inr(fw*26)}`:'Enter the full-day wage',
+   wageChanged:!!f.id&&fw>0&&fw!==f.origWage,wageMsg:f.id?`${inr(f.origWage||0)} → ${inr(fw)}. Attendance before the chosen date keeps the old rate.${effAffected?` ${effAffected} day${effAffected>1?'s':''} will be recalculated at the new rate.`:''}`:'',
+   midMonth:!f.id&&s2d(f.joined).getUTCDate()>1,
+   dupWarn:dupW?`A worker named "${dupW.name}" already exists (${mobFmt(dupW.mobile)}). If they're different people, the mobile number will tell them apart.`:'',
+   siteOpts:[{id:'',name:'None'}].concat(activeSites).map(o=>({id:o.id,name:o.name,sel:o.id===f.site})),
+   act:{...sw(f.active),label:f.active?'Shows in daily attendance':'Left the business',toggle:()=>{if(f.active){const b=f.id?balance(s.att,s.tx,f.id):0;this.ask({icon:'ph-user-minus',title:'Mark as inactive?',body:`${f.name} will no longer appear in attendance. All past attendance and payments are kept safely.${b>0?` Note: ${inr(b)} is still to be paid.`:b<0?` Note: ${inr(-b)} advance is still to be recovered.`:' Their account is fully settled.'}`,ok:'Mark Inactive',onOk:()=>this.setF('active',false)})}else this.setF('active',true)}}};
+
+  const pw=s.wid&&this.W(s.wid);let pf={w:{},actions:[],tabs:[],details:[],monthChips:[],mcounts:[],cal:[],formula:[],sum:[],recent:[]};
+  if(pw){const v=this.wv(pw);const pm=s.profMonth;const[y,m]=pm.split('-').map(Number);const first=pm+'-01';const dim=new Date(Date.UTC(y,m,0)).getUTCDate();const last=pm+'-'+String(dim).padStart(2,'0');
+   const cal=[];const lead=(dow(first)+6)%7;for(let i=0;i<lead;i++)cal.push({n:'',lbl:'',bg:'transparent',fg:'inherit',border:'none',op:0,aria:'',on:null});
+   for(let i=1;i<=dim;i++){const d=pm+'-'+String(i).padStart(2,'0');const r=(s.att[d]||{})[pw.id];const outR=d>TODAY||d<pw.joined||(pw.left&&d>pw.left);const m2=r?ST[r.s]:ST.N;
+    cal.push({n:i,lbl:r?m2.short:'',bg:r?m2.bg:'transparent',fg:r?m2.fg:'var(--color-neutral-500)',border:d===TODAY?'2px solid var(--color-accent)':(r||outR?'none':'1px dashed var(--color-neutral-700)'),op:outR?0.3:1,aria:`${fd(d)}: ${r?m2.label:'not marked'}`,on:outR?null:()=>this.go('att',{attDate:d,attSite:'all',draft:{}})})}
+   const st=stats(s.att,pw.id,first,last);const formula=Object.entries(st.groups).flatMap(([rate,g])=>{const r=+rate;const o=[];if(g.f)o.push({k:`${g.f} full days × ${inr(r)}`,v:inr(g.f*r)});if(g.h)o.push({k:`${g.h} half days × ${inr(r/2)}`,v:inr(g.h*r/2)});return o});
+   const bal=balance(s.att,s.tx,pw.id);const all=stats(s.att,pw.id,START,TODAY);const ex=txSum(s.tx,pw.id,'extra',START,TODAY),av=txSum(s.tx,pw.id,'advance',START,TODAY),pd=txSum(s.tx,pw.id,'payment',START,TODAY);
+   const ptx=s.tx.filter(t=>t.wid===pw.id).sort((a,b)=>a.date<b.date?1:-1).slice(0,5);
+   const wh=pw.wh.map(h=>`${inr(h.rate)} from ${fd(h.from)}`).join(' → ');
+   pf={w:v,
+    actions:[{label:'Call',icon:'ph-phone',on:()=>{try{window.location.href='tel:+91'+pw.mobile}catch(e){}}},{label:'Attendance',icon:'ph-calendar-check',on:()=>this.setState({profTab:'att'})},{label:'Pay',icon:'ph-hand-coins',on:()=>this.openTx('payment',pw.id)},{label:'Edit',icon:'ph-pencil-simple',on:()=>this.openForm(pw)}],
+    tabs:[['overview','Overview'],['att','Attendance'],['hisab','Salary']].map(([k,l])=>({label:l,...seg(s.profTab===k),on:()=>this.setState({profTab:k})})),
+    tOverview:s.profTab==='overview',tAtt:s.profTab==='att',tHisab:s.profTab==='hisab',
+    details:[{icon:'ph-identification-card',k:'Type of work',v:v.cat},{icon:'ph-currency-inr',k:'Daily wage',v:v.wage,sub:pw.wh.length>1?'History: '+wh:''},{icon:'ph-calendar-plus',k:'Joined',v:fdy(pw.joined)},{icon:'ph-phone',k:'Mobile',v:'+91 '+v.mobileFmt},{icon:'ph-map-pin',k:'Default site',v:v.site},{icon:'ph-toggle-right',k:'Status',v:pw.active?'Active':'Inactive',sub:pw.left?`Left on ${fdy(pw.left)} · records kept`:''},{icon:'ph-note',k:'Notes',v:pw.notes||'—'}],
+    monthChips:[['2026-09','September'],['2026-10','October']].map(([k,l])=>({label:l,...seg(pm===k),on:()=>this.setState({profMonth:k})})),
+    mcounts:[{n:st.full,label:'Full'},{n:st.half,label:'Half'},{n:st.abs,label:'Absent'},{n:st.off,label:'Off'}],cal,
+    monthLabel:pm==='2026-10'?'October (so far)':'September',formula:formula.length?formula:[{k:'No paid days',v:inr(0)}],monthEarned:inr(st.earned),
+    bal:inr(bal),balLabel:bal>=0?'To pay (as of today)':'Advance still owed by worker',balNote:bal>0?`You owe ${pw.name.split(' ')[0]} ${inr(bal)}`:bal<0?`${inr(-bal)} will be recovered from upcoming wages`:'All settled — nothing due',
+    sum:[{k:`Earned (${all.full} full + ${all.half} half days)`,v:inr(all.earned),wt:400},{k:'+ Extra earnings',v:inr(ex),wt:400},{k:'− Advances given',v:inr(av),wt:400},{k:'− Payments made',v:inr(pd),wt:400},{k:'= Balance',v:inr(bal),wt:600}],
+    recent:ptx.map(t=>({icon:t.type==='payment'?'ph-hand-coins':t.type==='advance'?'ph-arrow-circle-up-right':'ph-plus-circle',title:t.type==='payment'?'Payment':t.type==='advance'?'Advance':'Extra earning',sub:[fd(t.date),t.method,t.note].filter(Boolean).join(' · '),amt:(t.type==='extra'?'+':'−')+inr(t.amount)})),noTx:!ptx.length,
+    pay:()=>this.openTx('payment',pw.id),adv:()=>this.openTx('advance',pw.id),ledger:()=>this.go('ledger',{wid:pw.id})}}
+
+  const[pa,pb]=this.perRange();const pl=`${fd(pa)} – ${fdy(pb)}`;
+  const periodChips=[['oct','Oct'],['sep','Sep'],['all','All'],['custom','Custom']].map(([k,l])=>({label:l,...seg(s.period===k),on:()=>this.setState({period:k})}));
+  let E=0,X=0,AV=0,PD=0,OP=0,CL=0;const hrows=s.workers.map(w=>{const st=stats(s.att,w.id,pa,pb);const ex=txSum(s.tx,w.id,'extra',pa,pb),av=txSum(s.tx,w.id,'advance',pa,pb),pd=txSum(s.tx,w.id,'payment',pa,pb);const op=balance(s.att,s.tx,w.id,addDays(pa,-1));const cl=op+st.earned+ex-av-pd;E+=st.earned;X+=ex;AV+=av;PD+=pd;OP+=op;CL+=cl;
+   return{w,cl,st,ex,av,pd,act:st.earned||ex||av||pd||op}}).filter(r=>r.act||r.w.active).sort((a,b)=>b.cl-a.cl).map(r=>({w:this.wv(r.w),bal:inr(r.cl),lbl:r.cl>0?'To pay':r.cl<0?'Advance due':'Settled',lfg:r.cl>0?'var(--color-accent-300)':'var(--color-neutral-400)',sub:`Earned ${inr(r.st.earned+r.ex)} · Given ${inr(r.av+r.pd)}${r.w.active?'':' · Inactive'}`,open:()=>this.go('ledger',{wid:r.w.id})}));
+  const hs={close:inr(CL),closeLabel:`Total to pay · as of ${fdy(pb)}`,lines:[{k:`Opening balance (${fd(addDays(pa,-1))})`,v:inr(OP)},{k:'+ Wages earned',v:inr(E)},{k:'+ Extra earnings',v:inr(X)},{k:'− Advances given',v:inr(AV)},{k:'− Payments made',v:inr(PD)}],rows:hrows};
+
+  let lg={stats:[],rows:[]};if(pw){const L=this.ledger(pw.id,pa,pb);const st=stats(s.att,pw.id,pa,pb);const T={wage:['ph-briefcase','var(--color-accent-400)'],payment:['ph-hand-coins','var(--color-neutral-300)'],advance:['ph-arrow-circle-up-right','var(--color-neutral-300)'],extra:['ph-plus-circle','var(--color-accent-400)']};
+   lg={stats:[{n:st.full,label:'Full days'},{n:st.half,label:'Half days'},{n:inr(st.earned),label:'Earned'}],open:inr(L.open),openDate:fd(pa),close:inr(L.close),closeLabel:L.close>=0?`To pay · ${fd(pb)}`:`Advance due · ${fd(pb)}`,empty:!L.rows.length,
+    rows:L.rows.map(r=>({d:fd(r.date),icon:T[r.type][0],ifg:T[r.type][1],desc:r.desc,sub:r.sub,amt:(r.amt>=0?'+':'')+inr(r.amt),afg:r.amt>=0?'var(--color-accent-300)':'var(--color-text)',bal:'Bal '+inr(r.bal)})),
+    pay:()=>this.openTx('payment',pw.id),adv:()=>this.openTx('advance',pw.id),extra:()=>this.openTx('extra',pw.id),att:()=>this.go('profile',{wid:pw.id,profTab:'att'})}}
+
+  const t=s.txf||{type:'payment',wid:'',amount:'',date:TODAY,method:'Cash',note:''};const tw=t.wid&&this.W(t.wid);const tb=tw?balance(s.att,s.tx,tw.id):0;const ta=parseInt(t.amount,10)||0;
+  const th={wid:e=>this.setT('wid',e.target.value),amount:e=>this.setT('amount',e.target.value.replace(/\D/g,'').slice(0,6)),date:e=>this.setT('date',e.target.value),note:e=>this.setT('note',e.target.value)};
+  const tl=t.type==='payment'?'Payment':t.type==='advance'?'Advance':'Extra Earning';
+  const tv={types:[['payment','Payment'],['advance','Advance'],['extra','Extra']].map(([k,l])=>({label:l,...seg(t.type===k),on:()=>this.setT('type',k)})),selKey:'w-'+(t.wid||'none'),
+   wOpts:s.workers.filter(w=>w.active||w.id===t.wid).map(w=>({id:w.id,name:`${w.name} ··${w.mobile.slice(-4)}`,sel:w.id===t.wid})),
+   bal:tw?inr(tb):'—',balLbl:tw?(tb>0?'to pay':tb<0?'advance due':'settled'):'',
+   amtWords:ta?(t.type==='payment'&&tw&&ta===tb?'This clears the full balance':'Amount in rupees'):'Enter amount',
+   chips:(t.type==='payment'&&tb>0?[{label:`Full ${inr(tb)}`,on:()=>this.setT('amount',String(tb))}]:[]).concat([500,1000,2000,5000].map(n=>({label:inr(n),on:()=>this.setT('amount',String(n))}))),
+   warn:t.type==='payment'&&tw&&ta>tb?(tb>0?`This is ${inr(ta-tb)} more than the balance (${inr(tb)}). The extra will count as an advance.`:`Nothing is due right now — this full amount will count as an advance.`):(t.type==='advance'&&tw&&tb-ta<0?`After this advance the worker will owe ${inr(ta-tb)}. It's recovered from future wages automatically — never deducted twice.`:''),
+   showMethod:t.type!=='extra',methods:[['Cash','ph-money'],['UPI','ph-device-mobile'],['Bank Transfer','ph-bank'],['Other','ph-dots-three-circle']].map(([k,ic])=>{const on=t.method===k;return{label:k==='Bank Transfer'?'Bank':k,icon:ic,bg:on?'var(--color-accent-900)':'var(--color-surface)',fg:on?'var(--color-accent-100)':'var(--color-neutral-300)',sh:on?'0 0 0 1.5px var(--color-accent)':'none',on:()=>this.setT('method',k)}}),
+   notePh:t.type==='extra'?'e.g. Sunday overtime':t.method==='UPI'||t.method==='Bank Transfer'?'UTR / reference':'Optional',
+   hasPreview:!!tw&&ta>0,newBal:inr(t.type==='extra'?tb+ta:tb-ta),cta:`Save ${tl}`};
+
+  const sv={list:s.sites.map(si=>{const ws=s.workers.filter(w=>w.active&&w.site===si.id);let tp=0;Object.values(td).forEach(r=>{if(r.site===si.id&&(r.s==='P'||r.s==='H'))tp++});let c=0;for(let d='2026-10-01';d<=TODAY;d=addDays(d,1)){Object.values(s.att[d]||{}).forEach(r=>{if(r.site===si.id)c+=pay(r.s,r.rate)})}
+   const act=si.status==='active';return{name:si.name,meta:[si.area,si.client].filter(Boolean).join(' · '),status:act?'Active':'Completed',tagBg:act?'var(--color-accent-800)':'var(--color-neutral-800)',tagFg:act?'var(--color-accent-100)':'var(--color-neutral-200)',op:act?1:0.7,active:act,
+    stats:[{n:ws.length,label:'Workers'},{n:tp,label:'Present today'},{n:inr(c),label:'October cost'}],names:ws.length?ws.map(w=>w.name.split(' ').slice(0,2).join(' ')).join(', '):'',
+    att:()=>this.tab('att',{attSite:si.id,attDate:TODAY}),toggleLabel:act?'Mark Completed':'Make Active',
+    toggle:()=>this.ask({icon:'ph-buildings',title:act?'Mark site completed?':'Make site active?',body:act?`${si.name} will be marked completed. ${ws.length?ws.length+' workers will lose it as their default site. ':''}Past attendance and costs are kept.`:`${si.name} will appear in attendance again.`,ok:act?'Mark Completed':'Make Active',onOk:()=>this.setState(x=>({sites:x.sites.map(z=>z.id===si.id?{...z,status:act?'completed':'active'}:z),workers:act?x.workers.map(w=>w.site===si.id?{...w,site:''}:w):x.workers,activeSite:x.activeSite===si.id?'all':x.activeSite,attSite:x.attSite===si.id?'all':x.attSite}))})}})};
+  const sf=s.siteForm||{};const sh={};['name','client','address','start'].forEach(k=>sh[k]=e=>{const v=e.target.value;this.setState(x=>({siteForm:{...x.siteForm,[k]:v},siteErr:''}))});
+
+  const rp=this.report(s.report);rp.csv=()=>this.csv(`KaamHisab-${s.report}-${rp.usesDate?s.rDate:pa+'_'+pb}`,[rp.cols.map(c=>c.v)].concat(rp.rows.map(r=>r.map(c=>c.v))));rp.share=()=>this.toast(`${rp.title} PDF is ready to share on WhatsApp`);
+  const rv={list:REPORTS.map(r=>({...r,on:()=>this.go('report',{report:r.k})}))};
+  const ic=(bg,fg)=>({bg,fg});
+  const moreList=[{items:[{icon:'ph-buildings',label:'Sites',val:`${activeSites.length} active`,...ic('var(--color-accent-800)','var(--color-accent-100)'),on:()=>this.go('sites')},{icon:'ph-chart-bar',label:'Reports',val:'',...ic('var(--color-accent-800)','var(--color-accent-100)'),on:()=>this.go('reports')}]},
+   {items:[{icon:'ph-sliders',label:'Wage rules',val:'Half = 0.5',...ic('var(--color-neutral-700)','var(--color-neutral-100)'),on:()=>this.go('settings')},{icon:'ph-calendar-check',label:'Attendance settings',val:'',...ic('var(--color-neutral-700)','var(--color-neutral-100)'),on:()=>this.go('settings')},{icon:'ph-storefront',label:'Business profile',val:'',...ic('var(--color-neutral-700)','var(--color-neutral-100)'),on:()=>this.go('settings')},{icon:'ph-cloud-arrow-up',label:'Backup & export',val:'20 Oct',...ic('var(--color-neutral-700)','var(--color-neutral-100)'),on:()=>this.go('settings')},{icon:'ph-translate',label:'Language',val:s.lang,...ic('var(--color-neutral-700)','var(--color-neutral-100)'),on:()=>this.go('settings')}]},
+   {items:[{icon:'ph-sign-out',label:'Log out',val:'',...ic('var(--color-neutral-800)','var(--color-accent-300)'),on:()=>this.logoutAsk()}]}];
+  const U=s.user||{name:'',biz:'',mobile:'',city:''};const me={name:U.name,first:U.name.split(' ')[0]||'',biz:U.biz||(U.name?U.name.split(' ')[0]+"'s Tiles Work":''),ini:ini(U.biz||U.name||'K'),line:[U.name,U.mobile?'+91 '+mobFmt(U.mobile):'',U.city].filter(Boolean).join(' · '),mobile:U.mobile,city:U.city};
+  const setv={themes:[['light','Light'],['dark','Dark'],['auto','Auto']].map(([k,l])=>({label:l,...seg(s.theme===k),on:()=>this.setState({theme:k},()=>this.applyTheme())})),rules:[{k:'Present (full day)',v:'1 day wage'},{k:'Half day',v:'0.5 day wage'},{k:'Absent / Off',v:'₹0'},{k:'Advance',v:'Deducted once, same day'}],
+   toggles:[{label:'Sunday weekly off',sub:'Show a reminder on Sundays',...sw(s.sundayOff),toggle:()=>this.setState({sundayOff:!s.sundayOff})},{label:'Confirm past-date changes',sub:'Prevents accidental edits',...sw(s.pastConfirm),toggle:()=>this.setState({pastConfirm:!s.pastConfirm})}],
+   langs:['English','हिंदी'].map(l=>({label:l,...seg(s.lang===l),on:()=>{this.setState({lang:l});if(l!=='English')this.toast('Hindi saved — full translation comes in the next version')}})),
+   biz:[{k:'Business',v:me.biz},{k:'Owner',v:me.name},{k:'Mobile',v:'+91 '+mobFmt(me.mobile)},{k:'City',v:me.city||'—'}]};
+
+  const backLabels={history:'History',home:'Home',att:'Attendance',workers:'Workers',profile:'Profile',hisab:'Salary',ledger:'Ledger',more:'More',sites:'Sites',reports:'Reports',settings:'Settings',form:'Back',tx:'Back',report:'Back'};
+  const prev=s.stack[s.stack.length-1];
+  const titleMap={...TITLES,form:f.id?'Edit Worker':'New Worker',tx:tl,report:rp.title||'Report',profile:pw?pw.name:'Worker',ledger:pw?pw.name:'Ledger'};
+  const subMap={history:'Attendance by day, week or month',att:(ad===TODAY?'Today · ':DAY[dow(ad)]+' · ')+fdy(ad),hisab:pl,ledger:pw?`${CAT[pw.cat]} · ${pl}`:'',profile:'',report:rp.usesDate?'':rp.usesPeriod?pl:'As of today',workers:`${s.workers.filter(w=>w.active).length} active`,tx:''};
+  const headAction=sc==='att'?{label:'History',icon:'ph-clock-counter-clockwise',on:()=>this.go('history',{hDate:s.attDate})}:sc==='workers'?{label:'Add',icon:'ph-plus',on:()=>this.openForm()}:sc==='hisab'?{label:'Pay',icon:'ph-hand-coins',on:()=>this.openTx('payment')}:null;
+  const tt=s.toast;
+  if(this._lastMode!==undefined&&this._lastMode!==this.mode())setTimeout(()=>this.applyTheme(),0);
+  return{isAuth:!s.user,au:this.authVals(),me,isHistory:sc==='history',hv:sc==='history'?this.hist():{views:[],wchips:[],stats:[],dayRows:[],weekHead:[],weekRows:[],cal:[],monthLegend:[]},screenKey:sc+'-'+(s.wid||''),themeIcon:this.mode()==='dark'?'ph-sun':'ph-moon',toggleTheme:()=>this.setState({theme:this.mode()==='dark'?'light':'dark'},()=>this.applyTheme()),wide,narrow:!wide,colMax:wide?'820px':'480px',sideNav,bottomNav,legend,
+   isHome:sc==='home',isAtt:sc==='att',isWorkers:sc==='workers',isForm:sc==='form',isProfile:sc==='profile',isHisab:sc==='hisab',isLedger:sc==='ledger',isTx:sc==='tx',isSites:sc==='sites',isReports:sc==='reports',isReport:sc==='report',isMore:sc==='more',isSettings:sc==='settings',
+   showPeriod:sc==='hisab'||sc==='ledger'||(sc==='report'&&rp.usesPeriod),
+   title:titleMap[sc],bigTitle:sc==='home'?'Namaste, '+me.first+' 👋':titleMap[sc],subtitle:subMap[sc]||'',smallTitleOp:s.scrolled&&sc!=='home'?1:0,barShadow:s.scrolled?'0 1px 0 var(--color-neutral-800)':'none',
+   canBack:s.stack.length>0,backLabel:backLabels[prev]||'Back',back:this.back,headAction,
+   todayLong:`${DAY[dow(TODAY)]}, ${fdy(TODAY)}`,onBell:()=>this.toast(unm.length?`${unm.length} workers still need today's attendance`:'No new notifications'),
+   home,homeSiteChips,quick,activity:s.activity,goAttToday:goAtt,
+   att,attDate:s.attDate,onAttDateInput:e=>this.setAttDate(e.target.value),
+   wq:s.wq,onWq:e=>this.setState({wq:e.target.value}),wd,openAddWorker:()=>this.openForm(),
+   form:f,ferr:s.ferr,fh,fv,saveWorker:this.saveWorker,pf,
+   periodChips,isCustom:s.period==='custom',cFrom:s.cFrom,cTo:s.cTo,onCFrom:e=>this.setState({cFrom:e.target.value||START}),onCTo:e=>this.setState({cTo:e.target.value||TODAY}),hs,lg,
+   tx:t,txErr:s.txErr,th,tv,submitTx:this.submitTx,
+   sv,openSiteForm:()=>this.setState({siteForm:{name:'',client:'',address:'',start:TODAY},siteErr:''}),siteForm:s.siteForm?sf:null,sh,siteErr:s.siteErr,closeSiteForm:()=>this.setState({siteForm:null}),
+   saveSite:()=>{if((sf.name||'').trim().length<2){this.setState({siteErr:'Please enter a site name'});return}const id='s'+Date.now();this.setState(x=>({sites:[...x.sites,{id,name:sf.name.trim(),area:sf.address,client:sf.client,address:sf.address,start:sf.start,status:'active'}],siteForm:null}));this.toast(`${sf.name.trim()} added`)},
+   rv,rp,rDate:s.rDate,onRDate:e=>this.setState({rDate:e.target.value||TODAY}),moreList,setv,
+   backupAll:()=>this.csv('KaamHisab-ledger-'+TODAY,[['Date','Worker','Type','Amount','Method','Note']].concat(s.tx.map(x=>[x.date,this.W(x.wid).name,x.type,x.amount,x.method,x.note]))),logout:()=>this.logoutAsk(),
+   sheetAlign:wide?'center':'flex-end',sheetPad:wide?'16px':'0',sheetRadius:wide?'20px':'22px 22px 0 0',
+   dialog:s.dialog,closeDialog:()=>this.setState({dialog:null}),okDialog:()=>{const d=s.dialog;this.setState({dialog:null});if(d&&d.onOk)d.onOk()},stop:e=>e.stopPropagation(),
+   toast:tt?{text:tt.text,action:tt.action||null,icon:tt.kind==='err'?'ph-warning-circle':'ph-check-circle',fg:tt.kind==='err'?'var(--color-accent-300)':'var(--color-accent)'}:null};
+ }
+ hist(){const s=this.state,v=s.hView,d=s.hDate;let a,b;
+  if(v==='day'){a=b=d}else if(v==='week'){a=addDays(d,-((dow(d)+6)%7));b=addDays(a,6)}else{const[y,m]=d.split('-').map(Number);a=d.slice(0,7)+'-01';b=d.slice(0,7)+'-'+String(new Date(Date.UTC(y,m,0)).getUTCDate()).padStart(2,'0')}
+  const elig=(w,x)=>w.joined<=x&&!(w.left&&x>w.left)&&x<=TODAY;const one=s.hWorker!=='all';
+  const base=s.workers.filter(w=>(!one||w.id===s.hWorker)&&w.joined<=b&&(!w.left||w.left>=a));
+  let F=0,Hh=0,Ab=0,C=0;base.forEach(w=>{const st=stats(s.att,w.id,a,b);F+=st.full;Hh+=st.half;Ab+=st.abs;C+=st.earned});
+  const step=dir=>{let n;if(v==='day')n=addDays(d,dir);else if(v==='week')n=addDays(d,7*dir);else{const[y,m]=d.split('-').map(Number);n=d2s(new Date(Date.UTC(y,m-1+dir,1)))}if(n>TODAY)n=TODAY;if(n<START)n=START;this.setState({hDate:n})};
+  const canPrev=a>START,canNext=b<TODAY;
+  const cellFor=(w,x)=>{if(!elig(w,x))return{lbl:'',bg:'transparent',fg:'var(--color-neutral-500)',border:'none',op:0.25,aria:fd(x)};const r=(s.att[x]||{})[w.id];if(!r)return{lbl:'',bg:'transparent',fg:'var(--color-neutral-500)',border:'1.5px dashed var(--color-neutral-600)',op:1,aria:fd(x)+': not marked'};const m=ST[r.s];return{lbl:m.short,bg:m.bg,fg:m.fg,border:'none',op:1,aria:fd(x)+': '+m.label}};
+  const short=w=>this.wv(w).dup?w.name.split(' ').slice(0,2).join(' '):w.name.split(' ')[0];
+  let label,sub;if(v==='day'){label=d===TODAY?'Today':DAY[dow(d)];sub=fdy(d)}else if(v==='week'){label=fd(a)+' – '+fd(b);sub='Monday to Sunday'+(b>TODAY?' · so far':'')}else{const[y,m]=d.split('-').map(Number);label=MONF[m-1]+' '+y;sub=b>TODAY?'Month so far':'Full month'}
+  const out={views:[['day','Day'],['week','Week'],['month','Month']].map(([k,l])=>({label:l,...seg(v===k),on:()=>this.setState({hView:k})})),
+   wchips:[{id:'all',name:'All workers'}].concat(s.workers.map(w=>({id:w.id,name:short(w)+(w.active?'':' (left)')}))).map(x=>({label:x.name,...pill(s.hWorker===x.id),on:()=>this.setState({hWorker:x.id})})),
+   label,sub,prev:()=>{if(canPrev)step(-1)},next:()=>{if(canNext)step(1)},prevOp:canPrev?1:0.3,nextOp:canNext?1:0.3,
+   stats:[{n:F,label:'Full days'},{n:Hh,label:'Half days'},{n:Ab,label:'Absent'},{n:inr(C),label:one?'Earned':'Labour cost'}],
+   isDay:v==='day',isWeek:v==='week',isMonth:v==='month'};
+  out.dayRows=base.filter(w=>elig(w,d)).map(w=>{const r=(s.att[d]||{})[w.id];const m=r?ST[r.s]:ST.N;return{w:this.wv(w),label:m.label,icon:'ph-'+m.ic,bg:r?m.bg:'transparent',fg:r?m.fg:'var(--color-neutral-400)',border:r?'none':'1px dashed var(--color-neutral-600)',meta:r?this.siteName(r.site)+' · '+inr(r.rate)+'/day':'Not marked',amt:r?inr(pay(r.s,r.rate)):'—',open:()=>this.go('profile',{wid:w.id,profTab:'att',profMonth:d.slice(0,7)})}});
+  out.dayEmpty=!out.dayRows.length;out.editDay=()=>this.go('att',{attDate:d,attSite:'all',draft:{}});out.dayEditLabel=d===TODAY?'Mark or edit today':'Edit attendance for '+fd(d);
+  const wd=[0,1,2,3,4,5,6].map(i=>addDays(a,i));
+  out.weekHead=wd.map(x=>({d:DSH[dow(x)],n:s2d(x).getUTCDate(),fg:x===TODAY?'var(--color-accent)':'var(--color-neutral-400)',on:()=>{if(x<=TODAY)this.setState({hView:'day',hDate:x})}}));
+  out.weekRows=base.map(w=>{const st=stats(s.att,w.id,a,b);return{w:this.wv(w),short:short(w),paid:String(st.full+st.half/2),cells:wd.map(x=>({...cellFor(w,x),on:()=>{if(x<=TODAY)this.setState({hView:'day',hDate:x})}}))}});
+  const cal=[];const lead=(dow(a)+6)%7;for(let i=0;i<lead;i++)cal.push({n:'',lbl:'',bg:'transparent',fg:'inherit',border:'none',op:0,aria:'',on:null});
+  for(let x=a;x<=b;x=addDays(x,1)){const n=s2d(x).getUTCDate();const fut=x>TODAY;const on=fut?null:()=>this.setState({hView:'day',hDate:x});const today=x===TODAY?'2px solid var(--color-accent)':null;
+   if(one){const w=base[0];const c=w?cellFor(w,x):{lbl:'',bg:'transparent',fg:'var(--color-neutral-500)',border:'none',op:0.25,aria:fd(x)};cal.push({...c,n,border:today||c.border,on})}
+   else{const ws=s.workers.filter(w=>elig(w,x));const day=s.att[x]||{};let pres=0,off=0,mk=0;ws.forEach(w=>{const r=day[w.id];if(!r)return;mk++;if(r.s==='P')pres++;else if(r.s==='H')pres+=0.5;else if(r.s==='O')off++});
+    const ratio=ws.length?pres/ws.length:0;const allOff=mk>0&&off===mk;
+    const bg=fut||!mk?'transparent':allOff?'var(--color-neutral-800)':ratio>=0.85?'var(--color-accent-700)':ratio>=0.5?'var(--color-accent-800)':'var(--color-accent-900)';
+    cal.push({n,lbl:fut?'':!mk?(ws.length?'—':''):allOff?'Off':pres+'/'+ws.length,bg,fg:fut?'var(--color-neutral-500)':ratio>=0.85&&!allOff?'var(--color-accent-100)':'var(--color-text)',border:today||(!fut&&!mk&&ws.length?'1.5px dashed var(--color-neutral-600)':'none'),op:fut?0.35:1,aria:fd(x)+(mk?': '+pres+' of '+ws.length+' present':': not marked'),on})}}
+  out.cal=cal;
+  out.monthLegend=one?['P','H','A','O'].map(k=>({label:ST[k].label,bg:ST[k].bg,border:'none'})):[{label:'85%+ came',bg:'var(--color-accent-700)',border:'none'},{label:'50–85%',bg:'var(--color-accent-800)',border:'none'},{label:'Under 50%',bg:'var(--color-accent-900)',border:'none'},{label:'Not marked',bg:'transparent',border:'1.5px dashed var(--color-neutral-600)'}];
+  return out}
+ logoutAsk(){this.ask({icon:'ph-sign-out',title:'Log out?',body:'All your data stays safe on this phone. You will need a code on your mobile to log in again.',ok:'Log Out',onOk:()=>{this.setState({user:null,screen:'home',stack:[],draft:{},auth:{mode:'login',step:'phone',name:'',biz:'',mobile:'',otp:'',err:''}});this.top()}})}
+ setA(k,v){this.setState(s=>({auth:{...s.auth,[k]:v,err:''}}))}
+ authVals(){const s=this.state,a=s.auth,isS=a.mode==='signup',isO=a.step==='otp';
+  const submit=()=>{const x=this.state.auth;
+   if(x.step==='phone'){if(x.mode==='signup'&&x.name.trim().length<2){this.setA('err','Please enter your name');return}
+    if(!/^[6-9]\d{9}$/.test(x.mobile)){this.setA('err','Enter a valid 10-digit mobile number');return}
+    const acc=this.state.accounts.find(z=>z.mobile===x.mobile);
+    if(x.mode==='login'&&!acc){this.setState({auth:{...x,err:'No account with this number. Tap Sign up to create one.'}});return}
+    if(x.mode==='signup'&&acc){this.setState({auth:{...x,err:'This number is already registered. Please log in.'}});return}
+    this.setState({auth:{...x,step:'otp',otp:'',err:''}});this.toast('Code sent to +91 '+mobFmt(x.mobile));return}
+   if(!/^\d{4}$/.test(x.otp)){this.setA('err','Enter the 4-digit code');return}
+   let user=this.state.accounts.find(z=>z.mobile===x.mobile);
+   if(x.mode==='signup'){user={name:x.name.trim().replace(/\s+/g,' '),biz:x.biz.trim(),mobile:x.mobile,city:''};this.setState(z=>({accounts:[...z.accounts,user]}))}
+   this.setState({user,screen:'home',stack:[]});this.top();this.toast((x.mode==='signup'?'Welcome to Kaam Hisab, ':'Welcome back, ')+user.name.split(' ')[0])};
+  return{f:a,isSignup:isS,isPhone:!isO,isOtp:isO,err:a.err,mobileFmt:'+91 '+mobFmt(a.mobile),
+   title:isO?'Verify your number':isS?'Create account':'Welcome back',
+   sub:isO?'We sent a code by SMS. It keeps your hisab safe.':isS?'Track attendance, wages and payments for your team — no register needed.':'Log in with your mobile number to see your team and hisab.',
+   modes:[['login','Log in'],['signup','Sign up']].map(([k,l])=>({label:l,...seg(a.mode===k),on:()=>this.setState(z=>({auth:{...z.auth,mode:k,err:''}}))})),
+   h:{name:e=>this.setA('name',e.target.value),biz:e=>this.setA('biz',e.target.value),mobile:e=>this.setA('mobile',e.target.value.replace(/\D/g,'').slice(-10)),otp:e=>this.setA('otp',e.target.value.replace(/\D/g,'').slice(0,4))},
+   cta:isO?'Verify & Continue':'Get Code',submit,
+   hint:isO?'Prototype: any 4 digits will work.':isS?'By continuing you agree to receive an SMS code. Standard rates may apply.':'New here? Choose Sign up above.',
+   showDemo:!isO&&!isS,demo:()=>this.setState(z=>({auth:{...z.auth,mobile:'9822011458',err:''}})),
+   change:()=>this.setState(z=>({auth:{...z.auth,step:'phone',otp:'',err:''}})),resend:()=>this.toast('New code sent to +91 '+mobFmt(a.mobile))}}
+}
+</script>
+</body>
+</html>

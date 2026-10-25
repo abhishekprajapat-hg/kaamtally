@@ -1,0 +1,46 @@
+{
+  "expo": {
+    "name": "Kaamtally",
+    "slug": "kaamtally",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "automatic",
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.nemnidhi.kaamtally"
+    },
+    "android": {
+      "adaptiveIcon": {
+        "backgroundColor": "#1E1B2B",
+        "foregroundImage": "./assets/android-icon-foreground.png",
+        "backgroundImage": "./assets/android-icon-background.png",
+        "monochromeImage": "./assets/android-icon-monochrome.png"
+      },
+      "package": "com.nemnidhi.kaamtally",
+      "softwareKeyboardLayoutMode": "resize"
+    },
+    "web": {
+      "favicon": "./assets/favicon.png",
+      "name": "Kaamtally"
+    },
+    "plugins": [
+      "expo-font",
+      "@react-native-community/datetimepicker",
+      "expo-sharing",
+      [
+        "expo-splash-screen",
+        {
+          "image": "./assets/splash-icon.png",
+          "imageWidth": 190,
+          "resizeMode": "contain",
+          "backgroundColor": "#F2F2F7",
+          "dark": {
+            "backgroundColor": "#000000"
+          }
+        }
+      ]
+    ],
+    "scheme": "kaamtally"
+  }
+}
