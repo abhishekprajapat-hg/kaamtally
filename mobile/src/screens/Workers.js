@@ -1,5 +1,5 @@
 import React from 'react';
-import { View } from 'react-native';
+import { View, useWindowDimensions } from 'react-native';
 import { useTheme } from '../ui/theme-context';
 import { T, Press, Glass, Seg, Avatar, Btn, Input, Caption, Switch, ErrorLine, Grid, IconTile } from '../ui/kit';
 import Icon from '../ui/Icon';
@@ -148,7 +148,12 @@ export function WorkerForm({ v }) {
 
 export function Profile({ v }) {
   const { c } = useTheme();
+  const { width } = useWindowDimensions();
   const pf = v.pf;
+  // Four buttons share the row, and "Attendance" is a long word that can't wrap.
+  // Size the label to the space each button actually gets, so it never gets cut off.
+  const perButton = (Math.min(width, 480) - 32 - 24) / 4 - 4;
+  const actionFont = Math.max(11, Math.min(13, Math.floor(perButton / 5.4)));
   if (!pf.w.id) return null;
   return (
     <>
@@ -162,8 +167,9 @@ export function Profile({ v }) {
       <View style={{ flexDirection: 'row', gap: 8 }}>
         {pf.actions.map((q) => (
           <Press key={q.label} onPress={q.on} activeOpacity={0.6} style={{ flex: 1 }}>
-            <Glass radius={14} style={{ minHeight: 66, alignItems: 'center', justifyContent: 'center', gap: 4 }}>
-              <Icon name={q.icon} fill size={22} color="var(--color-accent)" /><T style={{ fontSize: 13, color: 'var(--color-accent)' }}>{q.label}</T>
+            <Glass radius={14} style={{ minHeight: 66, alignItems: 'center', justifyContent: 'center', gap: 4, paddingHorizontal: 2 }}>
+              <Icon name={q.icon} fill size={22} color="var(--color-accent)" />
+              <T style={{ fontSize: actionFont, color: 'var(--color-accent)', textAlign: 'center' }}>{q.label}</T>
             </Glass>
           </Press>
         ))}
@@ -191,7 +197,7 @@ export function Profile({ v }) {
           <Stats items={pf.mcounts} nSize={24} lSize={13} />
           <Glass style={{ padding: 14 }}>
             <Calendar heads={['M', 'T', 'W', 'T', 'F', 'S', 'S']} cells={pf.cal} round minH={40} nSize={14} lSize={9} />
-            <View style={{ marginTop: 12 }}><Legend items={v.legend} extra="· Tap a day to edit" size={13} /></View>
+            <View style={{ marginTop: 12 }}><Legend items={v.legend} extra="· Tap any day to mark or change it" size={13} /></View>
           </Glass>
           <View style={{ gap: 6 }}>
             <Caption>{pf.monthLabel} earnings</Caption>

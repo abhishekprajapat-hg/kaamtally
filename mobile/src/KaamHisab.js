@@ -7,6 +7,7 @@ import { ST, seg, pill, sw } from './theme';
 import { D, inr, ini, mobFmt, CAT, rateOn, pay, stats, txSum, balance } from './lib/calc';
 import { s2d, d2s, addDays, dow, fd, fdy, DAY, DSH, MONF, localToday, monthKey, prevMonthKey, monthEnd, monthName, timeAgo } from './lib/date';
 import { api, session } from './lib/api';
+import { DEMO_MOBILE } from './lib/demo';
 import { shareCsv, sharePdf } from './lib/files';
 import Shell from './screens/Shell';
 
@@ -32,8 +33,8 @@ export default class KaamHisab extends React.Component {
     super(props);
     const T0 = localToday(); D.TODAY = T0;
     this.state = {
-      booting: true, loadErr: '', busy: false, user: null, sites: [], workers: [], att: {}, tx: [], activity: [],
-      screen: 'home', stack: [], vw: Dimensions.get('window').width, scrolled: false, activeSite: 'all', attDate: T0, attSite: 'all', draft: {}, pastAck: {},
+      booting: true, loadErr: '', loadOffline: false, busy: false, user: null, sites: [], workers: [], att: {}, tx: [], activity: [],
+      screen: 'home', stack: [], vw: Dimensions.get('window').width, scrolled: false, activeSite: 'all', attDate: T0, attSite: 'all', draft: {}, pastAck: {}, dayEdit: null, dayBusy: false,
       wq: '', wcat: 'all', form: null, ferr: {}, wid: null, profTab: 'overview', profMonth: monthKey(T0), period: 'cur', cFrom: monthKey(T0) + '-01', cTo: T0,
       txf: null, txErr: {}, report: 'daily', rDate: T0, dialog: null, toast: null, lang: 'English', sundayOff: true, pastConfirm: true, newIds: {},
       siteForm: null, siteErr: '', pinForm: null, pinErr: {}, auth: { ...AUTH0 }, theme: 'light', hView: 'month', hDate: T0, hWorker: 'all'
@@ -64,7 +65,7 @@ export default class KaamHisab extends React.Component {
   };
 
   async load() {
-    this.setState({ booting: true, loadErr: '' });
+    this.setState({ booting: true, loadErr: '', loadOffline: false });
     try {
       const b = await api.bootstrap();
       const T = b.today || localToday(); D.TODAY = T;
@@ -79,7 +80,7 @@ export default class KaamHisab extends React.Component {
       });
     } catch (e) {
       if (e.status === 401) { await session.clear(); this.setState({ booting: false, user: null }); return; }
-      this.setState({ booting: false, loadErr: e.message });
+      this.setState({ booting: false, loadErr: e.message, loadOffline: e.status === 0 });
     }
   }
   async refreshActivity() { try { const r = await api.activity(); this.setState({ activity: r.activity }); } catch {} }
@@ -95,6 +96,11 @@ export default class KaamHisab extends React.Component {
   back = () => this.guard(() => { this.setState((s) => { const st = [...s.stack]; const p = st.pop() || 'home'; return { stack: st, screen: p }; }); this.top(); });
   ask(d) { this.setState({ dialog: Object.assign({ icon: 'ph-question', cancel: 'Cancel', ok: 'Yes' }, d) }); }
   toast(text, kind, action) { const id = Date.now() + Math.random(); this.setState({ toast: { text, kind: kind || 'ok', action, id } }); clearTimeout(this._t); this._t = setTimeout(() => { if (this.state.toast && this.state.toast.id === id) this.setState({ toast: null }); }, action ? 7000 : 3200); }
+  // One place to report a failed request, so offline never reads as a server error.
+  failToast(e, retry) {
+    if (e && e.status === 0) this.toast('No internet — nothing was saved. Try again when you are back online.', 'offline', retry ? { label: 'Retry', on: () => { this.setState({ toast: null }); retry(); } } : undefined);
+    else this.toast((e && e.message) || 'Something went wrong. Please try again.', 'err', retry ? { label: 'Retry', on: () => { this.setState({ toast: null }); retry(); } } : undefined);
+  }
   wv(w) {
     const s = this.state; const rate = rateOn(w, D.TODAY); const first = w.name.split(' ')[0].toLowerCase();
     const dup = s.workers.some((x) => x.id !== w.id && x.name.split(' ')[0].toLowerCase() === first);
@@ -148,7 +154,43 @@ export default class KaamHisab extends React.Component {
       this.toast(`Saved attendance for ${n} worker${n > 1 ? 's' : ''} · ${fdy(d)}`);
     } catch (e) {
       this.setState({ busy: false });
-      this.toast(e.status ? e.message : "Couldn't save — check your internet. Your changes are kept on this phone.", 'err', { label: 'Retry', on: () => { this.setState({ toast: null }); this.saveAtt(); } });
+      this.failToast(e, () => this.saveAtt());
+    }
+  };
+
+  // Edit one worker's attendance for one day, straight from a calendar.
+  // Works for any past day the worker was on the books, not just today.
+  openDayEdit(wid, d) { this.setState({ dayEdit: { wid, date: d } }); }
+  closeDayEdit = () => { if (!this.state.dayBusy) this.setState({ dayEdit: null }); };
+  setDayMark = async (st) => {
+    const s = this.state, de = s.dayEdit; if (!de || s.dayBusy) return;
+    const w = this.W(de.wid), d = de.date; if (!w) return;
+    const saved = (s.att[d] || {})[de.wid];
+    if (saved && saved.s === st) { this.closeDayEdit(); return; }
+    if (!saved && st === null) { this.closeDayEdit(); return; }
+    // Honour the "confirm before changing past attendance" setting.
+    if (d < D.TODAY && saved && s.pastConfirm && !s.pastAck[d]) {
+      const to = st === null ? 'Not marked' : ST[st].label;
+      this.ask({ icon: 'ph-clock-counter-clockwise', title: 'Change past attendance?', body: `${w.name} on ${fdy(d)}: "${ST[saved.s].label}" → "${to}". Salary will update too. We won't ask again for this date.`, ok: 'Yes, change it', onOk: () => { this.setState((x) => ({ pastAck: { ...x.pastAck, [d]: true } }), () => this.setDayMark(st)); } });
+      return;
+    }
+    this.setState({ dayBusy: true });
+    const first = w.name.split(' ')[0];
+    try {
+      if (st === null) {
+        await api.clearAttendance(d, de.wid);
+        this.setState((x) => { const day = { ...(x.att[d] || {}) }; delete day[de.wid]; return { att: { ...x.att, [d]: day }, dayBusy: false, dayEdit: null }; });
+        this.toast(`${first} · mark cleared · ${fdy(d)}`);
+      } else {
+        const site = (saved && saved.site) || w.site || '';
+        const r = await api.saveAttendance(d, [{ worker: de.wid, s: st, site }]);
+        this.setState((x) => { const day = { ...(x.att[d] || {}) }; r.attendance.forEach((a) => { day[a.worker] = { s: a.s, site: a.site || '', rate: a.rate }; }); return { att: { ...x.att, [d]: day }, dayBusy: false, dayEdit: null }; });
+        this.toast(`${first} · ${ST[st].label} · ${fdy(d)}`);
+      }
+      this.refreshActivity();
+    } catch (e) {
+      this.setState({ dayBusy: false });
+      this.failToast(e, () => this.setDayMark(st));
     }
   };
 
@@ -163,7 +205,7 @@ export default class KaamHisab extends React.Component {
     if (!(wage >= 100 && wage <= 5000)) e.wage = 'Daily wage must be between ₹100 and ₹5,000';
     if (Object.keys(e).length) { this.setState({ ferr: e }); this.toast('Please fix the highlighted fields', 'err'); return; }
     const body = { name: f.name.trim(), mobile: f.mobile, cat: f.cat, wage, joined: f.joined, site: f.site, notes: f.notes, active: f.active, eff: f.eff };
-    const fail = (err) => { this.setState({ busy: false, ferr: err.fields || {} }); this.toast(err.message, 'err'); };
+    const fail = (err) => { this.setState({ busy: false, ferr: err.fields || {} }); this.failToast(err); };
     if (!f.id) {
       if (s.busy) return; this.setState({ busy: true });
       api.addWorker(body).then(({ worker: w }) => {
@@ -206,7 +248,7 @@ export default class KaamHisab extends React.Component {
           const curStart = monthKey(D.TODAY) + '-01';
           this.setState((x) => ({ busy: false, tx: x.tx.concat([r.transaction]), screen: 'ledger', wid: w.id, period: t.date < curStart ? 'all' : x.period === 'prev' ? 'cur' : x.period }));
           this.refreshActivity(); this.toast(`${tl} of ${inr(a)} saved · new balance ${inr(nb)}`); this.top();
-        } catch (err) { this.setState({ busy: false, txErr: err.fields || {} }); this.toast(err.message, 'err'); }
+        } catch (err) { this.setState({ busy: false, txErr: err.fields || {} }); this.failToast(err); }
       }
     });
   };
@@ -215,7 +257,7 @@ export default class KaamHisab extends React.Component {
   saveSettings(patch) {
     this.setState(patch);
     const settings = {}; ['sundayOff', 'pastConfirm', 'lang', 'theme'].forEach((k) => { if (k in patch) settings[k] = patch[k]; });
-    api.updateMe({ settings }).then((r) => this.setState({ user: r.user }), () => this.toast("Couldn't save the setting — check your internet", 'err'));
+    api.updateMe({ settings }).then((r) => this.setState({ user: r.user }), (e) => this.failToast(e));
   }
   openPinForm() { this.setState({ pinForm: { currentPin: '', newPin: '', confirmPin: '' }, pinErr: {} }); }
   setP(k, v) { this.setState((s) => ({ pinForm: { ...s.pinForm, [k]: v }, pinErr: { ...s.pinErr, [k]: null, form: null } })); }
@@ -351,7 +393,8 @@ export default class KaamHisab extends React.Component {
       hint: isPin
         ? (isS ? 'Keep your PIN private. Anyone with it can see your hisab.' : 'Forgot your PIN? Ask whoever set up the app to reset it for you.')
         : isS ? 'You choose a PIN on the next screen — no OTP, no SMS.' : 'New here? Choose Sign up above.',
-      showDemo: !isPin && !isS, demo: () => this.setState((z) => ({ auth: { ...z.auth, mobile: '9822011458', err: '' } })),
+      demoLabel: `Use demo account · ${mobFmt(DEMO_MOBILE)}`,
+      showDemo: !isPin && !isS, demo: () => this.setState((z) => ({ auth: { ...z.auth, mobile: DEMO_MOBILE, err: '' } })),
       changeNumber: () => this.setState((z) => ({ auth: { ...z.auth, step: 'phone', pin: '', confirmPin: '', err: '', fieldErr: {} } }))
     };
   }
@@ -362,8 +405,8 @@ export default class KaamHisab extends React.Component {
     const navItems = [{ k: 'home', label: 'Home', icon: 'house' }, { k: 'att', label: 'Attendance', icon: 'calendar-check' }, { k: 'workers', label: 'Workers', icon: 'users-three' }, { k: 'hisab', label: 'Salary', icon: 'wallet' }, { k: 'more', label: 'More', icon: 'dots-three-circle' }];
     const tabOf = { history: 'att', home: 'home', att: 'att', workers: 'workers', form: 'workers', profile: 'workers', hisab: 'hisab', ledger: 'hisab', tx: 'hisab', more: 'more', sites: 'more', reports: 'more', report: 'more', settings: 'more' };
     const curTab = wide && ['history', 'sites', 'reports', 'report', 'settings'].includes(sc) ? (sc === 'report' ? 'reports' : sc) : tabOf[sc];
-    const bottomNav = navItems.map((n) => { const on = tabOf[sc] === n.k; return { k: n.k, label: n.label, icon: (on ? 'ph-fill ph-' : 'ph ph-') + n.icon, on: on, fg: on ? 'var(--color-accent)' : 'var(--color-neutral-400)', pill: on ? 'var(--color-accent-900)' : 'transparent', dot: on ? 'var(--color-accent)' : 'transparent', press: () => this.tab(n.k, n.k === 'att' ? { attDate: TODAY } : null) }; });
-    const sideNav = navItems.filter((n) => n.k !== 'more').concat([{ k: 'history', label: 'History', icon: 'clock-counter-clockwise' }, { k: 'sites', label: 'Sites', icon: 'buildings' }, { k: 'reports', label: 'Reports', icon: 'chart-bar' }, { k: 'settings', label: 'Settings', icon: 'gear' }]).map((n) => { const on = curTab === n.k; return { label: n.label, icon: (on ? 'ph-fill ph-' : 'ph ph-') + n.icon, bg: on ? 'var(--color-accent-900)' : 'transparent', fg: on ? 'var(--color-accent-200)' : 'var(--color-neutral-300)', on: () => this.tab(n.k) }; });
+    const bottomNav = navItems.map((n) => { const on = tabOf[sc] === n.k; return { k: n.k, label: n.label, icon: 'ph-fill ph-' + n.icon, on: on, fg: on ? 'var(--color-accent)' : 'var(--color-neutral-400)', pill: on ? 'var(--color-accent-900)' : 'transparent', dot: on ? 'var(--color-accent)' : 'transparent', press: () => this.tab(n.k, n.k === 'att' ? { attDate: TODAY } : null) }; });
+    const sideNav = navItems.filter((n) => n.k !== 'more').concat([{ k: 'history', label: 'History', icon: 'clock-counter-clockwise' }, { k: 'sites', label: 'Sites', icon: 'buildings' }, { k: 'reports', label: 'Reports', icon: 'chart-bar' }, { k: 'settings', label: 'Settings', icon: 'gear' }]).map((n) => { const on = curTab === n.k; return { label: n.label, icon: 'ph-fill ph-' + n.icon, bg: on ? 'var(--color-accent-900)' : 'transparent', fg: on ? 'var(--color-accent-200)' : 'var(--color-neutral-300)', on: () => this.tab(n.k) }; });
     const legend = ['P', 'H', 'A', 'O'].map((k) => ({ label: ST[k].label, icon: 'ph-' + ST[k].ic, dot: ST[k].dot }));
 
     const hw = s.workers.filter((w) => w.active && (s.activeSite === 'all' || w.site === s.activeSite));
@@ -439,7 +482,7 @@ export default class KaamHisab extends React.Component {
       const v = this.wv(pw); const pm = s.profMonth; const first = pm + '-01'; const last = monthEnd(pm); const dim = Number(last.slice(8));
       const cal = []; const lead = (dow(first) + 6) % 7; for (let i = 0; i < lead; i++) cal.push({ n: '', lbl: '', bg: 'transparent', fg: 'inherit', border: 'none', op: 0, aria: '', on: null });
       for (let i = 1; i <= dim; i++) { const d = pm + '-' + String(i).padStart(2, '0'); const r = (s.att[d] || {})[pw.id]; const outR = d > TODAY || d < pw.joined || (pw.left && d > pw.left) || d < START; const m2 = r ? ST[r.s] : ST.N;
-        cal.push({ n: i, lbl: r ? m2.short : '', bg: r ? m2.bg : 'transparent', fg: r ? m2.fg : 'var(--color-neutral-500)', border: d === TODAY ? '2px solid var(--color-accent)' : (r || outR ? 'none' : '1px dashed var(--color-neutral-700)'), op: outR ? 0.3 : 1, aria: `${fd(d)}: ${r ? m2.label : 'not marked'}`, on: outR ? null : () => this.go('att', { attDate: d, attSite: 'all', draft: {} }) }); }
+        cal.push({ n: i, lbl: r ? m2.short : '', bg: r ? m2.bg : 'transparent', fg: r ? m2.fg : 'var(--color-neutral-500)', border: d === TODAY ? '2px solid var(--color-accent)' : (r || outR ? 'none' : '1px dashed var(--color-neutral-700)'), op: outR ? 0.3 : 1, aria: `${fd(d)}: ${r ? m2.label : 'not marked'}`, on: outR ? null : () => this.openDayEdit(pw.id, d) }); }
       const st = stats(s.att, pw.id, first, last); const formula = Object.entries(st.groups).flatMap(([rate, g]) => { const r = +rate; const o = []; if (g.f) o.push({ k: `${g.f} full days × ${inr(r)}`, v: inr(g.f * r) }); if (g.h) o.push({ k: `${g.h} half days × ${inr(r / 2)}`, v: inr(g.h * r / 2) }); return o; });
       const bal = balance(s.att, s.tx, pw.id); const all = stats(s.att, pw.id, '0000-01-01', TODAY); const ex = txSum(s.tx, pw.id, 'extra', '0000-01-01', TODAY), av = txSum(s.tx, pw.id, 'advance', '0000-01-01', TODAY), pd = txSum(s.tx, pw.id, 'payment', '0000-01-01', TODAY);
       const ptx = s.tx.filter((t) => t.wid === pw.id).sort((a, b) => (a.date < b.date ? 1 : -1)).slice(0, 5);
@@ -497,7 +540,7 @@ export default class KaamHisab extends React.Component {
         stats: [{ n: ws.length, label: 'Workers' }, { n: tp, label: 'Present today' }, { n: inr(c), label: `${monthName(curM, true)} cost` }], names: ws.length ? ws.map((w) => w.name.split(' ').slice(0, 2).join(' ')).join(', ') : '',
         att: () => this.tab('att', { attSite: si.id, attDate: TODAY }), toggleLabel: act ? 'Mark Completed' : 'Make Active',
         toggle: () => this.ask({ icon: 'ph-buildings', title: act ? 'Mark site completed?' : 'Make site active?', body: act ? `${si.name} will be marked completed. ${ws.length ? ws.length + ' workers will lose it as their default site. ' : ''}Past attendance and costs are kept.` : `${si.name} will appear in attendance again.`, ok: act ? 'Mark Completed' : 'Make Active',
-          onOk: async () => { try { await api.updateSite(si.id, { status: act ? 'completed' : 'active' }); this.setState((x) => ({ sites: x.sites.map((z) => (z.id === si.id ? { ...z, status: act ? 'completed' : 'active' } : z)), workers: act ? x.workers.map((w) => (w.site === si.id ? { ...w, site: '' } : w)) : x.workers, activeSite: x.activeSite === si.id ? 'all' : x.activeSite, attSite: x.attSite === si.id ? 'all' : x.attSite })); } catch (e) { this.toast(e.message, 'err'); } } }) };
+          onOk: async () => { try { await api.updateSite(si.id, { status: act ? 'completed' : 'active' }); this.setState((x) => ({ sites: x.sites.map((z) => (z.id === si.id ? { ...z, status: act ? 'completed' : 'active' } : z)), workers: act ? x.workers.map((w) => (w.site === si.id ? { ...w, site: '' } : w)) : x.workers, activeSite: x.activeSite === si.id ? 'all' : x.activeSite, attSite: x.attSite === si.id ? 'all' : x.attSite })); } catch (e) { this.failToast(e); } } }) };
     }) };
     const sf = s.siteForm || {}; const sh = {}; ['name', 'client', 'address', 'start'].forEach((k) => { sh[k] = (v) => this.setState((x) => ({ siteForm: { ...x.siteForm, [k]: v }, siteErr: '' })); });
 
@@ -527,6 +570,24 @@ export default class KaamHisab extends React.Component {
     const titleMap = { ...TITLES, form: f.id ? 'Edit Worker' : 'New Worker', tx: tl, report: rp.title || 'Report', profile: pw ? pw.name : 'Worker', ledger: pw ? pw.name : 'Ledger' };
     const subMap = { history: 'Attendance by day, week or month', att: (ad === TODAY ? 'Today · ' : DAY[dow(ad)] + ' · ') + fdy(ad), hisab: pl, ledger: pw ? `${CAT[pw.cat]} · ${pl}` : '', profile: '', report: rp.usesDate ? '' : rp.usesPeriod ? pl : 'As of today', workers: `${s.workers.filter((w) => w.active).length} active`, tx: '' };
     const headAction = sc === 'att' ? { label: 'History', icon: 'ph-clock-counter-clockwise', on: () => this.go('history', { hDate: s.attDate }) } : sc === 'workers' ? { label: 'Add', icon: 'ph-plus', on: () => this.openForm() } : sc === 'hisab' ? { label: 'Pay', icon: 'ph-hand-coins', on: () => this.openTx('payment') } : null;
+    // Day editor: one worker, one date, opened from a calendar.
+    let dayEdit = null;
+    if (s.dayEdit) {
+      const dw = this.W(s.dayEdit.wid), dd = s.dayEdit.date;
+      if (dw) {
+        const cur = (s.att[dd] || {})[s.dayEdit.wid];
+        const rate = cur ? cur.rate : rateOn(dw, dd);
+        dayEdit = {
+          name: dw.name, when: `${DAY[dow(dd)]}, ${fdy(dd)}`, isToday: dd === TODAY, busy: s.dayBusy,
+          rateNote: `Day rate ${inr(rate)}`,
+          options: ['P', 'H', 'A', 'O'].map((k) => ({
+            k, label: ST[k].label, icon: 'ph-' + ST[k].ic, dot: ST[k].dot, sel: !!cur && cur.s === k,
+            amt: pay(k, rate) ? inr(pay(k, rate)) : 'No wage', on: () => this.setDayMark(k)
+          })),
+          canClear: !!cur, clear: () => this.setDayMark(null), close: this.closeDayEdit
+        };
+      }
+    }
     const tt = s.toast;
     return {
       TODAY, START,
@@ -541,6 +602,7 @@ export default class KaamHisab extends React.Component {
       att, attDate: s.attDate, onAttDate: (d) => this.setAttDate(d),
       wq: s.wq, onWq: (v) => this.setState({ wq: v }), wd, openAddWorker: () => this.openForm(),
       form: f, ferr: s.ferr, fh, fv, saveWorker: this.saveWorker, pf,
+      dayEdit,
       periodChips, isCustom: s.period === 'custom', cFrom: s.cFrom, cTo: s.cTo, onCFrom: (v) => this.setState({ cFrom: v || START }), onCTo: (v) => this.setState({ cTo: v || TODAY }), hs, lg,
       tx: t, txErr: s.txErr, th, tv, submitTx: this.submitTx,
       pinForm: s.pinForm, pinErr: s.pinErr, pinLength: PIN_LEN,
@@ -553,12 +615,16 @@ export default class KaamHisab extends React.Component {
       backupAll: async () => { try { await shareCsv('Kaamtally-ledger-' + TODAY, [['Date', 'Worker', 'Type', 'Amount', 'Method', 'Note']].concat(s.tx.map((x) => [x.date, (this.W(x.wid) || {}).name || '', x.type, x.amount, x.method, x.note]))); const r = await api.updateMe({ backupNow: true }); this.setState({ user: r.user }); this.toast('Backup exported'); } catch (e) { this.toast(e.message || "Couldn't export", 'err'); } },
       logout: () => this.logoutAsk(),
       dialog: s.dialog, closeDialog: () => this.setState({ dialog: null }), okDialog: () => { const d = s.dialog; this.setState({ dialog: null }); if (d && d.onOk) d.onOk(); },
-      toast: tt ? { id: tt.id, text: tt.text, action: tt.action || null, icon: tt.kind === 'err' ? 'ph-warning-circle' : 'ph-check-circle', fg: tt.kind === 'err' ? 'var(--color-accent-300)' : 'var(--color-accent)' } : null
+      toast: tt ? {
+        id: tt.id, text: tt.text, action: tt.action || null, kind: tt.kind,
+        icon: tt.kind === 'err' ? 'ph-warning-circle' : tt.kind === 'offline' ? 'ph-warning' : 'ph-check-circle',
+        fg: tt.kind === 'ok' ? 'var(--color-ok)' : 'var(--color-danger)'
+      } : null
     };
   }
 
   render() {
     const s = this.state;
-    return <ThemeProvider mode={this.mode()}><Shell v={s.booting || s.loadErr ? null : this.renderVals()} booting={s.booting} loadErr={s.loadErr} retry={() => this.load()} logout={async () => { await session.clear(); this.setState({ loadErr: '', user: null }); }} scrollRef={this.scrollRef} onScroll={this.onScroll} toast={s.toast} /></ThemeProvider>;
+    return <ThemeProvider mode={this.mode()}><Shell v={s.booting || s.loadErr ? null : this.renderVals()} booting={s.booting} loadErr={s.loadErr} loadOffline={s.loadOffline} retry={() => this.load()} logout={async () => { await session.clear(); this.setState({ loadErr: '', user: null }); }} scrollRef={this.scrollRef} onScroll={this.onScroll} toast={s.toast} /></ThemeProvider>;
   }
 }

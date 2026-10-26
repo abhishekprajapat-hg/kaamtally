@@ -1,4 +1,4 @@
-// Resets a forgotten PIN.  npm run reset-pin -- 9822011458 445566
+// Resets a forgotten PIN.  npm run reset-pin -- 9000012345 445566
 require('dotenv').config();
 const mongoose = require('mongoose');
 const User = require('./models/User');

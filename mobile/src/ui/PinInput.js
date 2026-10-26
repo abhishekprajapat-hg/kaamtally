@@ -2,6 +2,7 @@ import React, { useRef, useState, useEffect } from 'react';
 import { View, Pressable, TextInput, Platform, Animated, StyleSheet } from 'react-native';
 import { useTheme } from './theme-context';
 import { T } from './kit';
+import { focusRegistry } from './keyboard';
 
 // A PIN box row. Shows a filled dot per digit; the real input is invisible on top.
 export default function PinInput({ value = '', onChange, length = 6, autoFocus, onSubmit, label, error, secure = true }) {
@@ -53,8 +54,8 @@ export default function PinInput({ value = '', onChange, length = 6, autoFocus, 
         ref={ref}
         value={value}
         onChangeText={(v) => onChange(v.replace(/\D/g, '').slice(0, length))}
-        onFocus={() => setFocused(true)}
-        onBlur={() => setFocused(false)}
+        onFocus={() => { setFocused(true); focusRegistry.set(ref.current); }}
+        onBlur={() => { setFocused(false); focusRegistry.clear(ref.current); }}
         onSubmitEditing={onSubmit}
         keyboardType="number-pad"
         inputMode="numeric"

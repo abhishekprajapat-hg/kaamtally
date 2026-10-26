@@ -1,4 +1,4 @@
-// Creates the demo account (+91 98220 11458) with the same team, sites, attendance
+// Creates the demo account with the same team, sites, attendance
 // and payments as the design prototype — shifted so the last day is today.
 require('dotenv').config();
 const mongoose = require('mongoose');
@@ -12,6 +12,11 @@ const { today, addDays, dow, s2d } = require('./lib/dates');
 const { rateOn, pay } = require('./lib/wages');
 const { hashPin } = require('./lib/pin');
 
+// The one place the demo login lives. Override with DEMO_MOBILE / DEMO_PIN in .env.
+const DEMO_MOBILE = process.env.DEMO_MOBILE || '9000012345';
+const DEMO_PIN = process.env.DEMO_PIN || '314159';
+const DEMO_PRETTY = DEMO_MOBILE.slice(0, 5) + ' ' + DEMO_MOBILE.slice(5);
+
 async function seedDemo() {
   const TODAY = today();
   const shift = Math.round((s2d(TODAY) - s2d('2026-10-22')) / 864e5);
@@ -19,10 +24,9 @@ async function seedDemo() {
   const START = D('2026-09-01');
   const MONTH_END = D('2026-09-30');
 
-  const old = await User.findOne({ mobile: '9822011458' });
+  const old = await User.findOne({ mobile: DEMO_MOBILE });
   if (old) await Promise.all([Site, Worker, Attendance, Transaction, Activity].map((M) => M.deleteMany({ owner: old._id })).concat(User.deleteOne({ _id: old._id })));
-  const DEMO_PIN = process.env.DEMO_PIN || '112233';
-  const user = await User.create({ name: 'Rajendra Shinde', biz: 'Shree Ganesh Tiles Contractor', mobile: '9822011458', city: 'Pune', lastBackup: new Date(Date.now() - 2 * 864e5), pinHash: await hashPin(DEMO_PIN) });
+  const user = await User.create({ name: 'Rajendra Shinde', biz: 'Shree Ganesh Tiles Contractor', mobile: DEMO_MOBILE, city: 'Pune', lastBackup: new Date(Date.now() - 2 * 864e5), pinHash: await hashPin(DEMO_PIN) });
   const owner = user._id;
 
   const S = await Site.insertMany([
@@ -96,13 +100,13 @@ async function seedDemo() {
     { owner, text: 'Suresh Patil marked Present', icon: 'ph-check-circle', createdAt: new Date(now - 2 * 60e3) },
     { owner, text: 'Raju Pawar marked Half Day', icon: 'ph-circle-half', createdAt: new Date(now - 60e3) }
   ]);
-  return { user, pin: DEMO_PIN, workers: docs.length, attendance: att.length, transactions: tx.length };
+  return { user, mobile: DEMO_MOBILE, pretty: DEMO_PRETTY, pin: DEMO_PIN, workers: docs.length, attendance: att.length, transactions: tx.length };
 }
 
 if (require.main === module) {
   mongoose.connect(process.env.MONGODB_URI || 'mongodb://127.0.0.1:27017/kaam-hisab')
     .then(seedDemo)
-    .then((r) => { console.log(`Demo account ready: +91 98220 11458 · PIN ${r.pin} · ${r.workers} workers, ${r.attendance} attendance entries, ${r.transactions} transactions`); return mongoose.disconnect(); })
+    .then((r) => { console.log(`Demo account ready: +91 ${r.pretty} · PIN ${r.pin} · ${r.workers} workers, ${r.attendance} attendance entries, ${r.transactions} transactions`); return mongoose.disconnect(); })
     .catch((e) => { console.error(e); process.exit(1); });
 }
-module.exports = { seedDemo };
+module.exports = { seedDemo, DEMO_MOBILE, DEMO_PIN, DEMO_PRETTY };

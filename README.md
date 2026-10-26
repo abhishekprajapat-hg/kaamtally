@@ -18,10 +18,20 @@ cd backend
 npm install
 copy .env.example .env      # macOS/Linux: cp .env.example .env
 # edit .env → MONGODB_URI, JWT_SECRET
-npm run seed                # optional: demo account +91 98220 11458 with sample team & hisab
+npm run seed                # optional: demo account +91 90000 12345 with sample team & hisab
 npm run dev                 # API on http://localhost:4000
-npm test                    # integration tests (needs MongoDB running)
+npm test                    # unit + integration tests (needs MongoDB running)
 ```
+
+## Tests
+```bash
+cd backend && npm test      # 33 tests: pure helpers, auth/lockout, workers & wages, attendance
+cd mobile  && npm test      # 28 tests: wage maths, date helpers, keyboard geometry
+```
+Backend tests use a separate database (`MONGODB_TEST_URI`, default `kaam-hisab-test`) and drop it
+before and after each file, so they never touch your real data. The mobile tests are pure Node —
+no simulator and no extra dependency; `mobile/test/_esm.js` compiles the app's ES modules on require
+using the Babel that Expo already installs.
 
 ### Login PIN
 There is no OTP and no SMS. On sign up the owner picks a **6-digit PIN**; after that, logging in is
@@ -37,9 +47,11 @@ mobile number + PIN.
 Reset it from the backend instead:
 ```bash
 cd backend
-npm run reset-pin -- 9822011458 445566
+npm run reset-pin -- 9000012345 445566
 ```
-The demo account from `npm run seed` is **+91 98220 11458** with PIN **112233**.
+The demo account from `npm run seed` is **+91 90000 12345** with PIN **314159**.
+Both are set in `backend/src/seed.js` (`DEMO_MOBILE` / `DEMO_PIN`), and can be overridden
+with those names in `backend/.env`. `npm run reset` empties the whole database first.
 
 Settings in `.env`: `PIN_LENGTH`, `PIN_MAX_TRIES`, `PIN_LOCK_MINUTES`.
 

@@ -1,10 +1,11 @@
-import React from 'react';
-import { View, ScrollView, KeyboardAvoidingView, Platform } from 'react-native';
+import React, { useRef } from 'react';
+import { View, ScrollView, Platform } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useTheme } from '../ui/theme-context';
 import { T, Press, Glass, Seg, Input, Btn, FadeIn } from '../ui/kit';
 import Icon from '../ui/Icon';
 import PinInput from '../ui/PinInput';
+import { useKeyboardAwareScroll, useKeyboard } from '../ui/keyboard';
 import Logo from '../ui/Logo';
 
 function Row({ icon, children, last }) {
@@ -17,12 +18,17 @@ function Row({ icon, children, last }) {
   );
 }
 
-export default function Auth({ au }) {
+export default function Auth({ au, topInset }) {
   const { c } = useTheme();
   const ins = useSafeAreaInsets();
+  const scroll = useRef(null);
+  const kb = useKeyboard();
+  const aware = useKeyboardAwareScroll(scroll);
   return (
-    <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : undefined} style={{ flex: 1 }}>
-      <ScrollView keyboardShouldPersistTaps="handled" contentContainerStyle={{ alignItems: 'center', paddingTop: 64 + ins.top, paddingBottom: 32 + ins.bottom, paddingHorizontal: 20 }}>
+    <View style={{ flex: 1 }}>
+      <ScrollView ref={scroll} onScroll={aware.onScroll} scrollEventThrottle={16} keyboardShouldPersistTaps="handled"
+        keyboardDismissMode={Platform.OS === 'ios' ? 'interactive' : 'on-drag'}
+        contentContainerStyle={{ alignItems: 'center', paddingTop: (kb.open ? 20 : 64) + (topInset == null ? ins.top : topInset), paddingBottom: 32 + ins.bottom + kb.inset, paddingHorizontal: 20 }}>
         <FadeIn keyId={au.isPin ? 'pin-' + au.isSignup : 'phone'} duration={450} style={{ width: '100%', maxWidth: 400, gap: 22 }}>
           <View style={{ gap: 14 }}>
             {au.isPin ? (
@@ -89,12 +95,12 @@ export default function Auth({ au }) {
           {au.showDemo ? (
             <Press onPress={au.demo} style={{ alignSelf: 'center' }}>
               <Glass radius={20} style={{ minHeight: 40, paddingHorizontal: 16, justifyContent: 'center' }}>
-                <T style={{ fontSize: 14, color: 'var(--color-accent-300)' }}>Use demo account · 98220 11458</T>
+                <T style={{ fontSize: 14, color: 'var(--color-accent-300)' }}>{au.demoLabel}</T>
               </Glass>
             </Press>
           ) : null}
         </FadeIn>
       </ScrollView>
-    </KeyboardAvoidingView>
+    </View>
   );
 }

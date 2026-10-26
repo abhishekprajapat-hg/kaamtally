@@ -1,6 +1,7 @@
 import { Platform } from 'react-native';
 import Constants from 'expo-constants';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { trackSlow } from './net';
 
 // API address: EXPO_PUBLIC_API_URL wins. Otherwise use the computer running `expo start`
 // (same Wi-Fi) on port 4000, so a real phone can reach the backend without config.
@@ -24,19 +25,21 @@ export const session = {
 };
 
 export class ApiError extends Error {
+  // status 0 means the request never reached the server (no internet, server down).
   constructor(message, status, fields) { super(message); this.status = status; this.fields = fields; }
+  get offline() { return this.status === 0; }
 }
 
 async function req(method, path, body) {
   let res;
   try {
-    res = await fetch(API_BASE + path, {
+    res = await trackSlow(fetch(API_BASE + path, {
       method,
       headers: { 'content-type': 'application/json', ...(token ? { authorization: 'Bearer ' + token } : {}) },
       body: body ? JSON.stringify(body) : undefined
-    });
+    }));
   } catch {
-    throw new ApiError("Couldn't connect — check your internet. Your changes are kept on this phone.", 0);
+    throw new ApiError("No internet — check your connection and try again.", 0);
   }
   let data = {};
   try { data = await res.json(); } catch {}
@@ -56,6 +59,7 @@ export const api = {
   addSite: (b) => req('POST', '/sites', b),
   updateSite: (id, b) => req('PATCH', '/sites/' + id, b),
   saveAttendance: (date, entries) => req('PUT', '/attendance/' + date, { entries }),
+  clearAttendance: (date, worker) => req('DELETE', '/attendance/' + date + '/' + worker),
   addTx: (b) => req('POST', '/transactions', b),
   activity: () => req('GET', '/activity')
 };

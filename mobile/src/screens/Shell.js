@@ -1,13 +1,18 @@
 import React, { useRef } from 'react';
-import { View, ScrollView, StyleSheet, Animated, Platform, KeyboardAvoidingView, ActivityIndicator } from 'react-native';
+import { View, ScrollView, StyleSheet, Animated, Platform, ActivityIndicator } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
-import { BlurView, BlurTargetView } from 'expo-blur';
+import Svg, { Circle } from 'react-native-svg';
+import { Frost, FrostTarget } from '../ui/frost';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useTheme } from '../ui/theme-context';
 import { T, Press, FadeIn, Pop, Btn, Input } from '../ui/kit';
 import Icon from '../ui/Icon';
 import Logo, { LogoLockup } from '../ui/Logo';
 import { Sheet, DialogBody, Toast, DateField } from '../ui/overlays';
+import { useKeyboardAwareScroll, useKeyboard } from '../ui/keyboard';
+import { useConnection } from '../lib/net';
+import StatusScreen from '../ui/StatusScreen';
+import OfflineBar from '../ui/OfflineBar';
 import PinInput from '../ui/PinInput';
 import { fade } from '../theme';
 import Auth from './Auth';
@@ -18,32 +23,46 @@ import { Workers, WorkerForm, Profile } from './Workers';
 import { PeriodPicker, Salary, Ledger, TxForm } from './Money';
 import { Sites, Reports, Report, More, Settings } from './Other';
 
-const BLUR = Platform.OS === 'android' ? { blurMethod: 'dimezisBlurViewSdk31Plus' } : {};
 
-function Splash({ text, retry, logout }) {
+function Splash({ text, offline, retry, logout }) {
   const { c } = useTheme();
-  return (
-    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', gap: 18, padding: 24 }}>
-      <View style={{ boxShadow: c('var(--shadow-md)'), borderRadius: 16 }}><Logo size={68} /></View>
-      {text ? (
-        <>
-          <T style={{ fontSize: 16, color: 'var(--color-neutral-300)', textAlign: 'center', maxWidth: 320 }}>{text}</T>
-          <Btn label="Try again" icon="arrow-right" iconRight onPress={retry} style={{ minWidth: 200 }} />
-          <Press onPress={logout} style={{ minHeight: 40, justifyContent: 'center' }}><T style={{ fontSize: 15, color: 'var(--color-accent)' }}>Log out</T></Press>
-        </>
-      ) : <ActivityIndicator color={c('var(--color-accent)')} />}
-    </View>
+  if (!text) {
+    return (
+      <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', gap: 18, padding: 24 }}>
+        <View style={{ boxShadow: c('var(--shadow-md)'), borderRadius: 16 }}><Logo size={68} /></View>
+        <ActivityIndicator color={c('var(--color-accent)')} />
+      </View>
+    );
+  }
+  // Couldn't load the hisab at all — the one case that really has to take over the screen.
+  return offline ? (
+    <StatusScreen
+      icon="warning-circle" tone="danger"
+      title="No internet"
+      body="Kaamtally couldn't load your team and hisab. Check your mobile data or Wi-Fi, then try again."
+      hint="Nothing is lost — your hisab is safe on the server."
+      action={{ label: 'Try again', icon: 'arrow-right', on: retry }}
+      secondary={{ label: 'Log out', on: logout }}
+    />
+  ) : (
+    <StatusScreen
+      icon="warning" tone="danger"
+      title="Can't reach the server"
+      body={text}
+      action={{ label: 'Try again', icon: 'arrow-right', on: retry }}
+      secondary={{ label: 'Log out', on: logout }}
+    />
   );
 }
 
-function Header({ v, top, blurTarget }) {
+function Header({ v, top, blurTarget, net }) {
   const { c, mode } = useTheme();
   return (
     <View style={{ position: 'absolute', top: 0, left: 0, right: 0, zIndex: 5, alignItems: 'center' }} pointerEvents="box-none">
       <View style={{ width: '100%', overflow: 'hidden', boxShadow: v.scrolled ? `0 1px 0 ${c('var(--color-neutral-800)')}` : undefined }}>
-        <BlurView intensity={30} tint={mode} blurTarget={blurTarget} {...BLUR} style={StyleSheet.absoluteFill} />
-        <View style={[StyleSheet.absoluteFill, { backgroundColor: fade(c('var(--color-bg)'), 82) }]} />
+        <Frost intensity={30} blurTarget={blurTarget} overlay={fade(c('var(--color-bg)'), 82)} />
         <View style={{ paddingTop: top, alignSelf: 'center', width: '100%', maxWidth: v.wide ? undefined : v.colMax }}>
+          <OfflineBar offline={net.offline} slow={net.slow} />
           <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8, minHeight: 52, paddingVertical: 6, paddingHorizontal: 10 }}>
             {v.canBack ? (
               <Press onPress={v.back} style={{ flexDirection: 'row', alignItems: 'center', gap: 2, minHeight: 44, paddingRight: 8 }} accessibilityLabel={'Back to ' + v.backLabel}>
@@ -82,15 +101,19 @@ function BottomNav({ v, bottom, blurTarget }) {
     <View style={{ paddingHorizontal: 18, paddingBottom: 16 + bottom }} pointerEvents="box-none">
       <View style={{ height: 64, borderRadius: 32, boxShadow: '0 12px 36px rgba(0,0,0,.28)' }}>
         <View style={{ flex: 1, borderRadius: 32, overflow: 'hidden' }}>
-          <BlurView intensity={50} tint={mode} blurTarget={blurTarget} {...BLUR} style={StyleSheet.absoluteFill} />
-          <View style={[StyleSheet.absoluteFill, { backgroundColor: c('var(--color-surface)') }]} />
+          <Frost intensity={50} blurTarget={blurTarget} />
           <View style={{ flex: 1, flexDirection: 'row', alignItems: 'center', paddingHorizontal: 8 }}>
+            {/* No highlight behind the icon — the colour and the dot show which tab
+                is open. The dot is SVG because Android drops a plain View's
+                rounded corners inside this blurred bar. */}
             {v.bottomNav.map((n) => (
-              <Press key={n.k} onPress={n.press} accessibilityLabel={n.label} accessibilityState={{ selected: n.on }} style={{ flex: 1, height: 52, alignItems: 'center', justifyContent: 'center', gap: 4 }}>
-                <View style={{ width: 50, height: 36, borderRadius: 18, alignItems: 'center', justifyContent: 'center', backgroundColor: c(n.pill) }}>
+              <Press key={n.k} onPress={n.press} accessibilityLabel={n.label} accessibilityState={{ selected: n.on }} style={{ flex: 1, height: 52, alignItems: 'center', justifyContent: 'center', gap: 5 }}>
+                <View style={{ width: 50, height: 34, alignItems: 'center', justifyContent: 'center' }}>
                   <Pop active={n.on}><Icon name={n.icon} size={26} color={n.fg} /></Pop>
                 </View>
-                <View style={{ width: 4, height: 4, borderRadius: 2, backgroundColor: c(n.dot) }} />
+                <View style={{ width: 4, height: 4 }}>
+                  {n.on ? <Svg width={4} height={4}><Circle cx={2} cy={2} r={2} fill={c(n.dot)} /></Svg> : null}
+                </View>
               </Press>
             ))}
           </View>
@@ -107,8 +130,7 @@ function SaveBar({ att, blurTarget }) {
     <View style={{ paddingHorizontal: 12, paddingBottom: 10 }}>
       <View style={{ borderRadius: 18, boxShadow: c('var(--shadow-lg)') }}>
         <View style={{ borderRadius: 18, overflow: 'hidden' }}>
-          <BlurView intensity={50} tint={mode} blurTarget={blurTarget} {...BLUR} style={StyleSheet.absoluteFill} />
-          <View style={[StyleSheet.absoluteFill, { backgroundColor: c('var(--color-surface)') }]} />
+          <Frost intensity={50} blurTarget={blurTarget} />
           <View style={{ flexDirection: 'row', alignItems: 'center', gap: 10, paddingVertical: 10, paddingLeft: 16, paddingRight: 10 }}>
             <View style={{ flex: 1, minWidth: 0 }}>
               <T w={500} style={{ fontSize: 16 }}>{att.draftN} unsaved change{att.draftN > 1 ? 's' : ''}</T>
@@ -197,20 +219,73 @@ function ChangePinSheet({ v }) {
   );
 }
 
-export default function Shell({ v, booting, loadErr, retry, logout, scrollRef, onScroll }) {
+function DayMarkSheet({ v }) {
+  const { c } = useTheme();
+  const d = v.dayEdit;
+  if (!d) return null;
+  return (
+    <Sheet visible={!!v.dayEdit} onClose={d.close} wide={v.wide} bg="var(--color-bg)" pad={16}>
+      <View style={{ gap: 2, paddingHorizontal: 4 }}>
+        <T w={500} style={{ fontSize: 19 }}>{d.name}</T>
+        <T style={{ fontSize: 14, color: 'var(--color-neutral-400)' }}>{d.when}{d.isToday ? ' · today' : ''} · {d.rateNote}</T>
+      </View>
+      <View style={{ borderRadius: 16, overflow: 'hidden', backgroundColor: c('var(--color-surface)'), boxShadow: `inset 0 1px 0 ${c('var(--glass-hi)')}, inset 0 0 0 1px ${c('var(--glass-edge)')}` }}>
+        {d.options.map((o, i) => (
+          <Press key={o.k} onPress={o.on} disabled={d.busy} accessibilityState={{ selected: o.sel }}
+            style={{ flexDirection: 'row', alignItems: 'center', gap: 12, minHeight: 58, paddingHorizontal: 16,
+              backgroundColor: o.sel ? c('var(--color-accent-900)') : 'transparent',
+              borderBottomWidth: i < d.options.length - 1 ? 1 : 0, borderBottomColor: c('var(--color-neutral-800)') }}>
+            <Icon name={o.icon} fill size={22} color={o.sel ? 'var(--color-accent)' : o.dot} />
+            <T w={o.sel ? 500 : 400} style={{ flex: 1, fontSize: 16 }}>{o.label}</T>
+            <T style={{ fontSize: 14, color: o.sel ? 'var(--color-accent-200)' : 'var(--color-neutral-400)' }}>{o.amt}</T>
+            {o.sel ? <Icon name="check" size={18} color="var(--color-accent)" /> : null}
+          </Press>
+        ))}
+      </View>
+      {d.canClear ? (
+        <Press onPress={d.clear} disabled={d.busy} style={{ minHeight: 48, alignItems: 'center', justifyContent: 'center' }}>
+          <T style={{ fontSize: 15, color: 'var(--color-accent-300)' }}>Clear this day's mark</T>
+        </Press>
+      ) : null}
+      <Press onPress={d.close} disabled={d.busy} style={{ minHeight: 48, alignItems: 'center', justifyContent: 'center' }}>
+        <T style={{ fontSize: 16, color: 'var(--color-neutral-300)' }}>{d.busy ? 'Saving…' : 'Cancel'}</T>
+      </Press>
+    </Sheet>
+  );
+}
+
+export default function Shell({ v, booting, loadErr, loadOffline, retry, logout, scrollRef, onScroll }) {
   const { c, mode } = useTheme();
   const ins = useSafeAreaInsets();
+  const net = useConnection();
   const target = useRef(null);
+  const kb = useKeyboard();
+  const keyboardOpen = kb.open;
+  // A sheet on top handles its own scrolling, so the screen stands down.
+  const sheetOpen = !!(v && (v.pinForm || v.siteForm));
+  const aware = useKeyboardAwareScroll(scrollRef, { enabled: !sheetOpen });
+  const handleScroll = (e) => { aware.onScroll(e); if (onScroll) onScroll(e); };
   const status = <StatusBar style={mode === 'dark' ? 'light' : 'dark'} />;
   if (!v) {
-    return <View style={{ flex: 1, backgroundColor: c('var(--color-bg)') }}>{status}<Splash text={!booting && loadErr} retry={retry} logout={logout} /></View>;
+    return <View style={{ flex: 1, backgroundColor: c('var(--color-bg)') }}>{status}<Splash text={!booting && loadErr} offline={loadOffline || net.offline} retry={retry} logout={logout} /></View>;
   }
   if (v.isAuth) {
-    return <View style={{ flex: 1, backgroundColor: c('var(--color-bg)') }}>{status}<Auth au={v.au} />
-      <Toast toast={v.toast} /></View>;
+    return (
+      <View style={{ flex: 1, backgroundColor: c('var(--color-bg)') }}>
+        {status}
+        <View style={{ paddingTop: ins.top }}><OfflineBar offline={net.offline} slow={net.slow} /></View>
+        <Auth au={v.au} topInset={net.offline || net.slow ? 0 : ins.top} />
+        <Toast toast={v.toast} />
+      </View>
+    );
   }
-  const navH = v.narrow ? 64 + 16 + ins.bottom : 16 + ins.bottom;
+  // With the keyboard up the floating nav is hidden, so it stops taking space.
+  const navH = keyboardOpen ? 8 : v.narrow ? 64 + 16 + ins.bottom : 16 + ins.bottom;
   const saveH = v.att.showSave ? 76 : 0;
+  // Room so the content can scroll clear of the keyboard. On an edge-to-edge
+  // Android window nothing resizes, so this is needed on both platforms;
+  // the hook reports 0 when the OS already made the room.
+  const kbPad = kb.inset;
   const content = (
     <FadeIn keyId={v.screenKey} style={{ paddingHorizontal: 16, gap: 20 }}>
       <View style={{ gap: 2, paddingTop: 2 }}>
@@ -241,19 +316,18 @@ export default function Shell({ v, booting, loadErr, retry, logout, scrollRef, o
       <View style={{ flex: 1, flexDirection: 'row' }}>
         {v.wide ? <SideNav v={v} top={ins.top} /> : null}
         <View style={{ flex: 1 }}>
-          <BlurTargetView ref={target} style={StyleSheet.absoluteFill}>
-            <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : undefined} style={{ flex: 1 }}>
-              <ScrollView ref={scrollRef} onScroll={onScroll} scrollEventThrottle={16} keyboardShouldPersistTaps="handled" showsVerticalScrollIndicator={false}
-                contentContainerStyle={{ paddingTop: ins.top + 52, paddingBottom: navH + saveH + 32, alignItems: 'center' }}>
-                <View style={{ width: '100%', maxWidth: v.colMax }}>{content}</View>
-              </ScrollView>
-            </KeyboardAvoidingView>
-          </BlurTargetView>
-          <Header v={v} top={ins.top} blurTarget={target} />
+          <FrostTarget targetRef={target} style={StyleSheet.absoluteFill}>
+            <ScrollView ref={scrollRef} onScroll={handleScroll} scrollEventThrottle={16} keyboardShouldPersistTaps="handled"
+              keyboardDismissMode={Platform.OS === 'ios' ? 'interactive' : 'on-drag'} showsVerticalScrollIndicator={false}
+              contentContainerStyle={{ paddingTop: ins.top + 52, paddingBottom: navH + saveH + 32 + kbPad, alignItems: 'center' }}>
+              <View style={{ width: '100%', maxWidth: v.colMax }}>{content}</View>
+            </ScrollView>
+          </FrostTarget>
+          <Header v={v} top={ins.top} blurTarget={target} net={net} />
           <View style={{ position: 'absolute', left: 0, right: 0, bottom: 0, alignItems: 'center' }} pointerEvents="box-none">
             <View style={{ width: '100%', maxWidth: v.colMax }} pointerEvents="box-none">
-              {v.att.showSave ? <SaveBar att={v.att} blurTarget={target} /> : null}
-              {v.narrow ? <BottomNav v={v} bottom={ins.bottom} blurTarget={target} /> : <View style={{ height: ins.bottom }} />}
+              {v.att.showSave && !keyboardOpen ? <SaveBar att={v.att} blurTarget={target} /> : null}
+              {v.narrow && !keyboardOpen ? <BottomNav v={v} bottom={ins.bottom} blurTarget={target} /> : <View style={{ height: keyboardOpen ? 0 : ins.bottom }} />}
             </View>
           </View>
         </View>
@@ -263,6 +337,7 @@ export default function Shell({ v, booting, loadErr, retry, logout, scrollRef, o
       </Sheet>
       <SiteFormSheet v={v} />
       <ChangePinSheet v={v} />
+      <DayMarkSheet v={v} />
       <Toast toast={v.toast} />
     </View>
   );

@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Animated, Easing, Modal, Platform, Pressable, ScrollView, StyleSheet, View, useWindowDimensions } from 'react-native';
-import { BlurView } from 'expo-blur';
+import { Frost } from './frost';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { useTheme } from './theme-context';
@@ -8,12 +8,21 @@ import { T, Press, Divider } from './kit';
 import Icon from './Icon';
 import { fdy, d2s } from '../lib/date';
 import { fade } from '../theme';
+import { useKeyboard, useKeyboardAwareScroll } from './keyboard';
 
 // Bottom sheet used by every confirmation dialog (kh-up .45s; scrim fades in).
 export function Sheet({ visible, onClose, children, wide, bg, pad = 20 }) {
   const { c, mode } = useTheme();
   const ins = useSafeAreaInsets();
   const { height } = useWindowDimensions();
+  // A sheet sits at the bottom, so the keyboard would cover it completely.
+  // Lift it by the keyboard height and let its contents scroll if they no longer fit.
+  const kb = useKeyboard();
+  const innerScroll = useRef(null);
+  const aware = useKeyboardAwareScroll(innerScroll, { enabled: visible, gap: 16 });
+  const bottomInset = wide ? 0 : ins.bottom;
+  const lift = kb.inset;   // 0 when the OS already lifted the window for us
+  const maxH = height - (wide ? 32 : 0) - lift - 24;
   const y = useRef(new Animated.Value(height)).current;
   const o = useRef(new Animated.Value(0)).current;
   const [shown, setShown] = useState(visible);
@@ -36,19 +45,21 @@ export function Sheet({ visible, onClose, children, wide, bg, pad = 20 }) {
   const radius = wide ? { borderRadius: 20 } : { borderTopLeftRadius: 22, borderTopRightRadius: 22 };
   return (
     <Modal transparent visible statusBarTranslucent navigationBarTranslucent animationType="none" onRequestClose={onClose}>
-      <View style={{ flex: 1, justifyContent: wide ? 'center' : 'flex-end', alignItems: 'center', padding: wide ? 16 : 0 }}>
+      <View style={{ flex: 1, justifyContent: wide ? 'center' : 'flex-end', alignItems: 'center', padding: wide ? 16 : 0, paddingBottom: wide ? 16 : lift }}>
         <Animated.View style={[StyleSheet.absoluteFill, { opacity: o }]}>
-          <BlurView intensity={8} tint={mode} style={StyleSheet.absoluteFill} />
+          <Frost intensity={8} base={null} overlay={null} />
           <Pressable style={[StyleSheet.absoluteFill, { backgroundColor: c('var(--scrim)') }]} onPress={onClose} accessibilityLabel="Close" />
         </Animated.View>
         <Animated.View style={[{ width: '100%', maxWidth: 460, transform: [{ translateY: y }], boxShadow: c('var(--shadow-lg)') }, radius]}>
           <View style={[{ overflow: 'hidden' }, radius]}>
-            {bg ? <View style={[StyleSheet.absoluteFill, { backgroundColor: c(bg) }]} /> : <BlurView intensity={60} tint={mode === 'dark' ? 'systemThickMaterialDark' : 'systemThickMaterialLight'} style={StyleSheet.absoluteFill} />}
-            {!bg ? <View style={[StyleSheet.absoluteFill, { backgroundColor: c('var(--color-surface)') }]} /> : null}
-            <View style={{ paddingTop: 10, paddingHorizontal: pad, paddingBottom: 24 + (wide ? 0 : ins.bottom), gap: 14 }}>
+            {bg ? <View style={[StyleSheet.absoluteFill, { backgroundColor: c(bg) }]} /> : <Frost intensity={60} />}
+            <ScrollView ref={innerScroll} onScroll={aware.onScroll} scrollEventThrottle={16}
+              keyboardShouldPersistTaps="handled" showsVerticalScrollIndicator={false} bounces={false}
+              style={{ maxHeight: maxH }}
+              contentContainerStyle={{ paddingTop: 10, paddingHorizontal: pad, paddingBottom: 24 + (kb.open ? 0 : bottomInset), gap: 14 }}>
               <View style={{ width: 40, height: 5, borderRadius: 3, backgroundColor: c('var(--color-neutral-700)'), alignSelf: 'center' }} />
               {children}
-            </View>
+            </ScrollView>
             <View pointerEvents="none" style={[StyleSheet.absoluteFill, radius, { boxShadow: `inset 0 1px 0 ${c('var(--glass-hi)')}, inset 0 0 0 1px ${c('var(--glass-edge)')}` }]} />
           </View>
         </Animated.View>
@@ -114,8 +125,8 @@ export function Toast({ toast }) {
   return (
     <Animated.View pointerEvents="box-none" style={{ position: 'absolute', top: ins.top + 14, left: 0, right: 0, alignItems: 'center', zIndex: 60, transform: [{ translateY: y }] }}>
       <View accessibilityRole="alert" style={{ width: '94%', maxWidth: 440, borderRadius: 18, overflow: 'hidden', boxShadow: c('var(--shadow-lg)') }}>
-        <BlurView intensity={40} tint={mode} style={StyleSheet.absoluteFill} />
-        <View style={{ flexDirection: 'row', alignItems: 'center', gap: 12, paddingVertical: 12, paddingHorizontal: 14, backgroundColor: fade(c('var(--color-surface)'), 92) }}>
+        <Frost intensity={40} overlay={cur.kind === 'ok' ? fade(c('var(--color-surface)'), 92) : c('var(--color-danger-bg)')} />
+        <View style={{ flexDirection: 'row', alignItems: 'center', gap: 12, paddingVertical: 12, paddingHorizontal: 14 }}>
           <Icon name={cur.icon} fill size={24} color={cur.fg} />
           <T style={{ flex: 1, fontSize: 15 }}>{cur.text}</T>
           {cur.action ? (

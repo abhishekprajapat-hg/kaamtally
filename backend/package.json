@@ -8,6 +8,7 @@
     "start": "node src/server.js",
     "dev": "node --watch src/server.js",
     "seed": "node src/seed.js",
+    "reset": "node src/reset.js",
     "test": "node --test --test-concurrency=1 \"test/**/*.test.js\"",
     "reset-pin": "node src/reset-pin.js"
   },

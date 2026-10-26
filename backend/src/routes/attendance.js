@@ -47,4 +47,16 @@ r.put('/:date', async (req, res) => {
   const saved = await Attendance.find({ owner, date, worker: { $in: ids } });
   res.json({ date, attendance: saved.map((a) => a.toClient()) });
 });
+// Clear a worker's mark for one day, putting it back to "not marked".
+r.delete('/:date/:worker', async (req, res) => {
+  const owner = req.user._id, date = req.params.date;
+  if (!isDate(date)) throw bad('Unknown date');
+  if (!isId(req.params.worker)) throw bad('Unknown worker');
+  const w = await Worker.findOne({ owner, _id: req.params.worker });
+  if (!w) throw bad('Unknown worker');
+  const { deletedCount } = await Attendance.deleteOne({ owner, worker: w._id, date });
+  if (deletedCount) await Activity.log(owner, `Attendance cleared for ${w.name} · ${fd(date)}`, 'ph-circle-dashed');
+  res.json({ date, worker: req.params.worker, cleared: !!deletedCount });
+});
+
 module.exports = r;

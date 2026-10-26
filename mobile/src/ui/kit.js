@@ -1,6 +1,7 @@
 import React, { useRef, useState, useEffect } from 'react';
 import { Text, View, Pressable, Animated, StyleSheet, TextInput, Platform, Easing } from 'react-native';
 import { useTheme } from './theme-context';
+import { focusRegistry } from './keyboard';
 import Icon from './Icon';
 
 const FAM = { 400: 'Inter_400Regular', 500: 'Inter_500Medium', 600: 'Inter_600SemiBold', 700: 'Inter_700Bold' };
@@ -53,7 +54,7 @@ export function Glass({ style, children, radius = 16, shadow }) {
   return (
     <View style={[{ borderRadius: r, boxShadow: drop }, outer, { backgroundColor: 'transparent' }]}>
       <View style={[{ borderRadius: r, overflow: 'hidden', backgroundColor: c(st.backgroundColor || 'var(--color-surface)'), flexGrow: 1 }]}>
-        <View style={inner}>{children}</View>
+        <View style={[{ flexGrow: 1 }, inner]}>{children}</View>
         <View pointerEvents="none" style={[StyleSheet.absoluteFill, { borderRadius: r, boxShadow: `inset 0 1px 0 ${c('var(--glass-hi)')}, inset 0 0 0 1px ${c('var(--glass-edge)')}` }]} />
       </View>
     </View>
@@ -156,14 +157,18 @@ export function Btn({ kind = 'primary', icon, iconSize = 18, label, onPress, sty
 }
 
 // Plain borderless text input styled like the design
-export function Input({ style, ...rest }) {
+export function Input({ style, onFocus, onBlur, ...rest }) {
   const { c, mode } = useTheme();
+  const ref = useRef(null);
   const st = StyleSheet.flatten(style) || {};
   const weight = st.fontWeight ? parseInt(st.fontWeight, 10) : 400;
   const { fontWeight, ...clean } = st;
   return (
-    <TextInput placeholderTextColor={c('var(--color-neutral-500)')} selectionColor={c('var(--color-accent)')} cursorColor={c('var(--color-accent)')}
+    <TextInput ref={ref} placeholderTextColor={c('var(--color-neutral-500)')} selectionColor={c('var(--color-accent)')} cursorColor={c('var(--color-accent)')}
       keyboardAppearance={mode} underlineColorAndroid="transparent"
+      // Tell the screen which field is focused so it can lift it above the keyboard.
+      onFocus={(e) => { focusRegistry.set(ref.current); if (onFocus) onFocus(e); }}
+      onBlur={(e) => { focusRegistry.clear(ref.current); if (onBlur) onBlur(e); }}
       {...rest}
       style={[{ color: c('var(--color-text)'), fontSize: 17, padding: 0, letterSpacing: -0.01 * (clean.fontSize || 17) }, font(weight), Platform.OS === 'web' ? { outlineStyle: 'none' } : null, clean, clean.color ? { color: c(clean.color) } : null]} />
   );

@@ -115,6 +115,22 @@ test('completing a site clears it as default site', async () => {
   assert.equal(b.body.workers[0].site, '');
 });
 
+test('a past day can be marked and cleared for one worker', async () => {
+  const past = addDays(T, -4);
+  // marking one worker does not disturb anyone else already marked that day
+  let r = await auth(request(app).put('/api/attendance/' + past)).send({ entries: [{ worker: worker.id, s: 'H', site: '' }] });
+  assert.equal(r.status, 200); assert.equal(r.body.attendance[0].s, 'H');
+  r = await auth(request(app).put('/api/attendance/' + past)).send({ entries: [{ worker: worker.id, s: 'A', site: '' }] });
+  assert.equal(r.status, 200); assert.equal(r.body.attendance.length, 1); assert.equal(r.body.attendance[0].s, 'A');
+  r = await auth(request(app).delete('/api/attendance/' + past + '/' + worker.id));
+  assert.equal(r.status, 200); assert.equal(r.body.cleared, true);
+  const b = await auth(request(app).get('/api/bootstrap'));
+  assert.equal(b.body.attendance.filter((a) => a.date === past).length, 0);
+  // clearing a day that holds nothing is not an error
+  r = await auth(request(app).delete('/api/attendance/' + past + '/' + worker.id));
+  assert.equal(r.status, 200); assert.equal(r.body.cleared, false);
+});
+
 test('other accounts cannot see data', async () => {
   const r = await request(app).get('/api/bootstrap');
   assert.equal(r.status, 401);
